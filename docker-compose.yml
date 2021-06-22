@@ -1,0 +1,11 @@
+version: "3.8"
+
+services:
+#Ktor Stock Analyzer
+  stock-analyzer:
+    image: custom-stock-analyzer
+    container_name: stock-analyzer
+    build: .
+    restart: on-failure
+    ports:
+      - "8088:8088"
