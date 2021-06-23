@@ -7,7 +7,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{andrewass/stock-analyzer}}
+  IMAGE_NAME: andrewass/stock-analyzer
 
 jobs:
   build:
