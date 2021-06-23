@@ -7,6 +7,10 @@ on:
   pull_request:
     branches: [ main ]
 
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{andrewass/stock-analyzer}}
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -22,3 +26,17 @@ jobs:
         run: chmod +x gradlew
       - name: Build with Gradle
         run: ./gradlew installDist
+
+  build_and_push_image:
+    needs: build_project
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Log into registry ${{ env.REGISTRY }}
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v1
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
