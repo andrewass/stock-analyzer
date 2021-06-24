@@ -32,3 +32,10 @@ dependencies {
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "11"
 }
+
+tasks.withType<Jar> {
+    manifest {
+        attributes("Main-Class" to "stock.me.ApplicationKt")
+    }
+    from(configurations.compileClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
+}
