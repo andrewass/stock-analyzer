@@ -23,13 +23,13 @@ jobs:
       - name: Grant execute permissions for gradlew
         run: chmod +x gradlew
 
-      - name: Build with Gradle
-        run: ./gradlew build
+      - name: Build and runs tests with Gradle
+        run: ./gradlew test build
 
-      - uses: mr-smithers-excellent/docker-build-push@v5
-        name: Build & push Docker image
+      - name: Build & push Docker image
+        uses: mr-smithers-excellent/docker-build-push@v5
         with:
-          image: andrewass/stock-analyzer
+          image: stock-analyzer
           tags: latest
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}

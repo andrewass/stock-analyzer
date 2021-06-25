@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stock-analyzer-deployment
+  labels:
+    app: stock-analzyer
+spec:
+  replicas: 1 #Number of pods to run in this deployment
+  selector:
+    matchLabels: #Deployment applies to any pods matching the specified labels
+      app: stock-analzyer
+  template: #Template for creating the pods in this deployment
+    metadata:
+      labels: #Labels that will applied to each pod in this deployment
+        app: stock-analyzer
+    spec: #Spec for the containers that will run in the pods
+      containers:
+        - name: stock-analyzer
+          image: ghcr.io/andrewass/stock-analyzer:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8088 #The port exposed by the container
