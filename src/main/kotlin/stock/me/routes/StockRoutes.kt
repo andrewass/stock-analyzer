@@ -8,13 +8,7 @@ import io.ktor.routing.*
 import stock.me.models.Stock
 import stock.me.models.stockStorage
 
-fun Application.registerStockRoutes(){
-    routing {
-        stockRouting()
-    }
-}
-
-fun Route.stockRouting() {
+fun Route.stockRoute() {
     route("/stock") {
         get {
             if (stockStorage.isNotEmpty()) {
