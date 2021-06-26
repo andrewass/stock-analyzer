@@ -1,14 +1,14 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: stock-analyzer-deployment
+  name: stock-analyzer
   labels:
-    app: stock-analzyer
+    app: stock-analyzer
 spec:
   replicas: 1 #Number of pods to run in this deployment
   selector:
     matchLabels: #Deployment applies to any pods matching the specified labels
-      app: stock-analzyer
+      app: stock-analyzer
   template: #Template for creating the pods in this deployment
     metadata:
       labels: #Labels that will applied to each pod in this deployment

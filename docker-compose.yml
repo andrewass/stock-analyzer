@@ -9,3 +9,13 @@ services:
     restart: on-failure
     ports:
       - "8088:8088"
+
+  stock-database:
+    image: postgres:13-alpine
+    environment:
+      POSTGRES_DB: "stockdb"
+      POSTGRES_USER: "user"
+      POSTGRES_PASSWORD: "password"
+      POSTGRES_ROOT_PASSWORD: "rootpass"
+    ports:
+    - "5432:5432"

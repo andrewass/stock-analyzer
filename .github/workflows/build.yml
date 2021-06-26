@@ -23,7 +23,7 @@ jobs:
       - name: Grant execute permissions for gradlew
         run: chmod +x gradlew
 
-      - name: Build and runs tests with Gradle
+      - name: Build and run tests
         run: ./gradlew test build
 
       - name: Build & push Docker image
