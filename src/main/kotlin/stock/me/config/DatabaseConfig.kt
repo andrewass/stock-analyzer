@@ -7,7 +7,7 @@ import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.slf4j.LoggerFactory
-import stock.me.models.Stocks
+import stock.me.model.Stocks
 
 const val HIKARI_CONFIG_KEY = "ktor.hikariconfig"
 

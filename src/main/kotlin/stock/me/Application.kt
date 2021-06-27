@@ -8,6 +8,7 @@ import org.kodein.di.ktor.di
 import stock.me.config.initDatabase
 import stock.me.routes.apiRoute
 import stock.me.service.bindServices
+import stock.me.task.initStockTasks
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
@@ -25,4 +26,6 @@ fun Application.module() {
     routing {
         apiRoute()
     }
+
+    initStockTasks()
 }

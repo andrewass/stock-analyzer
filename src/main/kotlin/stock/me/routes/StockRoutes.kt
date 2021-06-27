@@ -2,36 +2,30 @@ package stock.me.routes
 
 import io.ktor.application.*
 import io.ktor.http.*
-import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
-import stock.me.models.Stock
-import stock.me.models.stockStorage
+import org.kodein.di.instance
+import org.kodein.di.ktor.di
+import stock.me.service.StockService
 
 fun Route.stockRoute() {
-    route("/stock") {
+
+    val stockService by di().instance<StockService>()
+
+    route("/stock/get-all") {
         get {
-            if (stockStorage.isNotEmpty()) {
-                call.respond(stockStorage)
-            } else {
-                call.respondText("No stocks found")
-            }
+            val stocks = stockService.getAllStocks()
+            call.respond(stocks)
         }
 
         get("{symbol}") {
             val symbol = call.parameters["symbol"] ?: return@get call.respondText(
                 "Missing or malformed symbol", status = HttpStatusCode.BadRequest
             )
-            val stock = stockStorage.find { it.symbol == symbol } ?: return@get call.respondText(
+            val stock = stockService ?: return@get call.respondText(
                 "No stock with symbol $symbol found", status = HttpStatusCode.NotFound
             )
             call.respond(stock)
-        }
-
-        post {
-            val stock = call.receive<Stock>()
-            stockStorage.add(stock)
-            call.respondText("Stock stored", status = HttpStatusCode.Created)
         }
     }
 }

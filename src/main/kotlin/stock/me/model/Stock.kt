@@ -1,4 +1,4 @@
-package stock.me.models
+package stock.me.model
 
 import kotlinx.serialization.Serializable
 import org.jetbrains.exposed.dao.LongEntity

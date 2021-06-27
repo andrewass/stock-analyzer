@@ -11,7 +11,7 @@ services:
       POSTGRES_PASSWORD: "password"
       POSTGRES_ROOT_PASSWORD: "rootpass"
     ports:
-    - "5432:5432"
+      - "5432:5432"
 
   stock-analyzer:
     image: custom-stock-analyzer
@@ -22,4 +22,6 @@ services:
     restart: on-failure
     ports:
       - "8088:8088"
+    environment:
+      - POLYGON_API_KEY=${POLYGON_API_KEY}
 
