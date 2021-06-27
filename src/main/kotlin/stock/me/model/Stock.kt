@@ -6,10 +6,6 @@ import org.jetbrains.exposed.dao.LongEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.LongIdTable
 
-val stockStorage = mutableListOf(
-    Stock("AAPL", "Apple Inc", "Technology"),
-    Stock("FB", "Facebook", "Technology")
-)
 
 /**
  * Represents a table in the database
