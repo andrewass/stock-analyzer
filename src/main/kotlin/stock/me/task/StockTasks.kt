@@ -8,21 +8,25 @@ import org.kodein.di.instance
 import org.kodein.di.ktor.di
 import org.slf4j.LoggerFactory
 import stock.me.consumer.StockConsumer
-import stock.me.service.TaskService
+import stock.me.service.EntityPopulatorService
 
 
 const val EXCHANGE_DELAY = "ktor.task.exchangeDelay"
 
 fun Application.initStockTasks() {
     val stockConsumer by di().instance<StockConsumer>()
-    val taskService by di().instance<TaskService>()
+    val entityPopulatorService by di().instance<EntityPopulatorService>()
     val exchangeDelay = environment.config.property(EXCHANGE_DELAY).getString().toLong()
 
     GlobalScope.launch {
         while (true) {
             LoggerFactory.getLogger(Application::class.simpleName).info("Populating exchanges")
-            taskService.populateStockExchanges(stockConsumer)
+            entityPopulatorService.populateStockExchanges(stockConsumer)
             delay(exchangeDelay)
         }
+    }
+
+    GlobalScope.launch {
+        entityPopulatorService.populateStockExchanges(stockConsumer)
     }
 }

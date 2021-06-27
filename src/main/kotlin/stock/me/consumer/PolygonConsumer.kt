@@ -8,6 +8,7 @@ import io.ktor.client.statement.*
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json
 import stock.me.model.Exchange
+import stock.me.model.Stock
 
 class PolygonConsumer : StockConsumer {
 
@@ -26,7 +27,20 @@ class PolygonConsumer : StockConsumer {
         return json.decodeFromString(ListSerializer(Exchange.serializer()), response.receive())
     }
 
-    override fun getAllSymbols() {
-
+    override suspend fun getAllStocks(nextPage: String?): Pair<List<Stock>, String> {
+        val response: HttpResponse = if (nextPage == null) {
+            client.get("$baseUrl/v1/meta/exchanges") {
+                parameter("market", "stocks")
+                parameter("limit", 1000)
+                parameter("apiKey", polygonApiKey)
+            }
+        } else {
+            client.get("$baseUrl/v1/meta/exchanges") {
+                parameter("apiKey", polygonApiKey)
+            }
+        }
+        val resp : String = response.receive()
+        println(resp)
+        return Pair(emptyList(), "")
     }
 }
