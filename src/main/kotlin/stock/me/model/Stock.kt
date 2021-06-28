@@ -11,9 +11,9 @@ import org.jetbrains.exposed.dao.id.LongIdTable
  * Represents a table in the database
  */
 object Stocks : LongIdTable() {
-    val symbol = varchar("symbol", 10)
-    val fullName = varchar("full_name", 250)
-    val industry = varchar("industry", 100)
+    val ticker = varchar("ticker", 10)
+    val name = varchar("full_name", 250)
+    val market = varchar("market", 100)
 }
 
 /**
@@ -22,16 +22,16 @@ object Stocks : LongIdTable() {
 class StockEntity(id: EntityID<Long>) : LongEntity(id) {
     companion object : LongEntityClass<StockEntity>(Stocks)
 
-    var symbol by Stocks.symbol
-    var fullName by Stocks.fullName
-    var industry by Stocks.industry
+    var ticker by Stocks.ticker
+    var name by Stocks.name
+    var market by Stocks.market
 
-    fun toStock() = Stock(symbol, fullName, industry)
+    fun toStock() = Stock(ticker, name, market)
 }
 
 @Serializable
 data class Stock(
-    val symbol: String,
-    val fullName: String,
-    val industry: String
+    val ticker: String,
+    val name: String,
+    val market: String
 )

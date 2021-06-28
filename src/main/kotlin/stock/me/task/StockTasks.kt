@@ -18,6 +18,7 @@ fun Application.initStockTasks() {
     val entityPopulatorService by di().instance<EntityPopulatorService>()
     val exchangeDelay = environment.config.property(EXCHANGE_DELAY).getString().toLong()
 
+
     GlobalScope.launch {
         while (true) {
             LoggerFactory.getLogger(Application::class.simpleName).info("Populating exchanges")
@@ -27,6 +28,6 @@ fun Application.initStockTasks() {
     }
 
     GlobalScope.launch {
-        entityPopulatorService.populateStockExchanges(stockConsumer)
+        entityPopulatorService.populateStocksByTickerSymbol(stockConsumer)
     }
 }

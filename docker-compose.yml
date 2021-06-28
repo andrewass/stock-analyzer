@@ -22,6 +22,7 @@ services:
     restart: on-failure
     ports:
       - "8088:8088"
+      - "5005:5005"
     environment:
       - POLYGON_API_KEY=${POLYGON_API_KEY}
 

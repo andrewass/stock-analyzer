@@ -1,5 +1,6 @@
 package stock.me.service
 
+import kotlinx.coroutines.delay
 import org.jetbrains.exposed.sql.SizedIterable
 import org.jetbrains.exposed.sql.transactions.transaction
 import stock.me.consumer.StockConsumer
@@ -26,13 +27,14 @@ class DefaultEntityPopulatorService : EntityPopulatorService {
         while (isRemainingQueries) {
             val (stocks, nextPage) = stockConsumer.getAllStocks(currentPage)
             stocks.forEach { persistStockIfNotExists(it) }
-            currentPage = nextPage
-            isRemainingQueries = false
+            //currentPage = nextPage
+            isRemainingQueries = true
+            delay(10000L)
         }
     }
 
     private fun persistStockIfNotExists(stock: Stock) = transaction {
-        val persistedStock = StockEntity.find { Stocks.symbol eq stock.symbol }
+        val persistedStock = StockEntity.find { Stocks.ticker eq stock.ticker }
     }
 
 

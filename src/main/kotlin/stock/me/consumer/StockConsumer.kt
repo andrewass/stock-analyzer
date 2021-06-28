@@ -7,6 +7,6 @@ interface StockConsumer {
 
     suspend fun getAllStockExchanges(): List<Exchange>
 
-    suspend fun getAllStocks(nextPage : String?) : Pair<List<Stock>, String>
+    suspend fun getAllStocks(nextPage : String?) : Pair<List<Stock>, String?>
 
 }

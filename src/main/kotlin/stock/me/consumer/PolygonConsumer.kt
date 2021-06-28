@@ -7,6 +7,7 @@ import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonObject
 import stock.me.model.Exchange
 import stock.me.model.Stock
 
@@ -27,11 +28,11 @@ class PolygonConsumer : StockConsumer {
         return json.decodeFromString(ListSerializer(Exchange.serializer()), response.receive())
     }
 
-    override suspend fun getAllStocks(nextPage: String?): Pair<List<Stock>, String> {
-        val response: HttpResponse = if (nextPage == null) {
-            client.get("$baseUrl/v1/meta/exchanges") {
+    override suspend fun getAllStocks(nextPageUrl: String?): Pair<List<Stock>, String?> {
+        val response: HttpResponse = if (nextPageUrl == null) {
+            client.get("$baseUrl/v3/reference/tickers") {
                 parameter("market", "stocks")
-                parameter("limit", 1000)
+                parameter("limit", 10)
                 parameter("apiKey", polygonApiKey)
             }
         } else {
@@ -39,8 +40,11 @@ class PolygonConsumer : StockConsumer {
                 parameter("apiKey", polygonApiKey)
             }
         }
-        val resp : String = response.receive()
-        println(resp)
-        return Pair(emptyList(), "")
+        val jsonResponse = (Json.parseToJsonElement(response.receive()) as JsonObject)
+        val nextPage = jsonResponse["next_url"]?.toString()
+        val stocks = jsonResponse["results"]!!.let {
+            json.decodeFromJsonElement(ListSerializer(Stock.serializer()), it)
+        }
+        return Pair(stocks, nextPage)
     }
 }

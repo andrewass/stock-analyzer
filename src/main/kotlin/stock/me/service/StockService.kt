@@ -13,15 +13,15 @@ class StockService {
     }
 
     fun findBySymbol(symbol: String) = transaction {
-        StockEntity.find { Stocks.symbol eq symbol }
+        StockEntity.find { Stocks.ticker eq symbol }
             .map { StockEntity::toStock }
     }
 
     fun addStock(stock: Stock) = transaction {
         StockEntity.new {
-            this.symbol = stock.symbol
-            this.fullName = stock.fullName
-            this.industry = stock.industry
+            this.ticker = stock.ticker
+            this.name = stock.name
+            this.market = stock.market
         }
     }
 }
