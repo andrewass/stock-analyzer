@@ -6,9 +6,7 @@ import org.jetbrains.exposed.dao.LongEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.LongIdTable
 
-/**
- * Represents a table in the database
- */
+
 object Exchanges : LongIdTable() {
     val market = varchar("market", 100)
     val type = varchar("exchange_type", 100)
@@ -16,9 +14,7 @@ object Exchanges : LongIdTable() {
     val idCode = varchar("id_code", 10).nullable()
 }
 
-/**
- * Represents a row in the table
- */
+
 class ExchangeEntity(id: EntityID<Long>) : LongEntity(id) {
     companion object : LongEntityClass<ExchangeEntity>(Exchanges)
 
@@ -29,6 +25,7 @@ class ExchangeEntity(id: EntityID<Long>) : LongEntity(id) {
 
     fun toExchange() = Exchange(market, type, fullName, idCode)
 }
+
 
 @Serializable
 data class Exchange(

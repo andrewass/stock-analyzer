@@ -17,6 +17,6 @@ fun toExchangeEntity(exchange: Exchange) =
 fun toStockEntity(stock: Stock) =
     StockEntity.new {
         ticker = stock.ticker
-        market = stock.market
+        exchange = stock.exchange
         name = stock.name
     }

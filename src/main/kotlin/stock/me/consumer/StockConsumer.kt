@@ -1,5 +1,6 @@
 package stock.me.consumer
 
+import stock.me.model.Dividend
 import stock.me.model.Exchange
 import stock.me.model.Stock
 
@@ -9,4 +10,5 @@ interface StockConsumer {
 
     suspend fun getAllStocks(nextPage : String?) : Pair<List<Stock>, String?>
 
+    suspend fun getDividendsForStock(stock: Stock) : List<Dividend>
 }

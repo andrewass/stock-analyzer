@@ -8,6 +8,7 @@ import io.ktor.client.statement.*
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
+import stock.me.model.Dividend
 import stock.me.model.Exchange
 import stock.me.model.Stock
 
@@ -46,5 +47,9 @@ class PolygonConsumer : StockConsumer {
             json.decodeFromJsonElement(ListSerializer(Stock.serializer()), it)
         }
         return Pair(stocks, nextPage)
+    }
+
+    override suspend fun getDividendsForStock(stock: Stock): List<Dividend> {
+        TODO("Not yet implemented")
     }
 }

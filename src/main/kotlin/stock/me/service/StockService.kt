@@ -21,7 +21,7 @@ class StockService {
         StockEntity.new {
             this.ticker = stock.ticker
             this.name = stock.name
-            this.market = stock.market
+            this.exchange = stock.exchange
         }
     }
 }
