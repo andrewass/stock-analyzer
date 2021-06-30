@@ -2,6 +2,8 @@ package stock.me.service.mapper
 
 import stock.me.model.Exchange
 import stock.me.model.ExchangeEntity
+import stock.me.model.Stock
+import stock.me.model.StockEntity
 
 
 fun toExchangeEntity(exchange: Exchange) =
@@ -10,4 +12,11 @@ fun toExchangeEntity(exchange: Exchange) =
         type = exchange.type
         fullName = exchange.name
         idCode = exchange.mic
+    }
+
+fun toStockEntity(stock: Stock) =
+    StockEntity.new {
+        ticker = stock.ticker
+        market = stock.market
+        name = stock.name
     }

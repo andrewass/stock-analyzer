@@ -32,16 +32,16 @@ class PolygonConsumer : StockConsumer {
         val response: HttpResponse = if (nextPageUrl == null) {
             client.get("$baseUrl/v3/reference/tickers") {
                 parameter("market", "stocks")
-                parameter("limit", 10)
+                parameter("limit", 1000)
                 parameter("apiKey", polygonApiKey)
             }
         } else {
-            client.get("$baseUrl/v1/meta/exchanges") {
+            client.get(nextPageUrl){
                 parameter("apiKey", polygonApiKey)
             }
         }
         val jsonResponse = (Json.parseToJsonElement(response.receive()) as JsonObject)
-        val nextPage = jsonResponse["next_url"]?.toString()
+        val nextPage = jsonResponse["next_url"]?.toString()?.drop(1)?.dropLast(1)
         val stocks = jsonResponse["results"]!!.let {
             json.decodeFromJsonElement(ListSerializer(Stock.serializer()), it)
         }

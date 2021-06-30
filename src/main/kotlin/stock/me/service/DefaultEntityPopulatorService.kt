@@ -3,15 +3,19 @@ package stock.me.service
 import kotlinx.coroutines.delay
 import org.jetbrains.exposed.sql.SizedIterable
 import org.jetbrains.exposed.sql.transactions.transaction
+import org.slf4j.LoggerFactory
 import stock.me.consumer.StockConsumer
 import stock.me.model.*
 import stock.me.service.mapper.toExchangeEntity
+import stock.me.service.mapper.toStockEntity
 
 class DefaultEntityPopulatorService : EntityPopulatorService {
 
-    override suspend fun populateStockExchanges(stockConsumer: StockConsumer) {
-        val storedExchanges = getStoredExchanges()
+    private val logger = LoggerFactory.getLogger(DefaultEntityPopulatorService::class.simpleName)
 
+    override suspend fun populateStockExchanges(stockConsumer: StockConsumer) {
+        logger.info("Populating stock exchanges : Started")
+        val storedExchanges = getStoredExchanges()
         stockConsumer.getAllStockExchanges()
             .filter { notAlreadyStored(it, storedExchanges) }
             .forEach {
@@ -19,24 +23,27 @@ class DefaultEntityPopulatorService : EntityPopulatorService {
                     toExchangeEntity(it)
                 }
             }
+        logger.info("Populating stock exchanges : Completed")
     }
 
     override suspend fun populateStocksByTickerSymbol(stockConsumer: StockConsumer) {
+        logger.info("Populating stocks by ticker symbol")
         var isRemainingQueries = true
         var currentPage: String? = null
         while (isRemainingQueries) {
             val (stocks, nextPage) = stockConsumer.getAllStocks(currentPage)
             stocks.forEach { persistStockIfNotExists(it) }
-            //currentPage = nextPage
-            isRemainingQueries = true
+            currentPage = nextPage
+            isRemainingQueries = nextPage != null
             delay(10000L)
         }
     }
 
     private fun persistStockIfNotExists(stock: Stock) = transaction {
-        val persistedStock = StockEntity.find { Stocks.ticker eq stock.ticker }
+        if (StockEntity.find { Stocks.ticker eq stock.ticker }.none()) {
+            toStockEntity(stock)
+        }
     }
-
 
     private fun getStoredExchanges() = transaction {
         ExchangeEntity.all()
