@@ -7,6 +7,7 @@ val exposedVersion: String by project
 val hikariVersion: String by project
 val postgreSqlVersion: String by project
 val kodeinVersion: String by project
+val kotlinxVersion: String by project
 
 plugins {
     application
@@ -37,6 +38,7 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-dao:$exposedVersion")
     implementation("org.jetbrains.exposed:exposed-jdbc:$exposedVersion")
     implementation("org.jetbrains.exposed:exposed-java-time:$exposedVersion")
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.2.0")
     implementation("org.kodein.di:kodein-di-framework-ktor-server-controller-jvm:$kodeinVersion")
     implementation("com.zaxxer:HikariCP:$hikariVersion")
     implementation("org.postgresql:postgresql:$postgreSqlVersion")

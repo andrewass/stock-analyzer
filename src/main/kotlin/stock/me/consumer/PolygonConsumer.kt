@@ -50,6 +50,12 @@ class PolygonConsumer : StockConsumer {
     }
 
     override suspend fun getDividendsForStock(stock: Stock): List<Dividend> {
-        TODO("Not yet implemented")
+        val response: HttpResponse = client.get("$baseUrl/v2/reference/dividends/${stock.ticker}") {
+            parameter("apiKey", polygonApiKey)
+        }
+        val jsonResponse = (Json.parseToJsonElement(response.receive()) as JsonObject)
+        return jsonResponse["results"]!!.let {
+            json.decodeFromJsonElement(ListSerializer(Dividend.serializer()), it)
+        }
     }
 }

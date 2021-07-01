@@ -4,5 +4,5 @@ import stock.me.consumer.StockConsumer
 
 interface StockDataPopulatorService {
 
-    fun getHistoricalDividends(stockConsumer: StockConsumer)
+    suspend fun getHistoricalDividends(stockConsumer: StockConsumer)
 }

@@ -1,13 +1,13 @@
 package stock.me.model
 
-import kotlinx.serialization.Contextual
+import kotlinx.datetime.serializers.LocalDateIso8601Serializer
+import kotlinx.datetime.toKotlinLocalDate
 import kotlinx.serialization.Serializable
 import org.jetbrains.exposed.dao.LongEntity
 import org.jetbrains.exposed.dao.LongEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.LongIdTable
 import org.jetbrains.exposed.sql.`java-time`.date
-import java.time.LocalDate
 
 object Dividends : LongIdTable() {
     val ticker = varchar("ticker", 10)
@@ -23,14 +23,14 @@ class DividendEntity(id: EntityID<Long>) : LongEntity(id) {
     var paymentDate by Dividends.paymentDate
     var amount by Dividends.amount
 
-    fun toDividend() = Dividend(ticker, paymentDate, amount)
+    fun toDividend() = Dividend(ticker, paymentDate.toKotlinLocalDate(), amount)
 }
 
 
 @Serializable
 data class Dividend(
     val ticker: String,
-    @Contextual
-    val paymentDate: LocalDate,
-    val amount : Double
+    @Serializable(with = LocalDateIso8601Serializer::class)
+    val paymentDate: kotlinx.datetime.LocalDate,
+    val amount: Double
 )

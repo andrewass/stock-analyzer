@@ -15,6 +15,7 @@ class DefaultEntityPopulatorService : EntityPopulatorService {
 
     override suspend fun populateStockExchanges(stockConsumer: StockConsumer) {
         logger.info("Populating stock exchanges : Started")
+
         val storedExchanges = getStoredExchanges()
         stockConsumer.getAllStockExchanges()
             .filter { notAlreadyStored(it, storedExchanges) }
@@ -23,11 +24,13 @@ class DefaultEntityPopulatorService : EntityPopulatorService {
                     toExchangeEntity(it)
                 }
             }
+
         logger.info("Populating stock exchanges : Completed")
     }
 
     override suspend fun populateStocksByTickerSymbol(stockConsumer: StockConsumer) {
-        logger.info("Populating stocks by ticker symbol")
+        logger.info("Populating stocks by ticker symbol : Started")
+
         var isRemainingQueries = true
         var currentPage: String? = null
         while (isRemainingQueries) {
@@ -35,8 +38,10 @@ class DefaultEntityPopulatorService : EntityPopulatorService {
             stocks.forEach { persistStockIfNotExists(it) }
             currentPage = nextPage
             isRemainingQueries = nextPage != null
-            delay(10000L)
+            delay(15000L)
         }
+
+        logger.info("Populating stocks by ticker symbol : Completed")
     }
 
     private fun persistStockIfNotExists(stock: Stock) = transaction {
