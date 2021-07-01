@@ -13,6 +13,7 @@ object Dividends : LongIdTable() {
     val ticker = varchar("ticker", 10)
     val paymentDate = date("payment_date")
     val amount = double("amount")
+    val stockFinancial = reference("stock_financial",StockFinancials)
 }
 
 
@@ -22,6 +23,7 @@ class DividendEntity(id: EntityID<Long>) : LongEntity(id) {
     var ticker by Dividends.ticker
     var paymentDate by Dividends.paymentDate
     var amount by Dividends.amount
+    var stockFinancial by StockFinancialEntity referencedOn Dividends.stockFinancial
 
     fun toDividend() = Dividend(ticker, paymentDate.toKotlinLocalDate(), amount)
 }

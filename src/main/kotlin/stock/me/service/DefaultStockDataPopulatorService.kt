@@ -17,5 +17,6 @@ class DefaultStockDataPopulatorService : StockDataPopulatorService {
             val dividends = stockConsumer.getDividendsForStock(it)
             delay(15000L)
         }
+        delay(15000L)
     }
 }

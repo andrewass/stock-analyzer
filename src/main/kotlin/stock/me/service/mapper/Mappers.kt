@@ -1,9 +1,6 @@
 package stock.me.service.mapper
 
-import stock.me.model.Exchange
-import stock.me.model.ExchangeEntity
-import stock.me.model.Stock
-import stock.me.model.StockEntity
+import stock.me.model.*
 
 
 fun toExchangeEntity(exchange: Exchange) =
@@ -20,3 +17,12 @@ fun toStockEntity(stock: Stock) =
         exchange = stock.exchange
         name = stock.name
     }
+
+fun toStockFinancialEntity(stockFinancial: StockFinancial) =
+    StockFinancialEntity.new {
+        ticker = stockFinancial.ticker
+    }
+
+fun toDividendEntity(dividend: Dividend){
+
+}
