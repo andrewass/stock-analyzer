@@ -32,3 +32,15 @@ fun toDividendEntity(dividend: Dividend, stockFinancialEntity: StockFinancialEnt
         stockFinancial = stockFinancialEntity
     }
 }
+
+fun toHistoricFinancialEntity(historicFinancial: HistoricFinancial, stockFinancialEntity: StockFinancialEntity){
+    HistoricFinancialEntity.new {
+        ticker = historicFinancial.ticker
+        calendarDate = historicFinancial.calendarDate.toJavaLocalDate()
+        priceToEarningsRatio = historicFinancial.priceToEarningsRatio
+        priceToBookValue = historicFinancial.priceToBookValue
+        priceToSalesRatio = historicFinancial.priceToSalesRatio
+        dividendsPerShare = historicFinancial.dividendsPerShare
+        stockFinancial = stockFinancialEntity
+    }
+}

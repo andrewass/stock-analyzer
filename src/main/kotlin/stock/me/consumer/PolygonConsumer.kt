@@ -8,9 +8,7 @@ import io.ktor.client.statement.*
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
-import stock.me.model.Dividend
-import stock.me.model.Exchange
-import stock.me.model.Stock
+import stock.me.model.*
 
 class PolygonConsumer : StockConsumer {
 
@@ -56,6 +54,16 @@ class PolygonConsumer : StockConsumer {
         val jsonResponse = (Json.parseToJsonElement(response.receive()) as JsonObject)
         return jsonResponse["results"]!!.let {
             json.decodeFromJsonElement(ListSerializer(Dividend.serializer()), it)
+        }
+    }
+
+    override suspend fun getHistoricalFinancials(ticker: String): List<HistoricFinancial> {
+        val response: HttpResponse = client.get("$baseUrl/v2/reference/financials/$ticker") {
+            parameter("apiKey", polygonApiKey)
+        }
+        val jsonResponse = (Json.parseToJsonElement(response.receive()) as JsonObject)
+        return jsonResponse["results"]!!.let {
+            json.decodeFromJsonElement(ListSerializer(HistoricFinancial.serializer()), it)
         }
     }
 }

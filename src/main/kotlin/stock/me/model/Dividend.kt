@@ -1,5 +1,6 @@
 package stock.me.model
 
+import kotlinx.datetime.LocalDate
 import kotlinx.datetime.serializers.LocalDateIso8601Serializer
 import kotlinx.datetime.toKotlinLocalDate
 import kotlinx.serialization.Serializable
@@ -31,6 +32,6 @@ class DividendEntity(id: EntityID<Long>) : LongEntity(id) {
 data class Dividend(
     val ticker: String,
     @Serializable(with = LocalDateIso8601Serializer::class)
-    val paymentDate: kotlinx.datetime.LocalDate,
+    val paymentDate: LocalDate,
     val amount: Double
 )

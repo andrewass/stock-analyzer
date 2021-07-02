@@ -15,8 +15,7 @@ class StockFinancialEntity(id: EntityID<Long>) : LongEntity(id) {
 
     var ticker by StockFinancials.ticker
     val dividends by DividendEntity referrersOn Dividends.stockFinancial
-
-    fun toStockFinancial() = StockFinancial(ticker)
+    val historicFinancials by HistoricFinancialEntity referrersOn HistoricFinancials.stockFinancial
 }
 
 @Serializable

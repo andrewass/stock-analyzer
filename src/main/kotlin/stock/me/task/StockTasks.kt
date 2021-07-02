@@ -25,7 +25,13 @@ suspend fun Application.initStockTasks() {
 
     CoroutineScope(Default).launch {
         while (true) {
-            stockDataPopulatorService.getHistoricalDividends(stockConsumer)
+            stockDataPopulatorService.populateHistoricalDividends(stockConsumer)
+        }
+    }
+
+    CoroutineScope(Default).launch {
+        while (true) {
+            stockDataPopulatorService.populateHistoricalFinancials(stockConsumer)
         }
     }
 }
