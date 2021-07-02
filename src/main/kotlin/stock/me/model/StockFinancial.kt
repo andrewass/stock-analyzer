@@ -10,7 +10,6 @@ object StockFinancials : LongIdTable() {
     val ticker = varchar("ticker", 10)
 }
 
-
 class StockFinancialEntity(id: EntityID<Long>) : LongEntity(id) {
     companion object : LongEntityClass<StockFinancialEntity>(StockFinancials)
 
@@ -19,7 +18,6 @@ class StockFinancialEntity(id: EntityID<Long>) : LongEntity(id) {
 
     fun toStockFinancial() = StockFinancial(ticker)
 }
-
 
 @Serializable
 data class StockFinancial(

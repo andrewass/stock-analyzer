@@ -15,7 +15,6 @@ object Stocks : LongIdTable() {
     val exchange = varchar("exchange", 100)
 }
 
-
 class StockEntity(id: EntityID<Long>) : LongEntity(id) {
     companion object : LongEntityClass<StockEntity>(Stocks)
 
@@ -25,7 +24,6 @@ class StockEntity(id: EntityID<Long>) : LongEntity(id) {
 
     fun toStock() = Stock(ticker, name, exchange)
 }
-
 
 @Serializable
 data class Stock(

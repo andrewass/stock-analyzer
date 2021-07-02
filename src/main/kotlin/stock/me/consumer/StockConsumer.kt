@@ -10,5 +10,5 @@ interface StockConsumer {
 
     suspend fun getAllStocks(nextPage : String?) : Pair<List<Stock>, String?>
 
-    suspend fun getDividendsForStock(stock: Stock) : List<Dividend>
+    suspend fun getDividendsForStock(ticker: String) : List<Dividend>
 }

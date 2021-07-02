@@ -49,8 +49,8 @@ class PolygonConsumer : StockConsumer {
         return Pair(stocks, nextPage)
     }
 
-    override suspend fun getDividendsForStock(stock: Stock): List<Dividend> {
-        val response: HttpResponse = client.get("$baseUrl/v2/reference/dividends/${stock.ticker}") {
+    override suspend fun getDividendsForStock(ticker: String): List<Dividend> {
+        val response: HttpResponse = client.get("$baseUrl/v2/reference/dividends/$ticker") {
             parameter("apiKey", polygonApiKey)
         }
         val jsonResponse = (Json.parseToJsonElement(response.receive()) as JsonObject)

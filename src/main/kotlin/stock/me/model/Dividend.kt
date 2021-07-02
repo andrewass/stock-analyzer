@@ -16,7 +16,6 @@ object Dividends : LongIdTable() {
     val stockFinancial = reference("stock_financial",StockFinancials)
 }
 
-
 class DividendEntity(id: EntityID<Long>) : LongEntity(id) {
     companion object : LongEntityClass<DividendEntity>(Dividends)
 
@@ -27,7 +26,6 @@ class DividendEntity(id: EntityID<Long>) : LongEntity(id) {
 
     fun toDividend() = Dividend(ticker, paymentDate.toKotlinLocalDate(), amount)
 }
-
 
 @Serializable
 data class Dividend(

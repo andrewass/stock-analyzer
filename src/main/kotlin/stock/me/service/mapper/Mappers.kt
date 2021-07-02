@@ -1,5 +1,6 @@
 package stock.me.service.mapper
 
+import kotlinx.datetime.toJavaLocalDate
 import stock.me.model.*
 
 
@@ -23,6 +24,11 @@ fun toStockFinancialEntity(stockFinancial: StockFinancial) =
         ticker = stockFinancial.ticker
     }
 
-fun toDividendEntity(dividend: Dividend){
-
+fun toDividendEntity(dividend: Dividend, stockFinancialEntity: StockFinancialEntity){
+    DividendEntity.new {
+        ticker = dividend.ticker
+        paymentDate = dividend.paymentDate.toJavaLocalDate()
+        amount = dividend.amount
+        stockFinancial = stockFinancialEntity
+    }
 }

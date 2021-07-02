@@ -7,6 +7,7 @@ import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.slf4j.LoggerFactory
+import stock.me.model.Dividends
 import stock.me.model.Exchanges
 import stock.me.model.StockFinancials
 import stock.me.model.Stocks
@@ -25,6 +26,6 @@ fun Application.initDatabase(){
 
 private fun createTables() = transaction {
     SchemaUtils.create(
-        Stocks, Exchanges, StockFinancials
+        Stocks, Exchanges, StockFinancials, Dividends
     )
 }

@@ -14,7 +14,6 @@ object Exchanges : LongIdTable() {
     val idCode = varchar("id_code", 10).nullable()
 }
 
-
 class ExchangeEntity(id: EntityID<Long>) : LongEntity(id) {
     companion object : LongEntityClass<ExchangeEntity>(Exchanges)
 
@@ -25,7 +24,6 @@ class ExchangeEntity(id: EntityID<Long>) : LongEntity(id) {
 
     fun toExchange() = Exchange(market, type, fullName, idCode)
 }
-
 
 @Serializable
 data class Exchange(
