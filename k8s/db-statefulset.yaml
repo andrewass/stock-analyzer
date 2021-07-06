@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgresql-sfs
+spec:
+  selector:
+    matchLabels:
+      app: postgresql-service
+  replicas: 1
+  serviceName: postgresql-service
+  template:
+    metadata:
+      labels:
+        app: postgresql-service
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+        - name: postegresql-db
+          image: postgres:13-alpine
+          env:
+          - name: POSTGRES_PASSWORD
+            value: "password"
+          - name: PGDATA
+            value: /var/lib/postgresql/data/pgdata
+          ports:
+          - containerPort: 5432
+            name: postgresql-port
+          volumeMounts:
+          - name: postgresql-data
+            mountPath: /var/lib/postgresql/data
+  volumeClaimTemplates:
+    - metadata:
+        name: postgresql-data
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 3Gi
