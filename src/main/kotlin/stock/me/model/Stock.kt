@@ -8,11 +8,10 @@ import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.LongIdTable
 
 
-
 object Stocks : LongIdTable() {
     val ticker = varchar("ticker", 10)
     val name = varchar("full_name", 250)
-    val exchange = varchar("exchange", 100)
+    val exchange = varchar("exchange", 100).nullable()
 }
 
 class StockEntity(id: EntityID<Long>) : LongEntity(id) {
@@ -21,8 +20,6 @@ class StockEntity(id: EntityID<Long>) : LongEntity(id) {
     var ticker by Stocks.ticker
     var name by Stocks.name
     var exchange by Stocks.exchange
-
-    fun toStock() = Stock(ticker, name, exchange)
 }
 
 @Serializable
@@ -30,5 +27,5 @@ data class Stock(
     val ticker: String,
     val name: String,
     @SerialName("primary_exchange")
-    val exchange: String,
+    val exchange: String? = null
 )

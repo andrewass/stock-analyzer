@@ -7,11 +7,8 @@ import io.ktor.routing.*
 import org.kodein.di.instance
 import org.kodein.di.ktor.di
 import stock.me.model.Stock
-import stock.me.service.StockService
 
 fun Route.stockRoute() {
-
-    val stockService by di().instance<StockService>()
 
     route("/stock/get-all") {
         get {

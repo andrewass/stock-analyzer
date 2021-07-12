@@ -8,24 +8,17 @@ import io.ktor.client.statement.*
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
-import stock.me.model.*
+import stock.me.model.Stock
 
 class PolygonConsumer : StockConsumer {
 
-    private val polygonApiKey = System.getenv("POLYGON_API_KEY")
+    private val polygonApiKey = System.getenv("FINNHUB_API_KEY")
     private val baseUrl = "https://api.polygon.io"
 
     private val json = Json {
         ignoreUnknownKeys = true
     }
     private val client = HttpClient(CIO)
-
-    override suspend fun getAllStockExchanges(): List<Exchange> {
-        val response: HttpResponse = client.get("$baseUrl/v1/meta/exchanges") {
-            parameter("apiKey", polygonApiKey)
-        }
-        return json.decodeFromString(ListSerializer(Exchange.serializer()), response.receive())
-    }
 
     override suspend fun getAllStocks(nextPageUrl: String?): Pair<List<Stock>, String?> {
         val response: HttpResponse = if (nextPageUrl == null) {
@@ -35,7 +28,7 @@ class PolygonConsumer : StockConsumer {
                 parameter("apiKey", polygonApiKey)
             }
         } else {
-            client.get(nextPageUrl){
+            client.get(nextPageUrl) {
                 parameter("apiKey", polygonApiKey)
             }
         }
@@ -45,25 +38,5 @@ class PolygonConsumer : StockConsumer {
             json.decodeFromJsonElement(ListSerializer(Stock.serializer()), it)
         }
         return Pair(stocks, nextPage)
-    }
-
-    override suspend fun getDividendsForStock(ticker: String): List<Dividend> {
-        val response: HttpResponse = client.get("$baseUrl/v2/reference/dividends/$ticker") {
-            parameter("apiKey", polygonApiKey)
-        }
-        val jsonResponse = (Json.parseToJsonElement(response.receive()) as JsonObject)
-        return jsonResponse["results"]!!.let {
-            json.decodeFromJsonElement(ListSerializer(Dividend.serializer()), it)
-        }
-    }
-
-    override suspend fun getHistoricalFinancials(ticker: String): List<HistoricFinancial> {
-        val response: HttpResponse = client.get("$baseUrl/v2/reference/financials/$ticker") {
-            parameter("apiKey", polygonApiKey)
-        }
-        val jsonResponse = (Json.parseToJsonElement(response.receive()) as JsonObject)
-        return jsonResponse["results"]!!.let {
-            json.decodeFromJsonElement(ListSerializer(HistoricFinancial.serializer()), it)
-        }
     }
 }

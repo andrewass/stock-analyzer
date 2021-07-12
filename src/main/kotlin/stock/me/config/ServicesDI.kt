@@ -12,11 +12,7 @@ import stock.me.service.*
  */
 fun DI.MainBuilder.bindServices() {
 
-    bind<StockService>() with singleton { StockService() }
-
     bind<StockConsumer>() with singleton { PolygonConsumer() }
 
     bind<EntityPopulatorService>() with singleton { DefaultEntityPopulatorService() }
-
-    bind<StockDataPopulatorService>() with singleton { DefaultStockDataPopulatorService() }
 }

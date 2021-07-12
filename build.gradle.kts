@@ -42,6 +42,7 @@ dependencies {
     implementation("org.kodein.di:kodein-di-framework-ktor-server-controller-jvm:$kodeinVersion")
     implementation("com.zaxxer:HikariCP:$hikariVersion")
     implementation("org.postgresql:postgresql:$postgreSqlVersion")
+    implementation("com.yahoofinance-api:YahooFinanceAPI:3.15.0")
 
     testImplementation("io.ktor:ktor-server-tests:$ktorVersion")
 }

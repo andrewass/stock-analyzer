@@ -4,7 +4,7 @@ import stock.me.consumer.StockConsumer
 
 interface EntityPopulatorService {
 
-    suspend fun populateStockExchanges(stockConsumer: StockConsumer)
+    suspend fun getStockExchanges() : List<String>
 
     suspend fun populateStocksByTickerSymbol(stockConsumer: StockConsumer)
 }

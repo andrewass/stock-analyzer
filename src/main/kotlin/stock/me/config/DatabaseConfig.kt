@@ -23,6 +23,6 @@ fun Application.initDatabase(){
 
 private fun createTables() = transaction {
     SchemaUtils.create(
-        Stocks, Exchanges, StockFinancials, Dividends, HistoricFinancials
+        Stocks, Exchanges
     )
 }
