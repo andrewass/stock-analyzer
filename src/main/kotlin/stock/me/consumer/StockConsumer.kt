@@ -4,7 +4,5 @@ import stock.me.model.Stock
 
 interface StockConsumer {
 
-
-    suspend fun getAllStocks(nextPage: String?): Pair<List<Stock>, String?>
-
+    suspend fun getAllStocksFromExchange(exchange : String): List<Stock>
 }

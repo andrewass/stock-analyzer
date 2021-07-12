@@ -1,6 +1,5 @@
 package stock.me.model
 
-import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import org.jetbrains.exposed.dao.LongEntity
 import org.jetbrains.exposed.dao.LongEntityClass
@@ -9,23 +8,19 @@ import org.jetbrains.exposed.dao.id.LongIdTable
 
 
 object Stocks : LongIdTable() {
-    val ticker = varchar("ticker", 10)
-    val name = varchar("full_name", 250)
-    val exchange = varchar("exchange", 100).nullable()
+    val symbol = varchar("ticker", 10)
+    val description = varchar("full_name", 250)
 }
 
 class StockEntity(id: EntityID<Long>) : LongEntity(id) {
     companion object : LongEntityClass<StockEntity>(Stocks)
 
-    var ticker by Stocks.ticker
-    var name by Stocks.name
-    var exchange by Stocks.exchange
+    var symbol by Stocks.symbol
+    var description by Stocks.description
 }
 
 @Serializable
 data class Stock(
-    val ticker: String,
-    val name: String,
-    @SerialName("primary_exchange")
-    val exchange: String? = null
+    val symbol: String,
+    val description: String,
 )

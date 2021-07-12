@@ -6,7 +6,7 @@ import io.ktor.routing.*
 import io.ktor.serialization.*
 import kotlinx.coroutines.runBlocking
 import org.kodein.di.ktor.di
-import stock.me.config.bindServices
+import stock.me.config.bindComponents
 import stock.me.config.initDatabase
 import stock.me.routes.apiRoute
 import stock.me.task.initStockTasks
@@ -19,7 +19,7 @@ fun Application.module() = runBlocking{
         json()
     }
     di{
-        bindServices()
+        bindComponents()
     }
     routing {
         apiRoute()

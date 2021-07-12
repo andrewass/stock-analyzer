@@ -43,6 +43,7 @@ dependencies {
     implementation("com.zaxxer:HikariCP:$hikariVersion")
     implementation("org.postgresql:postgresql:$postgreSqlVersion")
     implementation("com.yahoofinance-api:YahooFinanceAPI:3.15.0")
+    implementation("org.elasticsearch.client:elasticsearch-rest-high-level-client:7.13.3")
 
     testImplementation("io.ktor:ktor-server-tests:$ktorVersion")
 }

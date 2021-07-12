@@ -10,10 +10,10 @@ import stock.me.model.Stock
 
 fun Route.stockRoute() {
 
-    route("/stock/get-all") {
+    route("/stock/real-time-price/{symbol}") {
         get {
-            val stocks = emptyList<Stock>()
-            call.respond(stocks)
+            val realTimePrice = emptyList<Stock>()
+            call.respond(realTimePrice)
         }
 
         get("{symbol}") {

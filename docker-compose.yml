@@ -1,7 +1,24 @@
 version: "3.8"
 
 services:
-  #Ktor Stock Analyzer
+  elastic-search:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.12.0
+    container_name: elastic-search
+    environment:
+      - node.name=es01
+      - cluster.name=es-docker-cluster
+      - bootstrap.memory_lock=true
+      - cluster.initial_master_nodes=es01
+      - "ES_JAVA_OPTS=-Xms2048m -Xmx2048m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - es-volume:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+
   stock-database:
     image: postgres:13-alpine
     container_name: postgres
@@ -19,10 +36,13 @@ services:
     build: .
     depends_on:
       - stock-database
+      - elastic-search
     restart: on-failure
     ports:
       - "8088:8088"
       - "5005:5005"
     environment:
-      - POLYGON_API_KEY=${POLYGON_API_KEY}
+      - FINNHUB_API_KEY=${FINNHUB_API_KEY}
 
+volumes:
+  es-volume:
