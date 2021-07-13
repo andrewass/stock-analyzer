@@ -1,17 +1,12 @@
 package stock.me.service
 
 import kotlinx.coroutines.delay
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.encodeToJsonElement
-import org.elasticsearch.action.DocWriteResponse
+import org.elasticsearch.action.bulk.BulkRequest
 import org.elasticsearch.action.index.IndexRequest
-import org.elasticsearch.action.search.SearchRequest
 import org.elasticsearch.client.RequestOptions
 import org.elasticsearch.client.RestHighLevelClient
-import org.elasticsearch.common.unit.TimeValue
-import org.elasticsearch.common.xcontent.XContentType
 import org.elasticsearch.index.query.QueryBuilders
-import org.elasticsearch.search.builder.SearchSourceBuilder
+import org.elasticsearch.index.reindex.DeleteByQueryRequest
 import org.slf4j.LoggerFactory
 import stock.me.consumer.StockConsumer
 import stock.me.model.Stock
@@ -24,18 +19,19 @@ class DefaultEntityPopulatorService : EntityPopulatorService {
         logger.info("Populating stocks by ticker symbol : Started")
         val exchanges = getStockExchanges()
         logger.info("Fetched ${exchanges.size} exchanges")
-        exchanges.forEach {
-            val stocks = stockConsumer.getAllStocksFromExchange(it)
-            logger.info("\tFetched ${stocks.size} stocks from exchange $it")
-            stocks.forEach { stock ->
-                insertDocumentToIndex(restClient, stock)
+        deleteDocumentsFromIndex(restClient)
+        exchanges.forEach { exchange ->
+            stockConsumer.getAllStocksFromExchange(exchange).also { stocks ->
+                logger.info("\tFetched ${stocks.size} stocks from exchange $exchange")
+                if (stocks.isNotEmpty()) {
+                    indexDocuments(restClient, stocks)
+                }
             }
             delay(5000L)
         }
         logger.info("Populating stocks by ticker symbol : Completed")
         delay(30000L)
     }
-
 
     override suspend fun getStockExchanges(): List<String> {
         return this::class.java.getResourceAsStream("/domain/stockexchanges.csv")
@@ -45,23 +41,31 @@ class DefaultEntityPopulatorService : EntityPopulatorService {
             .map { it[0] }
     }
 
-    private suspend fun insertDocumentToIndex(restClient: RestHighLevelClient, stock: Stock) {
+    private fun deleteDocumentsFromIndex(restClient: RestHighLevelClient) {
         try {
-            val request = IndexRequest("stocks")
-            val jsonMap = mapOf("symbol" to stock.symbol, "description" to stock.description)
-            request.id(stock.symbol.hashCode().toString())
-            request.source(jsonMap)
-            request.timeout(TimeValue.timeValueSeconds(10))
-
-            val response = restClient.index(request, RequestOptions.DEFAULT)
-            if (response.result == DocWriteResponse.Result.CREATED) {
-                logger.info("Added stock ${stock.symbol} to index ${response.index}")
-            } else if (response.result == DocWriteResponse.Result.UPDATED) {
-                logger.info("Updated stock ${stock.symbol} to index ${response.index}")
-            }
-        } catch (exception: Exception) {
-            logger.warn("Could not post to ES : ${exception.stackTrace}")
+            val request = DeleteByQueryRequest("stocks")
+            request.setQuery(QueryBuilders.matchAllQuery())
+            val response = restClient.deleteByQuery(request, RequestOptions.DEFAULT)
+            logger.info("Deleted ${response.deleted} documents")
+        } catch (e: Exception) {
+            logger.warn("Unable to delete documents : ${e.stackTraceToString()}")
         }
-        delay(5000L)
+    }
+
+    private fun indexDocuments(restClient: RestHighLevelClient, stocks: List<Stock>) {
+        try {
+            val bulkRequest = BulkRequest("stocks")
+            stocks.forEach { stock ->
+                val jsonMap = mapOf("symbol" to stock.symbol, "description" to stock.description)
+                val indexRequest = IndexRequest()
+                    .id(stock.symbol.hashCode().toString())
+                    .source(jsonMap)
+                bulkRequest.add(indexRequest)
+            }
+            restClient.bulk(bulkRequest, RequestOptions.DEFAULT)
+        } catch (exception: Exception) {
+            logger.warn("Could not index documents : ${exception.stackTraceToString()}")
+        }
     }
 }
+
