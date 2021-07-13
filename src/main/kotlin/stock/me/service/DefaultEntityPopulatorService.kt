@@ -48,8 +48,9 @@ class DefaultEntityPopulatorService : EntityPopulatorService {
     private suspend fun insertDocumentToIndex(restClient: RestHighLevelClient, stock: Stock) {
         try {
             val request = IndexRequest("stocks")
+            val jsonMap = mapOf("symbol" to stock.symbol, "description" to stock.description)
             request.id(stock.symbol.hashCode().toString())
-            request.source(Json.encodeToJsonElement(stock), XContentType.JSON)
+            request.source(jsonMap)
             request.timeout(TimeValue.timeValueSeconds(10))
 
             val response = restClient.index(request, RequestOptions.DEFAULT)
@@ -62,20 +63,5 @@ class DefaultEntityPopulatorService : EntityPopulatorService {
             logger.warn("Could not post to ES : ${exception.stackTrace}")
         }
         delay(5000L)
-    }
-
-    private fun findStockItem(restClient: RestHighLevelClient, stock: Stock) {
-        try {
-            val request = SearchRequest()
-            val ssb = SearchSourceBuilder()
-            ssb.query(QueryBuilders.matchAllQuery())
-            request.source(ssb)
-
-            val response = restClient.search(request, RequestOptions.DEFAULT)
-            val hits = response.hits.hits
-            val rest = 22
-        } catch (e: Exception) {
-            logger.warn("Exception when searching from index")
-        }
     }
 }

@@ -1,9 +1,10 @@
 package stock.me.routes
 
+import io.ktor.application.*
 import io.ktor.routing.*
 
-fun Routing.apiRoute(){
-    route("/api"){
+fun Application.registerRoutes(){
+    routing {
         stockRoute()
     }
 }
