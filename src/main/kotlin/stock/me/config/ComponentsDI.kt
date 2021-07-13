@@ -22,4 +22,5 @@ fun DI.MainBuilder.bindComponents() {
     bind<RestHighLevelClient>() with singleton { RestHighLevelClient(
         RestClient.builder(HttpHost("elastic-search", 9200, "http"))
     ) }
+
 }
