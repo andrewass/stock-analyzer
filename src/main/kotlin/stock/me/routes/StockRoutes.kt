@@ -7,16 +7,22 @@ import io.ktor.routing.*
 import org.elasticsearch.client.RestHighLevelClient
 import org.kodein.di.instance
 import org.kodein.di.ktor.di
-import stock.me.service.EntitySearchService
+import stock.me.service.SymbolSearchService
 
 fun Route.stockRoute() {
     val restClient by di().instance<RestHighLevelClient>()
-    val entitySearchService by di().instance<EntitySearchService>()
+    val entitySearchService by di().instance<SymbolSearchService>()
 
     route("/stock") {
-        get("/query/{word}") {
-            val word = call.parameters["word"] ?: return@get call.respond(HttpStatusCode.BadRequest)
-            val result = entitySearchService.getSuggestions(restClient, word)
+        get("/suggestions/{query}") {
+            val query = call.parameters["query"] ?: return@get call.respond(HttpStatusCode.BadRequest)
+            val result = entitySearchService.getSymbolSuggestions(restClient, query)
+            call.respond(result)
+        }
+
+        get("/real-time-price/{symbol}") {
+            val symbol = call.parameters["symbol"] ?: return@get call.respond(HttpStatusCode.BadRequest)
+            val result = entitySearchService.getRealTimePrice(symbol)
             call.respond(result)
         }
     }

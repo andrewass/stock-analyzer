@@ -27,10 +27,10 @@ class DefaultEntityPopulatorService : EntityPopulatorService {
                     indexDocuments(restClient, stocks, exchange)
                 }
             }
-            delay(5000L)
+            delay(60000L)
         }
         logger.info("Populating stocks by ticker symbol : Completed")
-        delay(30000L)
+        delay(60000L)
     }
 
     override suspend fun getStockExchanges(): List<String> {

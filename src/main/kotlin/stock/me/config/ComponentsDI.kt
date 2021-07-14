@@ -19,7 +19,7 @@ fun DI.MainBuilder.bindComponents() {
 
     bind<EntityPopulatorService>() with singleton { DefaultEntityPopulatorService() }
 
-    bind<EntitySearchService>() with singleton { DefaultEntitySearchService() }
+    bind<SymbolSearchService>() with singleton { DefaultSymbolSearchService() }
 
     bind<RestHighLevelClient>() with singleton { RestHighLevelClient(
         RestClient.builder(HttpHost("elastic-search", 9200, "http"))
