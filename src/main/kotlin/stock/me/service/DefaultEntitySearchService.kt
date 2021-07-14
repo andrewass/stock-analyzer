@@ -1,7 +1,7 @@
 package stock.me.service
 
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonElement
 import org.elasticsearch.action.search.SearchRequest
 import org.elasticsearch.client.RequestOptions
 import org.elasticsearch.client.RestHighLevelClient
@@ -9,11 +9,10 @@ import org.elasticsearch.index.query.BoolQueryBuilder
 import org.elasticsearch.index.query.QueryBuilders
 import org.elasticsearch.index.query.RegexpFlag
 import org.elasticsearch.search.builder.SearchSourceBuilder
-import stock.me.model.Stock
 
 class DefaultEntitySearchService : EntitySearchService {
 
-    override fun getSuggestions(restClient: RestHighLevelClient, query: String): List<Stock> {
+    override fun getSuggestions(restClient: RestHighLevelClient, query: String): List<JsonElement> {
         val request = SearchRequest("stocks")
         val ssb = SearchSourceBuilder()
         ssb.query(createBoolQuery(query))
@@ -22,7 +21,7 @@ class DefaultEntitySearchService : EntitySearchService {
 
         return response.hits.hits
             .map { it.sourceAsString }
-            .map { Json.decodeFromString(it) }
+            .map { Json.parseToJsonElement(it) }
     }
 
     private fun createBoolQuery(query: String) =

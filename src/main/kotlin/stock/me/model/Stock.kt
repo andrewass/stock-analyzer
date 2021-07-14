@@ -8,8 +8,8 @@ import org.jetbrains.exposed.dao.id.LongIdTable
 
 
 object Stocks : LongIdTable() {
-    val symbol = varchar("ticker", 10)
-    val description = varchar("full_name", 250)
+    val symbol = varchar("symbol", 10)
+    val description = varchar("description", 250)
 }
 
 class StockEntity(id: EntityID<Long>) : LongEntity(id) {

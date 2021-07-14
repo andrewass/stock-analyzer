@@ -19,12 +19,12 @@ class DefaultEntityPopulatorService : EntityPopulatorService {
         logger.info("Populating stocks by ticker symbol : Started")
         val exchanges = getStockExchanges()
         logger.info("Fetched ${exchanges.size} exchanges")
-        deleteDocumentsFromIndex(restClient)
         exchanges.forEach { exchange ->
             stockConsumer.getAllStocksFromExchange(exchange).also { stocks ->
                 logger.info("\tFetched ${stocks.size} stocks from exchange $exchange")
                 if (stocks.isNotEmpty()) {
-                    indexDocuments(restClient, stocks)
+                    deleteDocumentsFromIndex(restClient, exchange)
+                    indexDocuments(restClient, stocks, exchange)
                 }
             }
             delay(5000L)
@@ -41,22 +41,23 @@ class DefaultEntityPopulatorService : EntityPopulatorService {
             .map { it[0] }
     }
 
-    private fun deleteDocumentsFromIndex(restClient: RestHighLevelClient) {
+    private fun deleteDocumentsFromIndex(restClient: RestHighLevelClient, exchange: String) {
         try {
             val request = DeleteByQueryRequest("stocks")
-            request.setQuery(QueryBuilders.matchAllQuery())
+            request.setQuery(QueryBuilders.matchQuery("exchange", exchange))
             val response = restClient.deleteByQuery(request, RequestOptions.DEFAULT)
-            logger.info("Deleted ${response.deleted} documents")
+            logger.info("Deleted ${response.deleted} documents from exchange $exchange")
         } catch (e: Exception) {
             logger.warn("Unable to delete documents : ${e.stackTraceToString()}")
         }
     }
 
-    private fun indexDocuments(restClient: RestHighLevelClient, stocks: List<Stock>) {
+    private fun indexDocuments(restClient: RestHighLevelClient, stocks: List<Stock>, exchange: String) {
         try {
             val bulkRequest = BulkRequest("stocks")
             stocks.forEach { stock ->
-                val jsonMap = mapOf("symbol" to stock.symbol, "description" to stock.description)
+                val jsonMap = mapOf("symbol" to stock.symbol,
+                    "description" to stock.description, "exchange" to exchange)
                 val indexRequest = IndexRequest()
                     .id(stock.symbol.hashCode().toString())
                     .source(jsonMap)
