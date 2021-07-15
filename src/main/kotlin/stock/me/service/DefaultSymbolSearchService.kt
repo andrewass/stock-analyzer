@@ -10,9 +10,14 @@ import org.elasticsearch.index.query.BoolQueryBuilder
 import org.elasticsearch.index.query.QueryBuilders
 import org.elasticsearch.index.query.RegexpFlag
 import org.elasticsearch.search.builder.SearchSourceBuilder
+import stock.me.service.mapper.toHistoricalPriceDto
 import stock.me.service.mapper.toStockQuoteDto
+import stock.me.service.response.HistoricalQuoteDto
 import stock.me.service.response.StockQuoteDto
 import yahoofinance.YahooFinance
+import yahoofinance.histquotes.Interval
+import java.util.*
+import java.util.stream.Collectors.toList
 
 class DefaultSymbolSearchService : SymbolSearchService {
 
@@ -28,11 +33,27 @@ class DefaultSymbolSearchService : SymbolSearchService {
             .map { Json.parseToJsonElement(it) }
     }
 
-    override fun getRealTimePrice(symbol: String): StockQuoteDto {
+    override fun getStockQuote(symbol: String): StockQuoteDto {
         val responseQuote = YahooFinance.get(symbol)?.quote
             ?: throw NotFoundException("No stock quote found for $symbol")
+
         return toStockQuoteDto(responseQuote)
     }
+
+    override fun getHistoricalQuotes(symbol: String): List<HistoricalQuoteDto> {
+        val from = Calendar.getInstance()
+        val to = Calendar.getInstance()
+        from.add(Calendar.YEAR, -10)
+
+        val historicPrices = YahooFinance.get(symbol, from, to, Interval.DAILY)?.history
+            ?: throw NotFoundException("No historical prices for $symbol")
+
+        return historicPrices.stream()
+            .filter { it.close != null }
+            .map { toHistoricalPriceDto(it) }
+            .collect(toList())
+    }
+
 
     private fun createBoolQuery(query: String) =
         BoolQueryBuilder()

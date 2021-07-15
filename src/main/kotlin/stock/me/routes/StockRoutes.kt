@@ -20,9 +20,15 @@ fun Route.stockRoute() {
             call.respond(result)
         }
 
-        get("/real-time-price/{symbol}") {
+        get("/stock-quote/{symbol}") {
             val symbol = call.parameters["symbol"] ?: return@get call.respond(HttpStatusCode.BadRequest)
-            val result = entitySearchService.getRealTimePrice(symbol)
+            val result = entitySearchService.getStockQuote(symbol)
+            call.respond(result)
+        }
+
+        get("/historical-quotes/{symbol}"){
+            val symbol = call.parameters["symbol"] ?: return@get call.respond(HttpStatusCode.BadRequest)
+            val result = entitySearchService.getHistoricalQuotes(symbol)
             call.respond(result)
         }
     }
