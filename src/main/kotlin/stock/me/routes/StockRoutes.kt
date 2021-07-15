@@ -37,5 +37,11 @@ fun Route.stockRoute() {
             val historicalQuotes = symbolSearchService.getHistoricalQuotes(symbol)
             call.respond(historicalQuotes)
         }
+
+        get("/historical-dividends/{symbol}"){
+            val symbol = call.parameters["symbol"] ?: return@get call.respond(HttpStatusCode.BadRequest)
+            val historicalDividends = symbolSearchService.getHistoricalDividends(symbol)
+            call.respond(historicalDividends)
+        }
     }
 }

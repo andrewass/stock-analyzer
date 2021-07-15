@@ -1,10 +1,12 @@
 package stock.me.service.mapper
 
 import kotlinx.datetime.toKotlinLocalDate
+import stock.me.service.response.HistoricalDividendDto
 import stock.me.service.response.HistoricalQuoteDto
 import stock.me.service.response.StockQuoteDto
 import stock.me.service.response.StockStatsDto
 import yahoofinance.histquotes.HistoricalQuote
+import yahoofinance.histquotes2.HistoricalDividend
 import yahoofinance.quotes.stock.StockQuote
 import yahoofinance.quotes.stock.StockStats
 import java.time.LocalDate
@@ -38,4 +40,12 @@ fun toHistoricalPriceDto(historicalQuote: HistoricalQuote) =
         volume = historicalQuote.volume,
         date = LocalDate.ofInstant(historicalQuote.date.toInstant(), ZoneId.systemDefault())
             .toKotlinLocalDate()
+    )
+
+
+fun toHistoricalDividendDto(historicalDividend: HistoricalDividend) =
+    HistoricalDividendDto(
+        date = LocalDate.ofInstant(historicalDividend.date.toInstant(), ZoneId.systemDefault())
+            .toKotlinLocalDate(),
+        dividend = historicalDividend.adjDividend.toDouble()
     )

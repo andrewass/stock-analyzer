@@ -10,10 +10,12 @@ import org.elasticsearch.index.query.BoolQueryBuilder
 import org.elasticsearch.index.query.QueryBuilders
 import org.elasticsearch.index.query.RegexpFlag
 import org.elasticsearch.search.builder.SearchSourceBuilder
+import stock.me.service.mapper.toHistoricalDividendDto
 import stock.me.service.mapper.toHistoricalPriceDto
 import stock.me.service.mapper.toStockQuoteDto
 import stock.me.service.mapper.toStockStatsDto
 import stock.me.service.response.HistoricalQuoteDto
+import stock.me.service.response.HistoricalDividendDto
 import stock.me.service.response.StockQuoteDto
 import stock.me.service.response.StockStatsDto
 import yahoofinance.YahooFinance
@@ -50,19 +52,33 @@ class DefaultSymbolSearchService : SymbolSearchService {
     }
 
     override fun getHistoricalQuotes(symbol: String): List<HistoricalQuoteDto> {
-        val from = Calendar.getInstance()
-        val to = Calendar.getInstance()
-        from.add(Calendar.YEAR, -10)
+        val (from, to) = getFromAndToDates()
+        val historicalPrices = YahooFinance.get(symbol, from, to, Interval.DAILY)?.history
+            ?: throw NotFoundException("No historical prices found for $symbol")
 
-        val historicPrices = YahooFinance.get(symbol, from, to, Interval.DAILY)?.history
-            ?: throw NotFoundException("No historical prices for $symbol")
-
-        return historicPrices.stream()
+        return historicalPrices.stream()
             .filter { it.close != null }
             .map { toHistoricalPriceDto(it) }
             .collect(toList())
     }
 
+    override fun getHistoricalDividends(symbol: String): List<HistoricalDividendDto> {
+        val (from, to) = getFromAndToDates()
+        val dividendHistory = YahooFinance.get(symbol, from, to, Interval.MONTHLY)?.dividendHistory
+            ?: throw NotFoundException("No dividend history found for $symbol")
+
+        return dividendHistory.stream()
+            .map { toHistoricalDividendDto(it) }
+            .collect(toList())
+    }
+
+    private fun getFromAndToDates(): Pair<Calendar, Calendar> {
+        val from = Calendar.getInstance()
+        val to = Calendar.getInstance()
+        from.add(Calendar.YEAR, -10)
+
+        return Pair(from, to)
+    }
 
     private fun createBoolQuery(query: String) =
         BoolQueryBuilder()
