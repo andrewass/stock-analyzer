@@ -12,8 +12,10 @@ import org.elasticsearch.index.query.RegexpFlag
 import org.elasticsearch.search.builder.SearchSourceBuilder
 import stock.me.service.mapper.toHistoricalPriceDto
 import stock.me.service.mapper.toStockQuoteDto
+import stock.me.service.mapper.toStockStatsDto
 import stock.me.service.response.HistoricalQuoteDto
 import stock.me.service.response.StockQuoteDto
+import stock.me.service.response.StockStatsDto
 import yahoofinance.YahooFinance
 import yahoofinance.histquotes.Interval
 import java.util.*
@@ -38,6 +40,13 @@ class DefaultSymbolSearchService : SymbolSearchService {
             ?: throw NotFoundException("No stock quote found for $symbol")
 
         return toStockQuoteDto(responseQuote)
+    }
+
+    override fun getStockStats(symbol: String): StockStatsDto {
+        val stockStats = YahooFinance.get(symbol)?.stats
+            ?: throw NotFoundException("No stock stats found for $symbol")
+
+        return toStockStatsDto(stockStats)
     }
 
     override fun getHistoricalQuotes(symbol: String): List<HistoricalQuoteDto> {

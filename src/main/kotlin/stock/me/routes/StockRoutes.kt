@@ -11,25 +11,31 @@ import stock.me.service.SymbolSearchService
 
 fun Route.stockRoute() {
     val restClient by di().instance<RestHighLevelClient>()
-    val entitySearchService by di().instance<SymbolSearchService>()
+    val symbolSearchService by di().instance<SymbolSearchService>()
 
     route("/stock") {
         get("/suggestions/{query}") {
             val query = call.parameters["query"] ?: return@get call.respond(HttpStatusCode.BadRequest)
-            val result = entitySearchService.getSymbolSuggestions(restClient, query)
-            call.respond(result)
+            val suggestions = symbolSearchService.getSymbolSuggestions(restClient, query)
+            call.respond(suggestions)
         }
 
         get("/stock-quote/{symbol}") {
             val symbol = call.parameters["symbol"] ?: return@get call.respond(HttpStatusCode.BadRequest)
-            val result = entitySearchService.getStockQuote(symbol)
-            call.respond(result)
+            val stockQuote = symbolSearchService.getStockQuote(symbol)
+            call.respond(stockQuote)
+        }
+
+        get("/stock-stats/{symbol}"){
+            val symbol = call.parameters["symbol"] ?: return@get call.respond(HttpStatusCode.BadRequest)
+            val stockStats = symbolSearchService.getStockStats(symbol)
+            call.respond(stockStats)
         }
 
         get("/historical-quotes/{symbol}"){
             val symbol = call.parameters["symbol"] ?: return@get call.respond(HttpStatusCode.BadRequest)
-            val result = entitySearchService.getHistoricalQuotes(symbol)
-            call.respond(result)
+            val historicalQuotes = symbolSearchService.getHistoricalQuotes(symbol)
+            call.respond(historicalQuotes)
         }
     }
 }

@@ -3,8 +3,10 @@ package stock.me.service.mapper
 import kotlinx.datetime.toKotlinLocalDate
 import stock.me.service.response.HistoricalQuoteDto
 import stock.me.service.response.StockQuoteDto
+import stock.me.service.response.StockStatsDto
 import yahoofinance.histquotes.HistoricalQuote
 import yahoofinance.quotes.stock.StockQuote
+import yahoofinance.quotes.stock.StockStats
 import java.time.LocalDate
 import java.time.ZoneId
 
@@ -15,6 +17,19 @@ fun toStockQuoteDto(stockQuote: StockQuote) =
         dayLow = stockQuote.dayLow.toDouble(),
         dayHigh = stockQuote.dayHigh.toDouble(),
         openPrice = stockQuote.open.toDouble()
+    )
+
+fun toStockStatsDto(stockStats: StockStats) =
+    StockStatsDto(
+        priceToBook = stockStats.priceBook?.toDouble(),
+        priceToEarnings = stockStats.pe?.toDouble(),
+        priceToEarningsGrowth = stockStats.peg?.toDouble(),
+        priceToSales = stockStats.priceSales?.toDouble(),
+        bookValuePerShare = stockStats.bookValuePerShare?.toDouble(),
+        earningsPerShare = stockStats.eps?.toDouble(),
+        revenue = stockStats.revenue?.toLong(),
+        sharesOutstanding = stockStats.sharesOutstanding,
+        marketCap = stockStats.marketCap?.toLong()
     )
 
 fun toHistoricalPriceDto(historicalQuote: HistoricalQuote) =
