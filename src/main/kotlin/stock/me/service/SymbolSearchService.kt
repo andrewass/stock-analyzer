@@ -3,7 +3,6 @@ package stock.me.service
 import kotlinx.serialization.json.JsonElement
 import org.elasticsearch.client.RestHighLevelClient
 import stock.me.service.response.HistoricalQuoteDto
-import stock.me.service.response.HistoricalDividendDto
 import stock.me.service.response.StockQuoteDto
 import stock.me.service.response.StockStatsDto
 
@@ -15,6 +14,4 @@ interface SymbolSearchService {
     fun getStockStats(symbol: String): StockStatsDto
 
     fun getHistoricalQuotes(symbol: String): List<HistoricalQuoteDto>
-
-    fun getHistoricalDividends(symbol: String): List<HistoricalDividendDto>
 }
