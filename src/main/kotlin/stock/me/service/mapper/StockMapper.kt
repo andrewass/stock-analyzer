@@ -1,6 +1,7 @@
 package stock.me.service.mapper
 
 import kotlinx.datetime.toKotlinLocalDate
+import stock.me.model.Currency
 import stock.me.service.response.HistoricalDividendDto
 import stock.me.service.response.HistoricalQuoteDto
 import stock.me.service.response.StockQuoteDto
@@ -12,13 +13,15 @@ import yahoofinance.quotes.stock.StockStats
 import java.time.LocalDate
 import java.time.ZoneId
 
-fun toStockQuoteDto(stockQuote: StockQuote) =
+fun toStockQuoteDto(stockQuote: StockQuote, currency: Currency, usdPrice: Double) =
     StockQuoteDto(
         price = stockQuote.price.toDouble(),
         previousClose = stockQuote.previousClose.toDouble(),
         dayLow = stockQuote.dayLow.toDouble(),
         dayHigh = stockQuote.dayHigh.toDouble(),
-        openPrice = stockQuote.open.toDouble()
+        openPrice = stockQuote.open.toDouble(),
+        currency = currency.name,
+        usdPrice = usdPrice
     )
 
 fun toStockStatsDto(stockStats: StockStats) =

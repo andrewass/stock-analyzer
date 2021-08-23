@@ -10,6 +10,7 @@ import org.elasticsearch.index.query.BoolQueryBuilder
 import org.elasticsearch.index.query.QueryBuilders
 import org.elasticsearch.index.query.RegexpFlag
 import org.elasticsearch.search.builder.SearchSourceBuilder
+import stock.me.model.Currency
 import stock.me.service.mapper.toHistoricalDividendDto
 import stock.me.service.mapper.toHistoricalPriceDto
 import stock.me.service.mapper.toStockQuoteDto
@@ -38,10 +39,12 @@ class DefaultSymbolSearchService : SymbolSearchService {
     }
 
     override fun getStockQuote(symbol: String): StockQuoteDto {
-        val responseQuote = YahooFinance.get(symbol)?.quote
-            ?: throw NotFoundException("No stock quote found for $symbol")
+        val stock = YahooFinance.get(symbol) ?: throw NotFoundException("Stock Quote : No results found for $symbol")
+        val quote = stock.quote
+        val currency = Currency.valueOf(stock.currency)
+        val usdPrice = getUsdPrice(quote.price.toDouble(), currency)
 
-        return toStockQuoteDto(responseQuote)
+        return toStockQuoteDto(quote, currency, usdPrice)
     }
 
     override fun getStockStats(symbol: String): StockStatsDto {
@@ -70,6 +73,10 @@ class DefaultSymbolSearchService : SymbolSearchService {
         return dividendHistory.stream()
             .map { toHistoricalDividendDto(it) }
             .collect(toList())
+    }
+
+    private fun getUsdPrice(price : Double, currency: Currency): Double {
+        return 0.00
     }
 
     private fun getFromAndToDates(): Pair<Calendar, Calendar> {
