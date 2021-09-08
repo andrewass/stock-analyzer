@@ -39,6 +39,5 @@ fun toHistoricalPriceDto(historicalQuote: HistoricalQuote) =
     HistoricalQuoteDto(
         price = historicalQuote.close.toDouble(),
         volume = historicalQuote.volume,
-        date = LocalDate.ofInstant(historicalQuote.date.toInstant(), ZoneId.systemDefault())
-            .toKotlinLocalDate()
+        date = LocalDate.ofInstant(historicalQuote.date.toInstant(), ZoneId.systemDefault()).toKotlinLocalDate()
     )

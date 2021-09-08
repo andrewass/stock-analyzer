@@ -19,23 +19,11 @@ services:
     ports:
       - "9200:9200"
 
-  stock-database:
-    image: postgres:13-alpine
-    container_name: postgres
-    environment:
-      POSTGRES_DB: "stockdb"
-      POSTGRES_USER: "user"
-      POSTGRES_PASSWORD: "password"
-      POSTGRES_ROOT_PASSWORD: "rootpass"
-    ports:
-      - "5432:5432"
-
   stock-analyzer:
     image: custom-stock-analyzer
     container_name: stock-analyzer
     build: .
     depends_on:
-      - stock-database
       - elastic-search
     restart: on-failure
     ports:
