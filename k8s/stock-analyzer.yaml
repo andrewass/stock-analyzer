@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: stock-analyzer
+  name: stock-analyzer-deployment
 spec:
   replicas: 1
   selector:
@@ -15,6 +15,23 @@ spec:
       containers:
         - name: stock-analyzer
           image: ghcr.io/andrewass/stock-analyzer:latest
-          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8088
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: stock-analyzer-service
+  labels:
+    app: stock-analyzer
+spec:
+  selector:
+    app: stock-analyzer
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 8088
+      targetPort: 8088
+      nodePort: 30001
+
