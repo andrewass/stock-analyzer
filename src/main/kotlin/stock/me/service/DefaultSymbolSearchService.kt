@@ -13,10 +13,9 @@ import org.elasticsearch.search.builder.SearchSourceBuilder
 import stock.me.model.Currency
 import stock.me.service.mapper.toHistoricalPriceDto
 import stock.me.service.mapper.toStockQuoteDto
-import stock.me.service.mapper.toStockStatsDto
 import stock.me.service.response.HistoricalQuoteDto
 import stock.me.service.response.StockQuoteDto
-import stock.me.service.response.StockStatsDto
+import yahoofinance.Stock
 import yahoofinance.YahooFinance
 import yahoofinance.histquotes.Interval
 import java.util.*
@@ -38,18 +37,8 @@ class DefaultSymbolSearchService : SymbolSearchService {
 
     override fun getStockQuote(symbol: String): StockQuoteDto {
         val stock = YahooFinance.get(symbol) ?: throw NotFoundException("Stock Quote : No results found for $symbol")
-        val quote = stock.quote
-        val currency = Currency.valueOf(stock.currency)
-        val usdPrice = getUsdPrice(quote.price.toDouble(), currency)
 
-        return toStockQuoteDto(quote, currency, usdPrice)
-    }
-
-    override fun getStockStats(symbol: String): StockStatsDto {
-        val stockStats = YahooFinance.get(symbol)?.stats
-            ?: throw NotFoundException("No stock stats found for $symbol")
-
-        return toStockStatsDto(stockStats)
+        return mapToStockQuote(stock)
     }
 
     override fun getHistoricalQuotes(symbol: String): List<HistoricalQuoteDto> {
@@ -62,6 +51,25 @@ class DefaultSymbolSearchService : SymbolSearchService {
             .map { toHistoricalPriceDto(it) }
             .collect(toList())
     }
+
+    override fun getStockQuotesOfTrendingSymbols(): List<StockQuoteDto> {
+        val symbols = getTrendingSymbols()
+
+        return YahooFinance.get(symbols).values
+            .map { mapToStockQuote(it) }
+    }
+
+    private fun mapToStockQuote(stock: Stock): StockQuoteDto {
+        val currency = Currency.valueOf(stock.currency)
+        val usdPrice = getUsdPrice(stock.quote.price.toDouble(), currency)
+
+        return toStockQuoteDto(stock, currency, usdPrice)
+    }
+
+    //TODO:replace stubbed method
+    private fun getTrendingSymbols(): Array<String> =
+        arrayOf("AAPL", "GOOGL", "BABA", "AMZN", "MSFT", "NVDA", "FB", "TSLA", "V", "PLTR")
+
 
     private fun getUsdPrice(price: Double, currency: Currency): Double {
         return if (currency == Currency.USD) {

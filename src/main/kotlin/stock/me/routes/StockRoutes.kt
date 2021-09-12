@@ -26,10 +26,9 @@ fun Route.stockRoute() {
             call.respond(stockQuote)
         }
 
-        get("/stock-stats/{symbol}"){
-            val symbol = call.parameters["symbol"] ?: return@get call.respond(HttpStatusCode.BadRequest)
-            val stockStats = symbolSearchService.getStockStats(symbol)
-            call.respond(stockStats)
+        get("/stock-quote-trending}") {
+            val stockQuotes = symbolSearchService.getStockQuotesOfTrendingSymbols()
+            call.respond(stockQuotes)
         }
 
         get("/historical-quotes/{symbol}"){
