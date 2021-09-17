@@ -8,7 +8,6 @@ import org.elasticsearch.client.RequestOptions
 import org.elasticsearch.client.RestHighLevelClient
 import org.elasticsearch.index.query.BoolQueryBuilder
 import org.elasticsearch.index.query.QueryBuilders
-import org.elasticsearch.index.query.RegexpFlag
 import org.elasticsearch.search.builder.SearchSourceBuilder
 import stock.me.model.Currency
 import stock.me.service.mapper.toHistoricalPriceDto
@@ -91,13 +90,9 @@ class DefaultSymbolSearchService : SymbolSearchService {
     private fun createBoolQuery(query: String) =
         BoolQueryBuilder()
             .should(
-                QueryBuilders.regexpQuery("symbol", ".*$query.*")
-                    .caseInsensitive(true)
-                    .flags(RegexpFlag.ALL)
+                QueryBuilders.matchPhrasePrefixQuery("symbol", query)
             )
             .should(
-                QueryBuilders.regexpQuery("description", ".*$query.*")
-                    .caseInsensitive(true)
-                    .flags(RegexpFlag.ALL)
+                QueryBuilders.matchPhrasePrefixQuery("description", query)
             )
 }

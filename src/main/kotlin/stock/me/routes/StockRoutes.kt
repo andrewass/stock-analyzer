@@ -26,7 +26,7 @@ fun Route.stockRoute() {
             call.respond(stockQuote)
         }
 
-        get("/stock-quote-trending}") {
+        get("/stock-quote-trending") {
             val stockQuotes = symbolSearchService.getStockQuotesOfTrendingSymbols()
             call.respond(stockQuotes)
         }
