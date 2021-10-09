@@ -8,8 +8,8 @@ val kotlinxVersion: String by project
 
 plugins {
     application
-    kotlin("jvm") version "1.5.10"
-    kotlin("plugin.serialization") version "1.5.10"
+    kotlin("jvm") version "1.5.31"
+    kotlin("plugin.serialization") version "1.5.31"
 }
 
 group = "stock.me"
@@ -31,10 +31,10 @@ dependencies {
     implementation("io.ktor:ktor-client-cio:$ktorVersion")
     implementation ("io.ktor:ktor-serialization:$ktorVersion")
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
-    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.2.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.2.1")
     implementation("org.kodein.di:kodein-di-framework-ktor-server-controller-jvm:$kodeinVersion")
     implementation("com.yahoofinance-api:YahooFinanceAPI:3.15.0")
-    implementation("org.elasticsearch.client:elasticsearch-rest-high-level-client:7.13.3")
+    implementation("org.elasticsearch.client:elasticsearch-rest-high-level-client:7.15.0")
 
     testImplementation("io.ktor:ktor-server-tests:$ktorVersion")
 }

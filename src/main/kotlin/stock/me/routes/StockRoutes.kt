@@ -6,14 +6,15 @@ import io.ktor.response.*
 import io.ktor.routing.*
 import org.elasticsearch.client.RestHighLevelClient
 import org.kodein.di.instance
-import org.kodein.di.ktor.di
+import org.kodein.di.ktor.closestDI
 import stock.me.service.SymbolSearchService
 
 fun Route.stockRoute() {
-    val restClient by di().instance<RestHighLevelClient>()
-    val symbolSearchService by di().instance<SymbolSearchService>()
+    val restClient by closestDI().instance<RestHighLevelClient>()
+    val symbolSearchService by closestDI().instance<SymbolSearchService>()
 
     route("/stock") {
+
         get("/suggestions/{query}") {
             val query = call.parameters["query"] ?: return@get call.respond(HttpStatusCode.BadRequest)
             val suggestions = symbolSearchService.getSymbolSuggestions(restClient, query)
@@ -31,7 +32,7 @@ fun Route.stockRoute() {
             call.respond(stockQuotes)
         }
 
-        get("/historical-quotes/{symbol}"){
+        get("/historical-quotes/{symbol}") {
             val symbol = call.parameters["symbol"] ?: return@get call.respond(HttpStatusCode.BadRequest)
             val historicalQuotes = symbolSearchService.getHistoricalQuotes(symbol)
             call.respond(historicalQuotes)

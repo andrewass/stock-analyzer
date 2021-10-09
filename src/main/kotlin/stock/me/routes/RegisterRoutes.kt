@@ -3,8 +3,10 @@ package stock.me.routes
 import io.ktor.application.*
 import io.ktor.routing.*
 
-fun Application.registerRoutes(){
+fun Application.registerRoutes() {
+
     routing {
         stockRoute()
+        utilRoute()
     }
 }
