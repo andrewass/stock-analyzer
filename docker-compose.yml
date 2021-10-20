@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   elastic-search:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.15.0
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.15.1
     container_name: elastic-search
     environment:
       - node.name=es01
@@ -20,7 +20,7 @@ services:
       - "9200:9200"
 
   kibana:
-    image: docker.elastic.co/kibana/kibana:7.12.0
+    image: docker.elastic.co/kibana/kibana:7.15.1
     container_name: kibana
     ports:
       - "5601:5601"
