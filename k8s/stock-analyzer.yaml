@@ -17,6 +17,12 @@ spec:
           image: ghcr.io/andrewass/stock-analyzer:latest
           ports:
             - containerPort: 8088
+          env:
+          - name: ELASTIC_SEARCH
+            value: elasticsearch-es-http
+          - name: ELASTIC_SEARCH_PORT
+            value: "9200"
+
 ---
 
 apiVersion: v1

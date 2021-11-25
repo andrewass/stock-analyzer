@@ -54,12 +54,9 @@ class DefaultSymbolSearchService : SymbolSearchService {
             .collect(toList())
     }
 
-    override fun getStockQuotesOfTrendingSymbols(): List<StockQuoteDto> {
-        val symbols = getTrendingSymbols()
-
-        return YahooFinance.get(symbols).values
+    override fun getStockQuotesOfTrendingSymbols(): List<StockQuoteDto> =
+        YahooFinance.get(getTrendingSymbols()).values
             .map { mapToStockQuote(it) }
-    }
 
     private fun mapToStockQuote(stock: Stock): StockQuoteDto {
         val currency = Currency.valueOf(stock.currency)
