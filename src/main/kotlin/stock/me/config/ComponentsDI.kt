@@ -1,6 +1,9 @@
 package stock.me.config
 
 import org.apache.http.HttpHost
+import org.apache.http.auth.AuthScope
+import org.apache.http.auth.UsernamePasswordCredentials
+import org.apache.http.impl.client.BasicCredentialsProvider
 import org.elasticsearch.client.RestClient
 import org.elasticsearch.client.RestHighLevelClient
 import org.kodein.di.DI
@@ -24,6 +27,14 @@ fun DI.MainBuilder.bindComponents() {
 
     bind<SymbolSearchService>() with singleton { DefaultSymbolSearchService() }
 
+    val credentialsProvider = BasicCredentialsProvider()
+        .also {
+            it.setCredentials(
+                AuthScope.ANY,
+                UsernamePasswordCredentials(System.getenv("ES_USERNAME"), System.getenv("ES_PASSWORD"))
+            )
+        }
+
     bind<RestHighLevelClient>() with singleton {
         RestHighLevelClient(
             RestClient.builder(
@@ -32,7 +43,7 @@ fun DI.MainBuilder.bindComponents() {
                     System.getenv("ELASTIC_SEARCH_PORT").toInt(),
                     "http"
                 )
-            )
+            ).setHttpClientConfigCallback { it.setDefaultCredentialsProvider(credentialsProvider) }
         )
     }
 }

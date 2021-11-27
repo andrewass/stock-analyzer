@@ -31,10 +31,11 @@ dependencies {
     implementation("io.ktor:ktor-client-cio:$ktorVersion")
     implementation ("io.ktor:ktor-serialization:$ktorVersion")
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
+    implementation("org.apache.logging.log4j:log4j-core:2.14.1")
     implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.3.1")
     implementation("org.kodein.di:kodein-di-framework-ktor-server-controller-jvm:$kodeinVersion")
     implementation("com.yahoofinance-api:YahooFinanceAPI:3.15.0")
-    implementation("org.elasticsearch.client:elasticsearch-rest-high-level-client:7.15.0")
+    implementation("org.elasticsearch.client:elasticsearch-rest-high-level-client:7.15.2")
 
     testImplementation("io.ktor:ktor-server-tests:$ktorVersion")
 }
