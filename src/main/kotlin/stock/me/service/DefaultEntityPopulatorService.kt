@@ -5,6 +5,7 @@ import org.elasticsearch.action.bulk.BulkRequest
 import org.elasticsearch.action.index.IndexRequest
 import org.elasticsearch.client.RequestOptions
 import org.elasticsearch.client.RestHighLevelClient
+import org.elasticsearch.client.indices.GetIndexRequest
 import org.elasticsearch.index.query.QueryBuilders
 import org.elasticsearch.index.reindex.DeleteByQueryRequest
 import org.slf4j.LoggerFactory
@@ -19,11 +20,14 @@ class DefaultEntityPopulatorService : EntityPopulatorService {
         logger.info("Populating stocks by ticker symbol : Started")
         val exchanges = getStockExchanges()
         logger.info("Fetched ${exchanges.size} exchanges")
+
         exchanges.forEach { exchange ->
             stockConsumer.getAllStocksFromExchange(exchange).also { stocks ->
                 logger.info("\tFetched ${stocks.size} stocks from exchange $exchange")
                 if (stocks.isNotEmpty()) {
-                    deleteDocumentsFromIndex(restClient, exchange)
+                    if (indexExists(restClient)) {
+                        deleteDocumentsFromIndex(restClient, exchange)
+                    }
                     indexDocuments(restClient, stocks, exchange)
                 }
             }
@@ -43,21 +47,27 @@ class DefaultEntityPopulatorService : EntityPopulatorService {
 
     private fun deleteDocumentsFromIndex(restClient: RestHighLevelClient, exchange: String) {
         try {
-            val request = DeleteByQueryRequest("stocks")
-            request.setQuery(QueryBuilders.matchQuery("exchange", exchange))
-            val response = restClient.deleteByQuery(request, RequestOptions.DEFAULT)
-            logger.info("Deleted ${response.deleted} documents from exchange $exchange")
+            DeleteByQueryRequest("stocks")
+                .apply { setQuery(QueryBuilders.matchQuery("exchange", exchange)) }
+                .let { restClient.deleteByQuery(it, RequestOptions.DEFAULT) }
+                .also { logger.info("Deleted ${it.deleted} documents from exchange $exchange") }
         } catch (e: Exception) {
-            logger.warn("Unable to delete documents : ${e.stackTraceToString()}")
+            logger.error("Unable to delete documents : ${e.stackTraceToString()}")
         }
     }
+
+    private fun indexExists(restClient: RestHighLevelClient): Boolean =
+        GetIndexRequest("stocks")
+            .let { restClient.indices().exists(it, RequestOptions.DEFAULT) }
 
     private fun indexDocuments(restClient: RestHighLevelClient, stocks: List<Stock>, exchange: String) {
         try {
             val bulkRequest = BulkRequest("stocks")
             stocks.forEach { stock ->
-                val jsonMap = mapOf("symbol" to stock.symbol,
-                    "description" to stock.description, "exchange" to exchange)
+                val jsonMap = mapOf(
+                    "symbol" to stock.symbol,
+                    "description" to stock.description, "exchange" to exchange
+                )
                 val indexRequest = IndexRequest()
                     .id(stock.symbol.hashCode().toString())
                     .source(jsonMap)

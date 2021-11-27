@@ -25,23 +25,22 @@ import java.util.stream.Collectors.toList
 class DefaultSymbolSearchService : SymbolSearchService {
 
     override fun getSymbolSuggestions(restClient: RestHighLevelClient, query: String): List<JsonElement> {
-        val request = SearchRequest("stocks")
-        val ssb = SearchSourceBuilder()
-        ssb.query(createBoolQuery(query))
-        ssb.sort(FieldSortBuilder("symbol.keyword").order(SortOrder.ASC))
-        request.source(ssb)
-        val response = restClient.search(request, RequestOptions.DEFAULT)
+        val response = SearchSourceBuilder().apply {
+            query(createBoolQuery(query))
+            sort(FieldSortBuilder("symbol.keyword").order(SortOrder.ASC))
+        }
+            .let { SearchRequest("stocks").source(it) }
+            .let { restClient.search(it, RequestOptions.DEFAULT) }
 
         return response.hits.hits
             .map { it.sourceAsString }
             .map { Json.parseToJsonElement(it) }
     }
 
-    override fun getStockQuote(symbol: String): StockQuoteDto {
-        val stock = YahooFinance.get(symbol) ?: throw NotFoundException("Stock Quote : No results found for $symbol")
-
-        return mapToStockQuote(stock)
-    }
+    override fun getStockQuote(symbol: String): StockQuoteDto =
+        YahooFinance.get(symbol)
+            ?.let { mapToStockQuote(it) }
+            ?: throw NotFoundException("Stock Quote : No results found for $symbol")
 
     override fun getHistoricalQuotes(symbol: String): List<HistoricalQuoteDto> {
         val (from, to) = getFromAndToDates()

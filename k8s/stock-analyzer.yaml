@@ -49,10 +49,7 @@ metadata:
 spec:
   selector:
     app: stock-analyzer
-  type: LoadBalancer
   ports:
     - protocol: TCP
       port: 8088
       targetPort: 8088
-      nodePort: 30001
-

@@ -9,6 +9,10 @@ spec:
       count: 1
       config:
         node.store.allow_mmap: false
+  http:
+    tls:
+      selfSignedCertificate:
+        disabled: true
 
 ---
 apiVersion: kibana.k8s.elastic.co/v1
