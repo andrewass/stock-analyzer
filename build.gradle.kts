@@ -4,12 +4,11 @@ val ktorVersion: String by project
 val kotlinVersion: String by project
 val logbackVersion: String by project
 val kodeinVersion: String by project
-val kotlinxVersion: String by project
 
 plugins {
     application
-    kotlin("jvm") version "1.5.31"
-    kotlin("plugin.serialization") version "1.5.31"
+    kotlin("jvm") version "1.6.10"
+    kotlin("plugin.serialization") version "1.6.10"
 }
 
 group = "stock.me"
@@ -31,12 +30,12 @@ dependencies {
     implementation("io.ktor:ktor-client-cio:$ktorVersion")
     implementation ("io.ktor:ktor-serialization:$ktorVersion")
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
-    implementation("org.apache.logging.log4j:log4j-core:2.14.1")
+    implementation("org.apache.logging.log4j:log4j-core:2.17.0")
     implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.3.1")
     implementation("org.kodein.di:kodein-di-framework-ktor-server-controller-jvm:$kodeinVersion")
     implementation("com.yahoofinance-api:YahooFinanceAPI:3.15.0")
     implementation("org.elasticsearch.client:elasticsearch-rest-high-level-client:7.15.2")
-
+    implementation("co.elastic.clients:elasticsearch-java:7.16.2")
     testImplementation("io.ktor:ktor-server-tests:$ktorVersion")
 }
 

@@ -1,5 +1,8 @@
 package stock.me.config
 
+import co.elastic.clients.elasticsearch.ElasticsearchClient
+import co.elastic.clients.json.jackson.JacksonJsonpMapper
+import co.elastic.clients.transport.rest_client.RestClientTransport
 import org.apache.http.HttpHost
 import org.apache.http.auth.AuthScope
 import org.apache.http.auth.UsernamePasswordCredentials
@@ -34,16 +37,30 @@ fun DI.MainBuilder.bindComponents() {
                 UsernamePasswordCredentials(System.getenv("ES_USERNAME"), System.getenv("ES_PASSWORD"))
             )
         }
+    val httpHost =  HttpHost(
+        System.getenv("ELASTIC_SEARCH"),
+        System.getenv("ELASTIC_SEARCH_PORT").toInt(),
+        "http"
+    )
+
+    val restCLient = RestClient.builder(
+        HttpHost(
+            System.getenv("ELASTIC_SEARCH"),
+            System.getenv("ELASTIC_SEARCH_PORT").toInt(),
+            "http"
+        )
+    ).setHttpClientConfigCallback { it.setDefaultCredentialsProvider(credentialsProvider) }.build()
+
+    val transport = RestClientTransport(restCLient, JacksonJsonpMapper())
+
+    bind<ElasticsearchClient>() with singleton {
+        ElasticsearchClient(transport)
+    }
 
     bind<RestHighLevelClient>() with singleton {
         RestHighLevelClient(
-            RestClient.builder(
-                HttpHost(
-                    System.getenv("ELASTIC_SEARCH"),
-                    System.getenv("ELASTIC_SEARCH_PORT").toInt(),
-                    "http"
-                )
-            ).setHttpClientConfigCallback { it.setDefaultCredentialsProvider(credentialsProvider) }
+            RestClient.builder(httpHost)
+            .setHttpClientConfigCallback { it.setDefaultCredentialsProvider(credentialsProvider) }
         )
     }
 }
