@@ -1,11 +1,7 @@
 package stock.me.config
 
-import co.elastic.clients.elasticsearch.ElasticsearchClient
-import org.ehcache.CacheManager
-import org.elasticsearch.client.RestHighLevelClient
 import org.kodein.di.DI
-import org.kodein.di.bind
-import org.kodein.di.singleton
+import org.kodein.di.bindSingleton
 import stock.me.consumer.FinnHubConsumer
 import stock.me.consumer.StockConsumer
 import stock.me.service.DefaultEntityPopulatorService
@@ -14,19 +10,19 @@ import stock.me.service.EntityPopulatorService
 import stock.me.service.SymbolSearchService
 
 /**
- * Make components available with dependency injection by using Kodein
+ * Make components available with dependency injection using Kodein
  */
-fun DI.MainBuilder.bindComponents() {
+val kodein =  DI {
 
-    bind<StockConsumer>() with singleton { FinnHubConsumer() }
+    bindSingleton<StockConsumer> { FinnHubConsumer() }
 
-    bind<EntityPopulatorService>() with singleton { DefaultEntityPopulatorService() }
+    bindSingleton<EntityPopulatorService> { DefaultEntityPopulatorService() }
 
-    bind<SymbolSearchService>() with singleton { DefaultSymbolSearchService() }
+    bindSingleton<SymbolSearchService> { DefaultSymbolSearchService() }
 
-    bind<RestHighLevelClient>() with singleton { getRestHighLevelClient() }
+    bindSingleton { getRestHighLevelClient() }
 
-    bind<ElasticsearchClient>() with singleton { getElasticSearchClient() }
+    bindSingleton { getElasticSearchClient() }
 
-    bind<CacheManager>() with singleton { getCacheManager() }
+    bindSingleton { getCacheManager() }
 }

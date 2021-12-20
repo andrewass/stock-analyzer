@@ -5,8 +5,6 @@ import io.ktor.features.*
 import io.ktor.http.*
 import io.ktor.serialization.*
 import kotlinx.coroutines.runBlocking
-import org.kodein.di.ktor.di
-import stock.me.config.bindComponents
 import stock.me.routes.registerRoutes
 import stock.me.task.initStockTasks
 
@@ -25,9 +23,6 @@ fun Application.module() = runBlocking {
         method(HttpMethod.Put)
         method(HttpMethod.Patch)
         method(HttpMethod.Delete)
-    }
-    di {
-        bindComponents()
     }
     registerRoutes()
     initStockTasks()

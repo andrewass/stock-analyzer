@@ -6,12 +6,12 @@ import io.ktor.response.*
 import io.ktor.routing.*
 import org.elasticsearch.client.RestHighLevelClient
 import org.kodein.di.instance
-import org.kodein.di.ktor.closestDI
+import stock.me.config.kodein
 import stock.me.service.SymbolSearchService
 
 fun Route.stockRoute() {
-    val restClient by closestDI().instance<RestHighLevelClient>()
-    val symbolSearchService by closestDI().instance<SymbolSearchService>()
+    val restClient by kodein.instance<RestHighLevelClient>()
+    val symbolSearchService by kodein.instance<SymbolSearchService>()
 
     route("/stock") {
 
