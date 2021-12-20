@@ -2,6 +2,7 @@ package stock.me
 
 import io.ktor.application.*
 import io.ktor.features.*
+import io.ktor.http.*
 import io.ktor.serialization.*
 import kotlinx.coroutines.runBlocking
 import org.kodein.di.ktor.di
@@ -17,6 +18,13 @@ fun Application.module() = runBlocking {
     }
     install(CORS) {
         allowCredentials = true
+        host("localhost:8000")
+        host("localhost:8080")
+        header(HttpHeaders.ContentType)
+        method(HttpMethod.Options)
+        method(HttpMethod.Put)
+        method(HttpMethod.Patch)
+        method(HttpMethod.Delete)
     }
     di {
         bindComponents()

@@ -36,6 +36,7 @@ dependencies {
     implementation("com.yahoofinance-api:YahooFinanceAPI:3.15.0")
     implementation("org.elasticsearch.client:elasticsearch-rest-high-level-client:7.15.2")
     implementation("co.elastic.clients:elasticsearch-java:7.16.2")
+    implementation("org.ehcache:ehcache:3.9.9")
     testImplementation("io.ktor:ktor-server-tests:$ktorVersion")
 }
 

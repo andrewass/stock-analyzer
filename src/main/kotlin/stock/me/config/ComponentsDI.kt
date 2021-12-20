@@ -1,13 +1,7 @@
 package stock.me.config
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient
-import co.elastic.clients.json.jackson.JacksonJsonpMapper
-import co.elastic.clients.transport.rest_client.RestClientTransport
-import org.apache.http.HttpHost
-import org.apache.http.auth.AuthScope
-import org.apache.http.auth.UsernamePasswordCredentials
-import org.apache.http.impl.client.BasicCredentialsProvider
-import org.elasticsearch.client.RestClient
+import org.ehcache.CacheManager
 import org.elasticsearch.client.RestHighLevelClient
 import org.kodein.di.DI
 import org.kodein.di.bind
@@ -30,37 +24,9 @@ fun DI.MainBuilder.bindComponents() {
 
     bind<SymbolSearchService>() with singleton { DefaultSymbolSearchService() }
 
-    val credentialsProvider = BasicCredentialsProvider()
-        .also {
-            it.setCredentials(
-                AuthScope.ANY,
-                UsernamePasswordCredentials(System.getenv("ES_USERNAME"), System.getenv("ES_PASSWORD"))
-            )
-        }
-    val httpHost =  HttpHost(
-        System.getenv("ELASTIC_SEARCH"),
-        System.getenv("ELASTIC_SEARCH_PORT").toInt(),
-        "http"
-    )
+    bind<RestHighLevelClient>() with singleton { getRestHighLevelClient() }
 
-    val restCLient = RestClient.builder(
-        HttpHost(
-            System.getenv("ELASTIC_SEARCH"),
-            System.getenv("ELASTIC_SEARCH_PORT").toInt(),
-            "http"
-        )
-    ).setHttpClientConfigCallback { it.setDefaultCredentialsProvider(credentialsProvider) }.build()
+    bind<ElasticsearchClient>() with singleton { getElasticSearchClient() }
 
-    val transport = RestClientTransport(restCLient, JacksonJsonpMapper())
-
-    bind<ElasticsearchClient>() with singleton {
-        ElasticsearchClient(transport)
-    }
-
-    bind<RestHighLevelClient>() with singleton {
-        RestHighLevelClient(
-            RestClient.builder(httpHost)
-            .setHttpClientConfigCallback { it.setDefaultCredentialsProvider(credentialsProvider) }
-        )
-    }
+    bind<CacheManager>() with singleton { getCacheManager() }
 }
