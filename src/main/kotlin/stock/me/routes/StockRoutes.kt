@@ -4,20 +4,18 @@ import io.ktor.application.*
 import io.ktor.http.*
 import io.ktor.response.*
 import io.ktor.routing.*
-import org.elasticsearch.client.RestHighLevelClient
 import org.kodein.di.instance
 import stock.me.config.kodein
 import stock.me.service.SymbolSearchService
 
 fun Route.stockRoute() {
-    val restClient by kodein.instance<RestHighLevelClient>()
     val symbolSearchService by kodein.instance<SymbolSearchService>()
 
     route("/stock") {
 
         get("/suggestions/{query}") {
             val query = call.parameters["query"] ?: return@get call.respond(HttpStatusCode.BadRequest)
-            val suggestions = symbolSearchService.getSymbolSuggestions(restClient, query)
+            val suggestions = symbolSearchService.getSymbolSuggestions(query)
             call.respond(suggestions)
         }
 

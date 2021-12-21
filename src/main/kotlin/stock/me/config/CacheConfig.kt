@@ -11,7 +11,7 @@ import java.time.Duration
 fun getCacheManager(): CacheManager =
     CacheManagerBuilder.newCacheManagerBuilder()
         .withCache(
-            "historicPrices", CacheConfigurationBuilder
+            "historicQuotes", CacheConfigurationBuilder
                 .newCacheConfigurationBuilder(String::class.java, Stock::class.java, ResourcePoolsBuilder.heap(10))
                 .withExpiry(ExpiryPolicyBuilder.timeToLiveExpiration(Duration.ofDays(1)))
         )

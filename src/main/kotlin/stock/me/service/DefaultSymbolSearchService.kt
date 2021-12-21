@@ -11,7 +11,11 @@ import org.elasticsearch.index.query.QueryBuilders
 import org.elasticsearch.search.builder.SearchSourceBuilder
 import org.elasticsearch.search.sort.FieldSortBuilder
 import org.elasticsearch.search.sort.SortOrder
+import org.kodein.di.instance
+import stock.me.config.kodein
 import stock.me.model.Currency
+import stock.me.service.cache.addHistoricalQuotesCache
+import stock.me.service.cache.getHistoricalQuotesCache
 import stock.me.service.mapper.toHistoricalPriceDto
 import stock.me.service.mapper.toStockQuoteDto
 import stock.me.service.response.HistoricalQuoteDto
@@ -24,7 +28,9 @@ import java.util.stream.Collectors.toList
 
 class DefaultSymbolSearchService : SymbolSearchService {
 
-    override fun getSymbolSuggestions(restClient: RestHighLevelClient, query: String): List<JsonElement> {
+    private val restClient by kodein.instance<RestHighLevelClient>()
+
+    override fun getSymbolSuggestions(query: String): List<JsonElement> {
         val response = SearchSourceBuilder().apply {
             query(createBoolQuery(query))
             sort(FieldSortBuilder("symbol.keyword").order(SortOrder.ASC))
@@ -42,9 +48,13 @@ class DefaultSymbolSearchService : SymbolSearchService {
             ?.let { mapToStockQuote(it) }
             ?: throw NotFoundException("Stock Quote : No results found for $symbol")
 
+
     override fun getHistoricalQuotes(symbol: String): List<HistoricalQuoteDto> {
         val (from, to) = getFromAndToDates()
-        val historicalPrices = YahooFinance.get(symbol, from, to, Interval.DAILY)?.history
+
+        val historicalPrices = getHistoricalQuotesCache(symbol)
+            ?: YahooFinance.get(symbol, from, to, Interval.DAILY)
+                ?.also { addHistoricalQuotesCache(symbol, it) }?.history
             ?: throw NotFoundException("No historical prices found for $symbol")
 
         return historicalPrices.stream()
@@ -64,7 +74,6 @@ class DefaultSymbolSearchService : SymbolSearchService {
         return toStockQuoteDto(stock, currency, usdPrice)
     }
 
-    //TODO:replace stubbed method
     private fun getTrendingSymbols(): Array<String> =
         arrayOf("AAPL", "GOOGL", "BABA", "AMZN", "MSFT", "NVDA", "FB", "TSLA", "V", "PLTR")
 

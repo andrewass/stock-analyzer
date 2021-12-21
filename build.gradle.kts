@@ -4,6 +4,7 @@ val ktorVersion: String by project
 val kotlinVersion: String by project
 val logbackVersion: String by project
 val kodeinVersion: String by project
+val jUnitVersion: String by project
 
 plugins {
     application
@@ -28,7 +29,7 @@ dependencies {
     implementation("io.ktor:ktor-server-netty:$ktorVersion")
     implementation("io.ktor:ktor-client-core:$ktorVersion")
     implementation("io.ktor:ktor-client-cio:$ktorVersion")
-    implementation ("io.ktor:ktor-serialization:$ktorVersion")
+    implementation("io.ktor:ktor-serialization:$ktorVersion")
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
     implementation("org.apache.logging.log4j:log4j-core:2.17.0")
     implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.3.1")
@@ -38,11 +39,19 @@ dependencies {
     implementation("co.elastic.clients:elasticsearch-java:7.16.2")
     implementation("org.ehcache:ehcache:3.9.9")
     testImplementation("io.ktor:ktor-server-tests:$ktorVersion")
+    testImplementation("org.junit.jupiter:junit-jupiter-engine:$jUnitVersion")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:$jUnitVersion")
+    testImplementation("io.mockk:mockk:1.12.1")
 }
 
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "11"
 }
+
+tasks.withType<Test>{
+    useJUnitPlatform()
+}
+
 
 tasks.withType<Jar> {
     manifest {
