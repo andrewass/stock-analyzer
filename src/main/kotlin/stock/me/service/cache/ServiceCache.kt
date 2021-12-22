@@ -9,10 +9,10 @@ import yahoofinance.histquotes.HistoricalQuote
 
 private val cacheManager by kodein.instance<CacheManager>()
 
-private val cache = cacheManager.getCache("historicQuotes", String::class.java, Stock::class.java)
+private val historicQuotesCache = cacheManager.getCache("historicQuotes", String::class.java, Stock::class.java)
 
-fun getHistoricalQuotesCache(symbol: String): List<HistoricalQuote>? = cache.get(symbol)?.history
+fun getHistoricalQuotesCache(symbol: String): List<HistoricalQuote>? = historicQuotesCache.get(symbol)?.history
 
 fun addHistoricalQuotesCache(symbol: String, stock: Stock) {
-    cache.put(symbol, stock)
+    historicQuotesCache.put(symbol, stock)
 }

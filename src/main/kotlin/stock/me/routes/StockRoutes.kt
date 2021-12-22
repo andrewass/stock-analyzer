@@ -9,6 +9,7 @@ import stock.me.config.kodein
 import stock.me.service.SymbolSearchService
 
 fun Route.stockRoute() {
+
     val symbolSearchService by kodein.instance<SymbolSearchService>()
 
     route("/stock") {

@@ -11,8 +11,6 @@ import org.elasticsearch.index.query.QueryBuilders
 import org.elasticsearch.search.builder.SearchSourceBuilder
 import org.elasticsearch.search.sort.FieldSortBuilder
 import org.elasticsearch.search.sort.SortOrder
-import org.kodein.di.instance
-import stock.me.config.kodein
 import stock.me.model.Currency
 import stock.me.service.cache.addHistoricalQuotesCache
 import stock.me.service.cache.getHistoricalQuotesCache
@@ -26,9 +24,9 @@ import yahoofinance.histquotes.Interval
 import java.util.*
 import java.util.stream.Collectors.toList
 
-class DefaultSymbolSearchService : SymbolSearchService {
-
-    private val restClient by kodein.instance<RestHighLevelClient>()
+class DefaultSymbolSearchService(
+    private val restClient: RestHighLevelClient
+) : SymbolSearchService {
 
     override fun getSymbolSuggestions(query: String): List<JsonElement> {
         val response = SearchSourceBuilder().apply {
@@ -66,7 +64,6 @@ class DefaultSymbolSearchService : SymbolSearchService {
     override fun getStockQuotesOfTrendingSymbols(): List<StockQuoteDto> =
         YahooFinance.get(getTrendingSymbols()).values
             .map { mapToStockQuote(it) }
-
     private fun mapToStockQuote(stock: Stock): StockQuoteDto {
         val currency = Currency.valueOf(stock.currency)
         val usdPrice = getUsdPrice(stock.quote.price.toDouble(), currency)
@@ -97,10 +94,6 @@ class DefaultSymbolSearchService : SymbolSearchService {
 
     private fun createBoolQuery(query: String) =
         BoolQueryBuilder()
-            .should(
-                QueryBuilders.matchPhrasePrefixQuery("symbol", query)
-            )
-            .should(
-                QueryBuilders.matchPhrasePrefixQuery("description", query)
-            )
+            .should(QueryBuilders.matchPhrasePrefixQuery("symbol", query))
+            .should(QueryBuilders.matchPhrasePrefixQuery("description", query))
 }
