@@ -6,6 +6,7 @@ import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import org.elasticsearch.action.search.SearchResponse
 import org.elasticsearch.action.search.SearchResponseSections
+import org.elasticsearch.client.ElasticsearchClient
 import org.elasticsearch.client.RequestOptions
 import org.elasticsearch.client.RestHighLevelClient
 import org.elasticsearch.search.SearchHits
@@ -25,6 +26,9 @@ internal class DefaultSymbolSearchServiceTest {
 
     @MockK
     private lateinit var restClient: RestHighLevelClient
+
+    @MockK
+    private lateinit var esCLient: ElasticsearchClient
 
     @InjectMockKs
     private lateinit var symbolSearchService: DefaultSymbolSearchService

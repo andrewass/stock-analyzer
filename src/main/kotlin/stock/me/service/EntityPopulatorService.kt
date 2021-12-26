@@ -7,5 +7,5 @@ interface EntityPopulatorService {
 
     suspend fun getStockExchanges() : List<String>
 
-    suspend fun populateStocksByTickerSymbol(stockConsumer: StockConsumer, restClient: RestHighLevelClient)
+    suspend fun populateStocksByTickerSymbol()
 }

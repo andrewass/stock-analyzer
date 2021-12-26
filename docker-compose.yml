@@ -9,9 +9,9 @@ services:
       cluster.name: es-docker-cluster
       bootstrap.memory_lock: "true"
       discovery.type: single-node
-      xpack.security.enabled: $ES_SECURITY
+      xpack.security.enabled: "false"
       ES_JAVA_OPTS: "-Xms2048m -Xmx2048m"
-      ELASTIC_PASSWORD: $ES_PASSWORD
+      ELASTIC_PASSWORD: password
     ulimits:
       memlock:
         soft: -1
@@ -29,8 +29,8 @@ services:
     environment:
      ELASTICSEARCH_URL : http://elastic-search:9200
      ELASTICSEARCH_HOSTS : '["http://elastic-search:9200"]'
-     ELASTICSEARCH_USERNAME : $ES_USERNAME
-     ELASTICSEARCH_PASSWORD : $ES_PASSWORD
+     ELASTICSEARCH_USERNAME : username
+     ELASTICSEARCH_PASSWORD : password
 
   stock-analyzer:
     image: custom-stock-analyzer
@@ -46,8 +46,8 @@ services:
       FINNHUB_API_KEY : ${FINNHUB_API_KEY}
       ELASTIC_SEARCH : elastic-search
       ELASTIC_SEARCH_PORT : 9200
-      ES_USERNAME: $ES_USERNAME
-      ES_PASSWORD: $ES_PASSWORD
+      ES_USERNAME: username
+      ES_PASSWORD: password
 
 volumes:
   es-volume:

@@ -3,6 +3,7 @@ package stock.me.service
 import kotlinx.coroutines.delay
 import org.elasticsearch.action.bulk.BulkRequest
 import org.elasticsearch.action.index.IndexRequest
+import org.elasticsearch.client.ElasticsearchClient
 import org.elasticsearch.client.RequestOptions
 import org.elasticsearch.client.RestHighLevelClient
 import org.elasticsearch.client.indices.GetIndexRequest
@@ -12,11 +13,15 @@ import org.slf4j.LoggerFactory
 import stock.me.consumer.StockConsumer
 import stock.me.model.Stock
 
-class DefaultEntityPopulatorService : EntityPopulatorService {
+class DefaultEntityPopulatorService(
+    private val restClient: RestHighLevelClient,
+    private val esClient: ElasticsearchClient,
+    private val stockConsumer: StockConsumer
+) : EntityPopulatorService {
 
     private val logger = LoggerFactory.getLogger(DefaultEntityPopulatorService::class.simpleName)
 
-    override suspend fun populateStocksByTickerSymbol(stockConsumer: StockConsumer, restClient: RestHighLevelClient) {
+    override suspend fun populateStocksByTickerSymbol() {
         logger.info("Populating stocks by ticker symbol : Started")
         val exchanges = getStockExchanges()
         logger.info("Fetched ${exchanges.size} exchanges")

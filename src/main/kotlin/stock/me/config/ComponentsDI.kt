@@ -25,9 +25,11 @@ val kodein = DI {
 
     bindSingleton<StockConsumer> { FinnHubConsumer() }
 
-    bindSingleton<EntityPopulatorService> { DefaultEntityPopulatorService() }
+    bindSingleton<EntityPopulatorService> {
+        DefaultEntityPopulatorService(instance(), instance(), instance())
+    }
 
-    bindSingleton<SymbolSearchService> { DefaultSymbolSearchService(instance()) }
+    bindSingleton<SymbolSearchService> { DefaultSymbolSearchService(instance(), instance()) }
 
     bindSingleton { GraphQLDataFetchers() }
 
