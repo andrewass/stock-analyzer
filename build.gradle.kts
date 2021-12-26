@@ -38,6 +38,7 @@ dependencies {
     implementation("org.elasticsearch.client:elasticsearch-rest-high-level-client:7.15.2")
     implementation("co.elastic.clients:elasticsearch-java:7.16.2")
     implementation("org.ehcache:ehcache:3.9.9")
+    implementation("com.graphql-java:graphql-java:16.2")
     testImplementation("io.ktor:ktor-server-tests:$ktorVersion")
     testImplementation("org.junit.jupiter:junit-jupiter-engine:$jUnitVersion")
     testImplementation("org.junit.jupiter:junit-jupiter-api:$jUnitVersion")

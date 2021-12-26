@@ -64,6 +64,8 @@ class DefaultSymbolSearchService(
     override fun getStockQuotesOfTrendingSymbols(): List<StockQuoteDto> =
         YahooFinance.get(getTrendingSymbols()).values
             .map { mapToStockQuote(it) }
+
+
     private fun mapToStockQuote(stock: Stock): StockQuoteDto {
         val currency = Currency.valueOf(stock.currency)
         val usdPrice = getUsdPrice(stock.quote.price.toDouble(), currency)

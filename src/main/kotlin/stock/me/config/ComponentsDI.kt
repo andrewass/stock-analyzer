@@ -5,6 +5,8 @@ import org.kodein.di.bindSingleton
 import org.kodein.di.instance
 import stock.me.consumer.FinnHubConsumer
 import stock.me.consumer.StockConsumer
+import stock.me.graphql.GraphQLDataFetchers
+import stock.me.graphql.GraphQLProvider
 import stock.me.service.DefaultEntityPopulatorService
 import stock.me.service.DefaultSymbolSearchService
 import stock.me.service.EntityPopulatorService
@@ -13,7 +15,7 @@ import stock.me.service.SymbolSearchService
 /**
  * Make components available with dependency injection using Kodein
  */
-val kodein =  DI {
+val kodein = DI {
 
     bindSingleton { getRestHighLevelClient() }
 
@@ -27,4 +29,7 @@ val kodein =  DI {
 
     bindSingleton<SymbolSearchService> { DefaultSymbolSearchService(instance()) }
 
+    bindSingleton { GraphQLDataFetchers() }
+
+    bindSingleton { GraphQLProvider(instance()) }
 }
