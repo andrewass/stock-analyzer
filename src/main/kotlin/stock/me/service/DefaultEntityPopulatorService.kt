@@ -1,21 +1,19 @@
 package stock.me.service
 
+import co.elastic.clients.elasticsearch.ElasticsearchClient
+import co.elastic.clients.elasticsearch.indices.ExistsRequest
 import kotlinx.coroutines.delay
 import org.elasticsearch.action.bulk.BulkRequest
 import org.elasticsearch.action.index.IndexRequest
-import org.elasticsearch.client.ElasticsearchClient
 import org.elasticsearch.client.RequestOptions
 import org.elasticsearch.client.RestHighLevelClient
-import org.elasticsearch.client.indices.GetIndexRequest
-import org.elasticsearch.index.query.QueryBuilders
-import org.elasticsearch.index.reindex.DeleteByQueryRequest
 import org.slf4j.LoggerFactory
 import stock.me.consumer.StockConsumer
 import stock.me.model.Stock
 
 class DefaultEntityPopulatorService(
     private val restClient: RestHighLevelClient,
-    private val esClient: ElasticsearchClient,
+    private val elasticsearchClient: ElasticsearchClient,
     private val stockConsumer: StockConsumer
 ) : EntityPopulatorService {
 
@@ -30,10 +28,10 @@ class DefaultEntityPopulatorService(
             stockConsumer.getAllStocksFromExchange(exchange).also { stocks ->
                 logger.info("\tFetched ${stocks.size} stocks from exchange $exchange")
                 if (stocks.isNotEmpty()) {
-                    if (indexExists(restClient)) {
-                        deleteDocumentsFromIndex(restClient, exchange)
+                    if (indexExists()) {
+                        deleteDocumentsFromIndex(exchange)
                     }
-                    indexDocuments(restClient, stocks, exchange)
+                    indexDocuments(stocks, exchange)
                 }
             }
             delay(60000L)
@@ -50,22 +48,28 @@ class DefaultEntityPopulatorService(
             .map { it[0] }
     }
 
-    private fun deleteDocumentsFromIndex(restClient: RestHighLevelClient, exchange: String) {
+    private fun deleteDocumentsFromIndex(exchange: String) {
         try {
-            DeleteByQueryRequest("stocks")
-                .apply { setQuery(QueryBuilders.matchQuery("exchange", exchange)) }
-                .let { restClient.deleteByQuery(it, RequestOptions.DEFAULT) }
-                .also { logger.info("Deleted ${it.deleted} documents from exchange $exchange") }
+            elasticsearchClient.deleteByQuery { request ->
+                request.index("stocks")
+                    .query { query ->
+                        query.match { match ->
+                            match.field("exchange")
+                            match.query { value -> value.stringValue(exchange) }
+                        }
+                    }
+            }.also { logger.info("Deleted ${it.deleted()} documents from exchange $exchange") }
         } catch (e: Exception) {
             logger.error("Unable to delete documents : ${e.stackTraceToString()}")
         }
     }
 
-    private fun indexExists(restClient: RestHighLevelClient): Boolean =
-        GetIndexRequest("stocks")
-            .let { restClient.indices().exists(it, RequestOptions.DEFAULT) }
+    private fun indexExists(): Boolean =
+        ExistsRequest.Builder().index("stocks").build()
+            .let { elasticsearchClient.indices().exists(it).value() }
 
-    private fun indexDocuments(restClient: RestHighLevelClient, stocks: List<Stock>, exchange: String) {
+
+    private fun indexDocuments(stocks: List<Stock>, exchange: String) {
         try {
             val bulkRequest = BulkRequest("stocks")
             stocks.forEach { stock ->
