@@ -1,4 +1,4 @@
-package stock.me.service.response
+package stock.me.provider.response
 
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.serializers.LocalDateIso8601Serializer

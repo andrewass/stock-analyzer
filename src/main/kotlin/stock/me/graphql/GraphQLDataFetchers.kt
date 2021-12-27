@@ -5,7 +5,7 @@ import graphql.schema.DataFetchingEnvironment
 import io.ktor.features.*
 import stock.me.model.Currency
 import stock.me.service.mapper.toStockQuoteDto
-import stock.me.service.response.StockQuoteDto
+import stock.me.provider.response.StockQuoteDto
 import yahoofinance.Stock
 import yahoofinance.YahooFinance
 

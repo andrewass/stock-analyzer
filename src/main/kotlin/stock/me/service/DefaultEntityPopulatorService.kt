@@ -1,7 +1,6 @@
 package stock.me.service
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient
-import co.elastic.clients.elasticsearch.indices.ExistsRequest
 import kotlinx.coroutines.delay
 import org.elasticsearch.action.bulk.BulkRequest
 import org.elasticsearch.action.index.IndexRequest
@@ -55,7 +54,7 @@ class DefaultEntityPopulatorService(
                     .query { query ->
                         query.match { match ->
                             match.field("exchange")
-                            match.query { value -> value.stringValue(exchange) }
+                            match.query { it.stringValue(exchange) }
                         }
                     }
             }.also { logger.info("Deleted ${it.deleted()} documents from exchange $exchange") }
@@ -65,8 +64,7 @@ class DefaultEntityPopulatorService(
     }
 
     private fun indexExists(): Boolean =
-        ExistsRequest.Builder().index("stocks").build()
-            .let { elasticsearchClient.indices().exists(it).value() }
+        elasticsearchClient.indices().exists { it.index("stocks") }.value()
 
 
     private fun indexDocuments(stocks: List<Stock>, exchange: String) {

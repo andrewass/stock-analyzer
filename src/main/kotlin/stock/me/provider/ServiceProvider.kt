@@ -1,10 +1,10 @@
-package stock.me.service
+package stock.me.provider
 
 import kotlinx.serialization.json.JsonElement
 import stock.me.provider.response.HistoricalQuoteDto
 import stock.me.provider.response.StockQuoteDto
 
-interface SymbolSearchService {
+interface ServiceProvider {
 
     fun getSymbolSuggestions(query: String): List<JsonElement>
 
@@ -13,4 +13,5 @@ interface SymbolSearchService {
     fun getHistoricalQuotes(symbol: String): List<HistoricalQuoteDto>
 
     fun getStockQuotesOfTrendingSymbols(): List<StockQuoteDto>
+
 }

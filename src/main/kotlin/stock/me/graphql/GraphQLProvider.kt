@@ -10,7 +10,7 @@ import graphql.schema.idl.TypeRuntimeWiring
 class GraphQLProvider(
     private val dataFetchers: GraphQLDataFetchers
 ) {
-    private lateinit var graphQL: GraphQL
+    private var graphQL: GraphQL
 
     init {
         graphQL = this::class.java.getResource("/graphql/schema.graphqls")

@@ -2,8 +2,8 @@ package stock.me.service.mapper
 
 import kotlinx.datetime.toKotlinLocalDate
 import stock.me.model.Currency
-import stock.me.service.response.HistoricalQuoteDto
-import stock.me.service.response.StockQuoteDto
+import stock.me.provider.response.HistoricalQuoteDto
+import stock.me.provider.response.StockQuoteDto
 import yahoofinance.Stock
 import yahoofinance.histquotes.HistoricalQuote
 import java.time.LocalDate

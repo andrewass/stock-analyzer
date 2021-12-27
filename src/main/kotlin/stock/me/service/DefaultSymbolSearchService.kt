@@ -17,8 +17,8 @@ import stock.me.service.cache.addHistoricalQuotesCache
 import stock.me.service.cache.getHistoricalQuotesCache
 import stock.me.service.mapper.toHistoricalPriceDto
 import stock.me.service.mapper.toStockQuoteDto
-import stock.me.service.response.HistoricalQuoteDto
-import stock.me.service.response.StockQuoteDto
+import stock.me.provider.response.HistoricalQuoteDto
+import stock.me.provider.response.StockQuoteDto
 import yahoofinance.Stock
 import yahoofinance.YahooFinance
 import yahoofinance.histquotes.Interval
