@@ -3,28 +3,25 @@ package stock.me.provider
 import kotlinx.serialization.json.JsonElement
 import org.kodein.di.instance
 import stock.me.config.kodein
-import stock.me.service.SymbolSearchService
 import stock.me.provider.response.HistoricalQuoteDto
 import stock.me.provider.response.StockQuoteDto
+import stock.me.service.SymbolService
 
 
-class DefaultServiceProvider : ServiceProvider{
+class DefaultServiceProvider : ServiceProvider {
 
-    private val symbolSearchService by kodein.instance<SymbolSearchService>()
+    private val symbolSearchService by kodein.instance<SymbolService>()
 
-    override fun getSymbolSuggestions(query: String): List<JsonElement> {
-        return symbolSearchService.getSymbolSuggestions(query)
-    }
+    override fun getSymbolSuggestions(query: String): List<JsonElement> =
+        symbolSearchService.getSymbolSuggestions(query)
 
-    override fun getStockQuote(symbol: String): StockQuoteDto {
-        TODO("Not yet implemented")
-    }
+    override fun getStockQuote(symbol: String): StockQuoteDto =
+        toStockQuoteDto(symbolSearchService.getStockQuote(symbol))
 
-    override fun getHistoricalQuotes(symbol: String): List<HistoricalQuoteDto> {
-        TODO("Not yet implemented")
-    }
+    override fun getHistoricalQuotes(symbol: String): List<HistoricalQuoteDto> =
+        toHistoricalQuoteDto(symbolSearchService.getHistoricalQuotes(symbol))
 
-    override fun getStockQuotesOfTrendingSymbols(): List<StockQuoteDto> {
-        TODO("Not yet implemented")
-    }
+    override fun getStockQuotesOfTrendingSymbols(): List<StockQuoteDto> =
+        symbolSearchService.getStockQuotesOfTrendingSymbols()
+            .map { toStockQuoteDto(it) }
 }

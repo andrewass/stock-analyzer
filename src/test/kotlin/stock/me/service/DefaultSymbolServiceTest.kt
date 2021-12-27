@@ -20,18 +20,19 @@ import yahoofinance.quotes.stock.StockQuote
 import java.math.BigDecimal
 
 const val AAPL = "AAPL"
+private val PRICE_100 = BigDecimal("100")
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-internal class DefaultSymbolSearchServiceTest {
+internal class DefaultSymbolServiceTest {
 
     @MockK
     private lateinit var restClient: RestHighLevelClient
 
     @MockK
-    private lateinit var esCLient: ElasticsearchClient
+    private lateinit var elasticsearchClient: ElasticsearchClient
 
     @InjectMockKs
-    private lateinit var symbolSearchService: DefaultSymbolSearchService
+    private lateinit var symbolSearchService: DefaultSymbolService
 
 
     @BeforeAll
@@ -60,6 +61,7 @@ internal class DefaultSymbolSearchServiceTest {
 
     @Test
     fun shouldGetStockQuoteFromRemoteApi() {
+        val price = BigDecimal("100")
 
         every {
             YahooFinance.get(AAPL)
@@ -71,12 +73,11 @@ internal class DefaultSymbolSearchServiceTest {
 
         assertEquals(AAPL,response.symbol)
         assertEquals("USD", response.currency)
-        assertEquals(100.00, response.price)
-        assertEquals(100.00, response.previousClose)
-        assertEquals(100.00, response.usdPrice)
-        assertEquals(100.00, response.dayHigh)
-        assertEquals(100.00, response.dayLow)
-        assertEquals(100.00, response.openPrice)
+        assertEquals(PRICE_100, response.quote.price)
+        assertEquals(PRICE_100, response.quote.previousClose)
+        assertEquals(PRICE_100, response.quote.dayHigh)
+        assertEquals(PRICE_100, response.quote.dayLow)
+        assertEquals(PRICE_100, response.quote.open)
     }
 
     @Test
@@ -103,20 +104,17 @@ internal class DefaultSymbolSearchServiceTest {
             currency = "USD"
             quote = StockQuote(AAPL)
                 .apply {
-                    price = BigDecimal("100")
-                    previousClose = BigDecimal("100")
-                    dayHigh = BigDecimal("100")
-                    dayLow = BigDecimal("100")
-                    open = BigDecimal("100")
+                    price = PRICE_100
+                    previousClose = PRICE_100
+                    dayHigh = PRICE_100
+                    dayLow = PRICE_100
+                    open = PRICE_100
                     name = AAPL
                 }
         }
-
 
     private fun stubSearchResponse(): SearchResponse =
         SearchResponseSections(
             SearchHits(emptyArray(), null, 1.0f), null, null, false, null, null, 0
         ).let { SearchResponse(it, null, 1, 1, 1, 1, null, null) }
-
-
 }

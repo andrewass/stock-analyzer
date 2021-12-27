@@ -49,14 +49,14 @@ tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "11"
 }
 
-tasks.withType<Test>{
+tasks.withType<Test> {
     useJUnitPlatform()
 }
-
 
 tasks.withType<Jar> {
     manifest {
         attributes("Main-Class" to "stock.me.ApplicationKt")
     }
-    from(configurations.compileClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
+    from(configurations.compileClasspath.get()
+        .map { if (it.isDirectory) it else zipTree(it) })
 }

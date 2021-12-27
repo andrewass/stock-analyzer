@@ -6,11 +6,11 @@ import io.ktor.response.*
 import io.ktor.routing.*
 import org.kodein.di.instance
 import stock.me.config.kodein
-import stock.me.service.SymbolSearchService
+import stock.me.service.SymbolService
 
 fun Route.stockRoute() {
 
-    val symbolSearchService by kodein.instance<SymbolSearchService>()
+    val symbolSearchService by kodein.instance<SymbolService>()
 
     route("/stock") {
 

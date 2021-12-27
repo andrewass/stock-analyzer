@@ -12,23 +12,17 @@ import org.elasticsearch.index.query.QueryBuilders
 import org.elasticsearch.search.builder.SearchSourceBuilder
 import org.elasticsearch.search.sort.FieldSortBuilder
 import org.elasticsearch.search.sort.SortOrder
-import stock.me.model.Currency
 import stock.me.service.cache.addHistoricalQuotesCache
 import stock.me.service.cache.getHistoricalQuotesCache
-import stock.me.service.mapper.toHistoricalPriceDto
-import stock.me.service.mapper.toStockQuoteDto
-import stock.me.provider.response.HistoricalQuoteDto
-import stock.me.provider.response.StockQuoteDto
 import yahoofinance.Stock
 import yahoofinance.YahooFinance
 import yahoofinance.histquotes.Interval
 import java.util.*
-import java.util.stream.Collectors.toList
 
-class DefaultSymbolSearchService(
+class DefaultSymbolService(
     private val restClient: RestHighLevelClient,
     private val esClient: ElasticsearchClient
-) : SymbolSearchService {
+) : SymbolService {
 
     override fun getSymbolSuggestions(query: String): List<JsonElement> {
         val response = SearchSourceBuilder().apply {
@@ -43,50 +37,27 @@ class DefaultSymbolSearchService(
             .map { Json.parseToJsonElement(it) }
     }
 
-    override fun getStockQuote(symbol: String): StockQuoteDto =
+    override fun getStockQuote(symbol: String): Stock =
         YahooFinance.get(symbol)
-            ?.let { mapToStockQuote(it) }
             ?: throw NotFoundException("Stock Quote : No results found for $symbol")
 
 
-    override fun getHistoricalQuotes(symbol: String): List<HistoricalQuoteDto> {
+    override fun getHistoricalQuotes(symbol: String): Stock {
         val (from, to) = getFromAndToDates()
 
-        val historicalPrices = getHistoricalQuotesCache(symbol)
+        return getHistoricalQuotesCache(symbol)
             ?: YahooFinance.get(symbol, from, to, Interval.DAILY)
-                ?.also { addHistoricalQuotesCache(symbol, it) }?.history
+                ?.also { addHistoricalQuotesCache(symbol, it) }
             ?: throw NotFoundException("No historical prices found for $symbol")
-
-        return historicalPrices.stream()
-            .filter { it.close != null }
-            .map { toHistoricalPriceDto(it) }
-            .collect(toList())
     }
 
-    override fun getStockQuotesOfTrendingSymbols(): List<StockQuoteDto> =
+    override fun getStockQuotesOfTrendingSymbols(): Collection<Stock> =
         YahooFinance.get(getTrendingSymbols()).values
-            .map { mapToStockQuote(it) }
 
-
-    private fun mapToStockQuote(stock: Stock): StockQuoteDto {
-        val currency = Currency.valueOf(stock.currency)
-        val usdPrice = getUsdPrice(stock.quote.price.toDouble(), currency)
-
-        return toStockQuoteDto(stock, currency, usdPrice)
-    }
 
     private fun getTrendingSymbols(): Array<String> =
         arrayOf("AAPL", "GOOGL", "BABA", "AMZN", "MSFT", "NVDA", "FB", "TSLA", "V", "PLTR")
 
-
-    private fun getUsdPrice(price: Double, currency: Currency): Double {
-        return if (currency == Currency.USD) {
-            price
-        } else {
-            val fxQuote = YahooFinance.getFx(currency.forexCode).price.toDouble()
-            price / fxQuote
-        }
-    }
 
     private fun getFromAndToDates(): Pair<Calendar, Calendar> {
         val from = Calendar.getInstance()

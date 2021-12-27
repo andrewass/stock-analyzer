@@ -8,9 +8,9 @@ import stock.me.consumer.StockConsumer
 import stock.me.graphql.GraphQLDataFetchers
 import stock.me.graphql.GraphQLProvider
 import stock.me.service.DefaultEntityPopulatorService
-import stock.me.service.DefaultSymbolSearchService
+import stock.me.service.DefaultSymbolService
 import stock.me.service.EntityPopulatorService
-import stock.me.service.SymbolSearchService
+import stock.me.service.SymbolService
 
 /**
  * Make components available with dependency injection using Kodein
@@ -29,7 +29,7 @@ val kodein = DI {
         DefaultEntityPopulatorService(instance(), instance(), instance())
     }
 
-    bindSingleton<SymbolSearchService> { DefaultSymbolSearchService(instance(), instance()) }
+    bindSingleton<SymbolService> { DefaultSymbolService(instance(), instance()) }
 
     bindSingleton { GraphQLDataFetchers() }
 
