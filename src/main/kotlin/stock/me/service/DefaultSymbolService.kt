@@ -4,7 +4,6 @@ import io.ktor.features.*
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
 import org.elasticsearch.action.search.SearchRequest
-import org.elasticsearch.client.ElasticsearchClient
 import org.elasticsearch.client.RequestOptions
 import org.elasticsearch.client.RestHighLevelClient
 import org.elasticsearch.index.query.BoolQueryBuilder
@@ -20,8 +19,7 @@ import yahoofinance.histquotes.Interval
 import java.util.*
 
 class DefaultSymbolService(
-    private val restClient: RestHighLevelClient,
-    private val esClient: ElasticsearchClient
+    private val restClient: RestHighLevelClient
 ) : SymbolService {
 
     override fun getSymbolSuggestions(query: String): List<JsonElement> {

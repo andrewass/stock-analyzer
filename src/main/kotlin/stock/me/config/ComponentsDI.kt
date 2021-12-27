@@ -7,6 +7,8 @@ import stock.me.consumer.FinnHubConsumer
 import stock.me.consumer.StockConsumer
 import stock.me.graphql.GraphQLDataFetchers
 import stock.me.graphql.GraphQLProvider
+import stock.me.provider.DefaultServiceProvider
+import stock.me.provider.ServiceProvider
 import stock.me.service.DefaultEntityPopulatorService
 import stock.me.service.DefaultSymbolService
 import stock.me.service.EntityPopulatorService
@@ -29,9 +31,11 @@ val kodein = DI {
         DefaultEntityPopulatorService(instance(), instance(), instance())
     }
 
-    bindSingleton<SymbolService> { DefaultSymbolService(instance(), instance()) }
+    bindSingleton<SymbolService> { DefaultSymbolService(instance()) }
 
     bindSingleton { GraphQLDataFetchers() }
 
     bindSingleton { GraphQLProvider(instance()) }
+
+    bindSingleton<ServiceProvider> { DefaultServiceProvider(instance()) }
 }

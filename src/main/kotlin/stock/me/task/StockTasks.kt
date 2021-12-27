@@ -9,6 +9,7 @@ import stock.me.config.kodein
 import stock.me.service.EntityPopulatorService
 
 suspend fun Application.initStockTasks() {
+
     val entityPopulatorService by kodein.instance<EntityPopulatorService>()
 
     CoroutineScope(Default).launch {

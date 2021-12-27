@@ -28,9 +28,6 @@ internal class DefaultSymbolServiceTest {
     @MockK
     private lateinit var restClient: RestHighLevelClient
 
-    @MockK
-    private lateinit var elasticsearchClient: ElasticsearchClient
-
     @InjectMockKs
     private lateinit var symbolSearchService: DefaultSymbolService
 

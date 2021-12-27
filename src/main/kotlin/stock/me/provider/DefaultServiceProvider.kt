@@ -1,27 +1,25 @@
 package stock.me.provider
 
 import kotlinx.serialization.json.JsonElement
-import org.kodein.di.instance
-import stock.me.config.kodein
 import stock.me.provider.response.HistoricalQuoteDto
 import stock.me.provider.response.StockQuoteDto
 import stock.me.service.SymbolService
 
 
-class DefaultServiceProvider : ServiceProvider {
-
-    private val symbolSearchService by kodein.instance<SymbolService>()
+class DefaultServiceProvider(
+    private val symbolService: SymbolService
+) : ServiceProvider {
 
     override fun getSymbolSuggestions(query: String): List<JsonElement> =
-        symbolSearchService.getSymbolSuggestions(query)
+        symbolService.getSymbolSuggestions(query)
 
     override fun getStockQuote(symbol: String): StockQuoteDto =
-        toStockQuoteDto(symbolSearchService.getStockQuote(symbol))
+        toStockQuoteDto(symbolService.getStockQuote(symbol))
 
     override fun getHistoricalQuotes(symbol: String): List<HistoricalQuoteDto> =
-        toHistoricalQuoteDto(symbolSearchService.getHistoricalQuotes(symbol))
+        toHistoricalQuoteDto(symbolService.getHistoricalQuotes(symbol))
 
     override fun getStockQuotesOfTrendingSymbols(): List<StockQuoteDto> =
-        symbolSearchService.getStockQuotesOfTrendingSymbols()
+        symbolService.getStockQuotesOfTrendingSymbols()
             .map { toStockQuoteDto(it) }
 }
