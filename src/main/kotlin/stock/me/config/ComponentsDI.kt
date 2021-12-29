@@ -5,8 +5,6 @@ import org.kodein.di.bindSingleton
 import org.kodein.di.instance
 import stock.me.consumer.FinnHubConsumer
 import stock.me.consumer.StockConsumer
-import stock.me.graphql.GraphQLDataFetchers
-import stock.me.graphql.GraphQLProvider
 import stock.me.provider.DefaultServiceProvider
 import stock.me.provider.ServiceProvider
 import stock.me.service.DefaultEntityPopulatorService
@@ -32,10 +30,6 @@ val kodein = DI {
     }
 
     bindSingleton<SymbolService> { DefaultSymbolService(instance()) }
-
-    bindSingleton { GraphQLDataFetchers() }
-
-    bindSingleton { GraphQLProvider(instance()) }
 
     bindSingleton<ServiceProvider> { DefaultServiceProvider(instance()) }
 }

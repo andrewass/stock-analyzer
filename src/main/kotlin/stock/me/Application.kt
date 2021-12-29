@@ -5,15 +5,18 @@ import io.ktor.features.*
 import io.ktor.http.*
 import io.ktor.serialization.*
 import kotlinx.coroutines.runBlocking
+import stock.me.graphql.registerGraphQLSchema
 import stock.me.routes.registerRoutes
 import stock.me.task.initStockTasks
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
 fun Application.module() = runBlocking {
+
     install(ContentNegotiation) {
         json()
     }
+
     install(CORS) {
         allowCredentials = true
         host("localhost:8000")
@@ -25,5 +28,6 @@ fun Application.module() = runBlocking {
         method(HttpMethod.Delete)
     }
     registerRoutes()
+    registerGraphQLSchema()
     initStockTasks()
 }
