@@ -11,7 +11,7 @@ import stock.me.task.initStockTasks
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
-fun Application.module() = runBlocking {
+fun Application.main() = runBlocking {
 
     install(ContentNegotiation) {
         json()

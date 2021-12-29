@@ -24,7 +24,6 @@ application {
 }
 
 repositories {
-    jcenter()
     mavenCentral()
 }
 
@@ -45,9 +44,8 @@ dependencies {
     implementation("org.ehcache:ehcache:$ehcacheVersion")
     implementation("com.apurebase:kgraphql:$kGraphqlVersion")
     implementation("com.apurebase:kgraphql-ktor:$kGraphqlVersion")
-    testImplementation("io.ktor:ktor-server-tests:$ktorVersion")
-    testImplementation("org.junit.jupiter:junit-jupiter-engine:$jUnitVersion")
-    testImplementation("org.junit.jupiter:junit-jupiter-api:$jUnitVersion")
+    testImplementation("io.ktor:ktor-server-test-host:$ktorVersion")
+    testImplementation("org.jetbrains.kotlin:kotlin-test:$kotlinVersion")
     testImplementation("io.mockk:mockk:$mockkVersion")
 }
 

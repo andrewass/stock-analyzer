@@ -1,9 +1,0 @@
-type Query {
-    quoteBySymbol(symbol: String): Quote
-}
-
-type Quote{
-    symbol: String
-    price: Float
-}
-

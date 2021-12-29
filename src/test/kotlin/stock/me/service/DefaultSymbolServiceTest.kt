@@ -6,7 +6,6 @@ import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import org.elasticsearch.action.search.SearchResponse
 import org.elasticsearch.action.search.SearchResponseSections
-import org.elasticsearch.client.ElasticsearchClient
 import org.elasticsearch.client.RequestOptions
 import org.elasticsearch.client.RestHighLevelClient
 import org.elasticsearch.search.SearchHits
@@ -68,7 +67,7 @@ internal class DefaultSymbolServiceTest {
 
         verify { YahooFinance.get(AAPL) }
 
-        assertEquals(AAPL,response.symbol)
+        assertEquals(AAPL, response.symbol)
         assertEquals("USD", response.currency)
         assertEquals(PRICE_100, response.quote.price)
         assertEquals(PRICE_100, response.quote.previousClose)
@@ -78,7 +77,7 @@ internal class DefaultSymbolServiceTest {
     }
 
     @Test
-    fun shouldThrowExceptionWhenNoQuotesAreFound(){
+    fun shouldThrowExceptionWhenNoQuotesAreFound() {
         every {
             YahooFinance.get(AAPL)
         } returns null
@@ -89,7 +88,7 @@ internal class DefaultSymbolServiceTest {
     }
 
     @Test
-    fun shouldGetHistoricalQuotes(){
+    fun shouldGetHistoricalQuotes() {
         every {
             YahooFinance.get(AAPL, any(), any(), Interval.DAILY)
         } returns stubStockResponse()
