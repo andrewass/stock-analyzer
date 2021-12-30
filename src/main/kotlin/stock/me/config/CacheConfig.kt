@@ -15,5 +15,10 @@ fun getCacheManager(): CacheManager =
                 .newCacheConfigurationBuilder(String::class.java, Stock::class.java, ResourcePoolsBuilder.heap(10))
                 .withExpiry(ExpiryPolicyBuilder.timeToLiveExpiration(Duration.ofDays(1)))
         )
+        .withCache(
+            "stockInformation", CacheConfigurationBuilder
+                .newCacheConfigurationBuilder(String::class.java, Stock::class.java, ResourcePoolsBuilder.heap(10))
+                .withExpiry(ExpiryPolicyBuilder.timeToLiveExpiration(Duration.ofDays(1)))
+        )
         .build()
         .apply { init() }

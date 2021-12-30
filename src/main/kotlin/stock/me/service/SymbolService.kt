@@ -7,6 +7,8 @@ interface SymbolService {
 
     fun getSymbolSuggestions(query: String): List<JsonElement>
 
+    fun getStockSymbolInformation(symbol: String)
+
     fun getStockQuote(symbol: String): Stock
 
     fun getHistoricalQuotes(symbol: String): Stock

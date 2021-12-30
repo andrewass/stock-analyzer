@@ -27,6 +27,7 @@ fun Application.main() = runBlocking {
         method(HttpMethod.Patch)
         method(HttpMethod.Delete)
     }
+
     registerRoutes()
     registerGraphQLSchema()
     initStockTasks()

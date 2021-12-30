@@ -2,6 +2,7 @@ package stock.me.graphql
 
 import com.apurebase.kgraphql.GraphQL
 import io.ktor.application.*
+import kotlinx.datetime.LocalDate
 import org.kodein.di.instance
 import stock.me.config.kodein
 import stock.me.provider.ServiceProvider
@@ -31,6 +32,19 @@ fun Application.registerGraphQLSchema() {
                 resolver { ->
                     serviceProvider.getStockQuotesOfTrendingSymbols()
                 }
+            }
+
+            query("stockQuotesHistorical"){
+                description = "Returns a list of historical stock quotes for a given symbol"
+
+                resolver { symbol: String ->
+                    serviceProvider.getHistoricalQuotes(symbol)
+                }
+            }
+
+            stringScalar<LocalDate> {
+                serialize = { date -> date.toString() }
+                deserialize = { dateString -> LocalDate.parse(dateString)}
             }
 
             type<StockQuoteDto> {
