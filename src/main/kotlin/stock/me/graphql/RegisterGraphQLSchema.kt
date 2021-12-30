@@ -6,8 +6,6 @@ import kotlinx.datetime.LocalDate
 import org.kodein.di.instance
 import stock.me.config.kodein
 import stock.me.provider.ServiceProvider
-import stock.me.provider.response.HistoricalQuoteDto
-import stock.me.provider.response.StockQuoteDto
 
 
 fun Application.registerGraphQLSchema() {
@@ -34,7 +32,7 @@ fun Application.registerGraphQLSchema() {
                 }
             }
 
-            query("stockQuotesHistorical"){
+            query("stockQuotesHistorical") {
                 description = "Returns a list of historical stock quotes for a given symbol"
 
                 resolver { symbol: String ->
@@ -44,16 +42,10 @@ fun Application.registerGraphQLSchema() {
 
             stringScalar<LocalDate> {
                 serialize = { date -> date.toString() }
-                deserialize = { dateString -> LocalDate.parse(dateString)}
+                deserialize = { dateString -> LocalDate.parse(dateString) }
             }
 
-            type<StockQuoteDto> {
-                description = "A stock quote containing price information for a given symbol"
-            }
-
-            type<HistoricalQuoteDto> {
-                description = "A list of historical stock quotes for a given symbol"
-            }
+            createSchemaTypes(this)
         }
     }
 }

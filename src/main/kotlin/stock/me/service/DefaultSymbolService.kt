@@ -35,9 +35,10 @@ class DefaultSymbolService(
             .map { Json.parseToJsonElement(it) }
     }
 
-    override fun getStockSymbolInformation(symbol: String) {
-        val response = YahooFinance.get(symbol)
-    }
+    override fun getStockSymbolInformation(symbol: String): Stock =
+        YahooFinance.get(symbol)
+            ?: throw NotFoundException("Stock symbol information : No results found for $symbol")
+
 
     override fun getStockQuote(symbol: String): Stock =
         YahooFinance.get(symbol)
