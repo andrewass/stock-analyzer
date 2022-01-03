@@ -7,7 +7,6 @@ import stock.me.provider.response.StockInformationDto
 import stock.me.provider.response.StockQuoteDto
 
 fun createSchemaTypes(builder: SchemaBuilder){
-
     builder.type<StockDto>(){
         description = "Root entity of stock data for a given symbol"
     }

@@ -13,8 +13,8 @@ import java.time.ZoneId
 
 fun toStockDto(stock: Stock) = StockDto(
     symbol = stock.symbol,
-    stockQuoteDto = toStockQuoteDto(stock),
-    stockInformationDto = toStockInformationDto(stock)
+    stockQuote = toStockQuoteDto(stock),
+    stockInformation = toStockInformationDto(stock)
 )
 
 fun toStockQuoteDto(stock: Stock): StockQuoteDto {

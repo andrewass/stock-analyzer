@@ -24,6 +24,14 @@ fun Application.registerGraphQLSchema() {
                 }
             }
 
+            query("stockSymbolInformation") {
+                description = "Returns stock information for a given symbol"
+
+                resolver { symbol: String ->
+                    serviceProvider.getStockSymbolInformation(symbol)
+                }
+            }
+
             query("stockQuotesTrending") {
                 description = "Returns a list of stock quotes for trending symbols"
 
