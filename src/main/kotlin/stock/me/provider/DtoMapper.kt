@@ -4,7 +4,7 @@ import kotlinx.datetime.toKotlinLocalDate
 import stock.me.model.Currency
 import stock.me.provider.response.HistoricalQuoteDto
 import stock.me.provider.response.StockDto
-import stock.me.provider.response.StockInformationDto
+import stock.me.provider.response.StockStatsDto
 import stock.me.provider.response.StockQuoteDto
 import yahoofinance.Stock
 import yahoofinance.YahooFinance
@@ -14,7 +14,7 @@ import java.time.ZoneId
 fun toStockDto(stock: Stock) = StockDto(
     symbol = stock.symbol,
     stockQuote = toStockQuoteDto(stock),
-    stockInformation = toStockInformationDto(stock)
+    stockStats = toStockInformationDto(stock)
 )
 
 fun toStockQuoteDto(stock: Stock): StockQuoteDto {
@@ -24,7 +24,7 @@ fun toStockQuoteDto(stock: Stock): StockQuoteDto {
     return mapToStockQuoteDto(stock, currency, usdPrice)
 }
 
-private fun toStockInformationDto(stock: Stock) = StockInformationDto(
+private fun toStockInformationDto(stock: Stock) = StockStatsDto(
     annualDividendYieldPercent = stock.dividend?.annualYieldPercent?.toDouble(),
     earningsPerShare = stock.stats?.eps?.toDouble(),
     marketCap = stock.stats?.marketCap?.toDouble(),

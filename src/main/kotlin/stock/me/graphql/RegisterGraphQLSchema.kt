@@ -24,11 +24,11 @@ fun Application.registerGraphQLSchema() {
                 }
             }
 
-            query("stockSymbolInformation") {
-                description = "Returns stock information for a given symbol"
+            query("stockSymbolStats") {
+                description = "Returns stock stats for a given symbol"
 
                 resolver { symbol: String ->
-                    serviceProvider.getStockSymbolInformation(symbol)
+                    serviceProvider.getStockSymbolStats(symbol)
                 }
             }
 

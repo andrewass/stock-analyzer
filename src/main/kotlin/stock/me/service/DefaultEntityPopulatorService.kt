@@ -25,7 +25,7 @@ class DefaultEntityPopulatorService(
 
         exchanges.forEach { exchange ->
             stockConsumer.getAllStocksFromExchange(exchange).also { stocks ->
-                logger.info("\tFetched ${stocks.size} stocks from exchange $exchange")
+                logger.info("Fetched ${stocks.size} stocks from exchange $exchange")
                 if (stocks.isNotEmpty()) {
                     if (indexExists()) {
                         deleteDocumentsFromIndex(exchange)

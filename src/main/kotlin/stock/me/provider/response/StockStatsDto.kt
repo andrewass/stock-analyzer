@@ -1,6 +1,6 @@
 package stock.me.provider.response
 
-data class StockInformationDto(
+data class StockStatsDto(
     val annualDividendYieldPercent: Double?,
     val priceToEarnings: Double?,
     val earningsPerShare: Double?,

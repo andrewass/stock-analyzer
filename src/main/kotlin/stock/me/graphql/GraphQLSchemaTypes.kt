@@ -3,7 +3,7 @@ package stock.me.graphql
 import com.apurebase.kgraphql.schema.dsl.SchemaBuilder
 import stock.me.provider.response.HistoricalQuoteDto
 import stock.me.provider.response.StockDto
-import stock.me.provider.response.StockInformationDto
+import stock.me.provider.response.StockStatsDto
 import stock.me.provider.response.StockQuoteDto
 
 fun createSchemaTypes(builder: SchemaBuilder){
@@ -11,7 +11,7 @@ fun createSchemaTypes(builder: SchemaBuilder){
         description = "Root entity of stock data for a given symbol"
     }
 
-    builder.type<StockInformationDto>(){
+    builder.type<StockStatsDto>(){
         description = "General information of a stock for a given symbol"
     }
 
