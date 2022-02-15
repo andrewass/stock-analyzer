@@ -9,7 +9,7 @@ interface ServiceProvider {
 
     fun getSymbolSuggestions(query: String): List<JsonElement>
 
-    fun getStockSymbolStats(symbol: String): StockDto
+    fun getStockSymbolInformation(symbol: String): StockDto
 
     fun getStockQuote(symbol: String): StockQuoteDto
 

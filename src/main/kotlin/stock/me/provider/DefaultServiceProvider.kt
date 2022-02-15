@@ -17,7 +17,7 @@ class DefaultServiceProvider(
     override fun getStockQuote(symbol: String): StockQuoteDto =
         toStockQuoteDto(symbolService.getStockQuote(symbol))
 
-    override fun getStockSymbolStats(symbol: String) : StockDto =
+    override fun getStockSymbolInformation(symbol: String): StockDto =
         toStockDto(symbolService.getStockSymbolInformation(symbol))
 
     override fun getHistoricalQuotes(symbol: String): List<HistoricalQuoteDto> =
