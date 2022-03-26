@@ -2,13 +2,16 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 val ktorVersion: String by project
 val kotlinVersion: String by project
+val kotlinxDateTimeVersion: String by project
+val yahooFinanceVersion: String by project
 val logbackVersion: String by project
+val log4jVersion: String by project
 val kodeinVersion: String by project
 val jUnitVersion: String by project
 val kGraphqlVersion: String by project
 val ehcacheVersion: String by project
-val log4jVersion: String by project
 val mockkVersion: String by project
+val elasticSearchVersion: String by project
 
 plugins {
     application
@@ -36,11 +39,11 @@ dependencies {
     implementation("io.ktor:ktor-jackson:$ktorVersion")
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
     implementation("org.apache.logging.log4j:log4j-core:$log4jVersion")
-    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.3.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime:$kotlinxDateTimeVersion")
     implementation("org.kodein.di:kodein-di-framework-ktor-server-controller-jvm:$kodeinVersion")
-    implementation("com.yahoofinance-api:YahooFinanceAPI:3.15.0")
+    implementation("com.yahoofinance-api:YahooFinanceAPI:$yahooFinanceVersion")
     implementation("org.elasticsearch.client:elasticsearch-rest-high-level-client:7.15.2")
-    implementation("co.elastic.clients:elasticsearch-java:7.16.2")
+    implementation("co.elastic.clients:elasticsearch-java:$elasticSearchVersion")
     implementation("org.ehcache:ehcache:$ehcacheVersion")
     implementation("com.apurebase:kgraphql:$kGraphqlVersion")
     implementation("com.apurebase:kgraphql-ktor:$kGraphqlVersion")
@@ -50,7 +53,7 @@ dependencies {
 }
 
 tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "11"
+    kotlinOptions.jvmTarget = "17"
 }
 
 tasks.withType<Test> {

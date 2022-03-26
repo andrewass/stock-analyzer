@@ -12,12 +12,12 @@ fun getCacheManager(): CacheManager =
     CacheManagerBuilder.newCacheManagerBuilder()
         .withCache(
             "historicQuotes", CacheConfigurationBuilder
-                .newCacheConfigurationBuilder(String::class.java, Stock::class.java, ResourcePoolsBuilder.heap(10))
+                .newCacheConfigurationBuilder(String::class.java, Stock::class.java, ResourcePoolsBuilder.heap(1000))
                 .withExpiry(ExpiryPolicyBuilder.timeToLiveExpiration(Duration.ofDays(1)))
         )
         .withCache(
             "stockInformation", CacheConfigurationBuilder
-                .newCacheConfigurationBuilder(String::class.java, Stock::class.java, ResourcePoolsBuilder.heap(10))
+                .newCacheConfigurationBuilder(String::class.java, Stock::class.java, ResourcePoolsBuilder.heap(1000))
                 .withExpiry(ExpiryPolicyBuilder.timeToLiveExpiration(Duration.ofDays(1)))
         )
         .build()

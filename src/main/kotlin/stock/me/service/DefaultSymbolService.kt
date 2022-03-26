@@ -57,10 +57,8 @@ class DefaultSymbolService(
     override fun getStockQuotesOfTrendingSymbols(): Collection<Stock> =
         YahooFinance.get(getTrendingSymbols()).values
 
-
     private fun getTrendingSymbols(): Array<String> =
         arrayOf("AAPL", "GOOGL", "BABA", "AMZN", "MSFT", "NVDA", "FB", "TSLA", "V", "PLTR")
-
 
     private fun getFromAndToDates(): Pair<Calendar, Calendar> {
         val from = Calendar.getInstance()

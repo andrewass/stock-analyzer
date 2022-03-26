@@ -1,5 +1,5 @@
 
-FROM openjdk:11.0.7-jre-slim
+FROM eclipse-temurin:17-jre-alpine
 
 ARG JAR_FILE=./build/libs/*.jar
 

@@ -29,7 +29,6 @@ fun getRestHighLevelClient() = RestHighLevelClient(
         .setHttpClientConfigCallback { it.setDefaultCredentialsProvider(credentialsProvider) }
 )
 
-
 fun getElasticSearchClient(): ElasticsearchClient =
     RestClient.builder(httpHost)
         .setHttpClientConfigCallback { it.setDefaultCredentialsProvider(credentialsProvider) }.build()

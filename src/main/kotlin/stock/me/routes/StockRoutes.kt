@@ -15,26 +15,29 @@ fun Route.stockRoute() {
     route("/stock") {
 
         get("/suggestions/{query}") {
-            val query = call.parameters["query"] ?: return@get call.respond(HttpStatusCode.BadRequest)
-            val suggestions = serviceProvider.getSymbolSuggestions(query)
-            call.respond(suggestions)
+            call.parameters["query"]
+                ?.let { serviceProvider.getSymbolSuggestions(it) }
+                ?.also { call.respond(it) }
+                ?: return@get call.respond(HttpStatusCode.BadRequest)
         }
 
         get("/stock-quote/{symbol}") {
-            val symbol = call.parameters["symbol"] ?: return@get call.respond(HttpStatusCode.BadRequest)
-            val stockQuote = serviceProvider.getStockQuote(symbol)
-            call.respond(stockQuote)
+            call.parameters["symbol"]
+                ?.let { serviceProvider.getStockQuote(it) }
+                ?.also { call.respond(it) }
+                ?: return@get call.respond(HttpStatusCode.BadRequest)
         }
 
         get("/stock-quote-trending") {
-            val stockQuotes = serviceProvider.getStockQuotesOfTrendingSymbols()
-            call.respond(stockQuotes)
+            serviceProvider.getStockQuotesOfTrendingSymbols()
+                .also { call.respond(it) }
         }
 
         get("/historical-quotes/{symbol}") {
-            val symbol = call.parameters["symbol"] ?: return@get call.respond(HttpStatusCode.BadRequest)
-            val historicalQuotes = serviceProvider.getHistoricalQuotes(symbol)
-            call.respond(historicalQuotes)
+            call.parameters["symbol"]
+                ?.let { serviceProvider.getHistoricalQuotes(it) }
+                ?.also { call.respond(it) }
+                ?: return@get call.respond(HttpStatusCode.BadRequest)
         }
     }
 }
