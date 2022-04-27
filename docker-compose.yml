@@ -1,43 +1,23 @@
 version: "3.8"
 
 services:
-  elastic-search:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.15.2
-    container_name: elastic-search
-    environment:
-      node.name: es01
-      cluster.name: es-docker-cluster
-      bootstrap.memory_lock: "true"
-      discovery.type: single-node
-      xpack.security.enabled: "false"
-      ES_JAVA_OPTS: "-Xms2048m -Xmx2048m"
-      ELASTIC_PASSWORD: password
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-    volumes:
-      - es-volume:/usr/share/elasticsearch/data
-    ports:
-      - "9200:9200"
 
-  kibana:
-    image: docker.elastic.co/kibana/kibana:7.15.2
-    container_name: kibana
+  redis:
+    image: redis:6.2-alpine
+    container_name: redis
+    restart: on-failure
     ports:
-      - "5601:5601"
-    environment:
-     ELASTICSEARCH_URL : http://elastic-search:9200
-     ELASTICSEARCH_HOSTS : '["http://elastic-search:9200"]'
-     ELASTICSEARCH_USERNAME : username
-     ELASTICSEARCH_PASSWORD : password
+      - "6379:6379"
+    volumes:
+      - redis-volume:/data
+    command: redis-server --save 20 1 --loglevel warning --requirepass redisDockerTestPassword
 
   stock-analyzer:
     image: custom-stock-analyzer
     container_name: stock-analyzer
     build: .
     depends_on:
-      - elastic-search
+      - redis
     restart: on-failure
     ports:
       - "8088:8088"
@@ -48,6 +28,11 @@ services:
       ELASTIC_SEARCH_PORT : 9200
       ES_USERNAME: username
       ES_PASSWORD: password
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_USER: default
+      REDIS_PASSWORD: redisDockerTestPassword
 
 volumes:
-  es-volume:
+  redis-volume:
+    driver: local

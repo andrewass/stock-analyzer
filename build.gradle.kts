@@ -12,6 +12,7 @@ val kGraphqlVersion: String by project
 val ehcacheVersion: String by project
 val mockkVersion: String by project
 val elasticSearchVersion: String by project
+val jedisVersion: String by project
 
 plugins {
     application
@@ -47,6 +48,7 @@ dependencies {
     implementation("org.ehcache:ehcache:$ehcacheVersion")
     implementation("com.apurebase:kgraphql:$kGraphqlVersion")
     implementation("com.apurebase:kgraphql-ktor:$kGraphqlVersion")
+    implementation("redis.clients:jedis:4.2.2")
     testImplementation("io.ktor:ktor-server-test-host:$ktorVersion")
     testImplementation("org.jetbrains.kotlin:kotlin-test:$kotlinVersion")
     testImplementation("io.mockk:mockk:$mockkVersion")

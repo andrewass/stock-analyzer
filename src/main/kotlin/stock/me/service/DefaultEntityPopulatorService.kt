@@ -39,7 +39,7 @@ class DefaultEntityPopulatorService(
         delay(60000L)
     }
 
-    override suspend fun getStockExchanges(): List<String> {
+    private fun getStockExchanges(): List<String> {
         return this::class.java.getResourceAsStream("/domain/stockexchanges.csv")
             .bufferedReader()
             .readLines()
