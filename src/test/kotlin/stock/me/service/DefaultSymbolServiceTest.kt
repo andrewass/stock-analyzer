@@ -12,6 +12,7 @@ import org.elasticsearch.search.SearchHits
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
+import stock.me.service.symbolquery.DefaultSymbolService
 import yahoofinance.Stock
 import yahoofinance.YahooFinance
 import yahoofinance.histquotes.Interval

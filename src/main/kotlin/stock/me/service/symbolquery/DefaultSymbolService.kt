@@ -1,4 +1,4 @@
-package stock.me.service
+package stock.me.service.symbolquery
 
 import io.ktor.features.*
 import kotlinx.serialization.json.Json
@@ -20,7 +20,7 @@ import java.util.*
 
 class DefaultSymbolService(
     private val restClient: RestHighLevelClient
-) : SymbolService {
+) : SymbolQueryService {
 
     override fun getSymbolSuggestions(query: String): List<JsonElement> {
         val response = SearchSourceBuilder().apply {

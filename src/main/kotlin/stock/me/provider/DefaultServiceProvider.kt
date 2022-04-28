@@ -4,11 +4,11 @@ import kotlinx.serialization.json.JsonElement
 import stock.me.provider.response.HistoricalQuoteDto
 import stock.me.provider.response.StockDto
 import stock.me.provider.response.StockQuoteDto
-import stock.me.service.SymbolService
+import stock.me.service.symbolquery.SymbolQueryService
 
 
 class DefaultServiceProvider(
-    private val symbolService: SymbolService
+    private val symbolService: SymbolQueryService
 ) : ServiceProvider {
 
     override fun getSymbolSuggestions(query: String): List<JsonElement> =

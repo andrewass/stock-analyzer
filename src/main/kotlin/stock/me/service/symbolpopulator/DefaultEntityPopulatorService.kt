@@ -1,4 +1,4 @@
-package stock.me.service
+package stock.me.service.symbolpopulator
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient
 import kotlinx.coroutines.delay
@@ -14,7 +14,7 @@ class DefaultEntityPopulatorService(
     private val restClient: RestHighLevelClient,
     private val elasticsearchClient: ElasticsearchClient,
     private val stockConsumer: StockConsumer
-) : EntityPopulatorService {
+) : SymbolPopulatorService {
 
     private val logger = LoggerFactory.getLogger(DefaultEntityPopulatorService::class.simpleName)
 
@@ -86,4 +86,3 @@ class DefaultEntityPopulatorService(
         }
     }
 }
-

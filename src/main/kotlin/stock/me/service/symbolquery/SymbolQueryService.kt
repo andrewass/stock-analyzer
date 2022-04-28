@@ -1,9 +1,9 @@
-package stock.me.service
+package stock.me.service.symbolquery
 
 import kotlinx.serialization.json.JsonElement
 import yahoofinance.Stock
 
-interface SymbolService {
+interface SymbolQueryService {
 
     fun getSymbolSuggestions(query: String): List<JsonElement>
 

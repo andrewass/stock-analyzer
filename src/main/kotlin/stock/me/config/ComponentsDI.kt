@@ -7,7 +7,10 @@ import stock.me.consumer.FinnHubConsumer
 import stock.me.consumer.StockConsumer
 import stock.me.provider.DefaultServiceProvider
 import stock.me.provider.ServiceProvider
-import stock.me.service.*
+import stock.me.service.symbolpopulator.SymbolPopulatorService
+import stock.me.service.symbolpopulator.EntityPopulatorServiceRedis
+import stock.me.service.symbolquery.DefaultSymbolService
+import stock.me.service.symbolquery.SymbolQueryService
 
 /**
  * Make components available with dependency injection using Kodein
@@ -20,11 +23,11 @@ val kodein = DI {
 
     bindSingleton<StockConsumer> { FinnHubConsumer() }
 
-    bindSingleton<EntityPopulatorService> {
+    bindSingleton<SymbolPopulatorService> {
         EntityPopulatorServiceRedis(instance(), instance())
     }
 
-    bindSingleton<SymbolService> { DefaultSymbolService(instance()) }
+    bindSingleton<SymbolQueryService> { DefaultSymbolService(instance()) }
 
     bindSingleton<ServiceProvider> { DefaultServiceProvider(instance()) }
 }
