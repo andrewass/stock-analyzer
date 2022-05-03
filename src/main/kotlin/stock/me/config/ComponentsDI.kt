@@ -9,8 +9,8 @@ import stock.me.provider.DefaultServiceProvider
 import stock.me.provider.ServiceProvider
 import stock.me.service.symbolpopulator.SymbolPopulatorService
 import stock.me.service.symbolpopulator.EntityPopulatorServiceRedis
-import stock.me.service.symbolquery.DefaultSymbolService
 import stock.me.service.symbolquery.SymbolQueryService
+import stock.me.service.symbolquery.DefaultSymbolQueryService
 
 /**
  * Make components available with dependency injection using Kodein
@@ -27,7 +27,7 @@ val kodein = DI {
         EntityPopulatorServiceRedis(instance(), instance())
     }
 
-    bindSingleton<SymbolQueryService> { DefaultSymbolService(instance()) }
+    bindSingleton<SymbolQueryService> { DefaultSymbolQueryService(instance()) }
 
     bindSingleton<ServiceProvider> { DefaultServiceProvider(instance()) }
 }

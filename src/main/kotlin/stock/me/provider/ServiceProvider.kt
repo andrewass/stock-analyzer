@@ -1,13 +1,13 @@
 package stock.me.provider
 
-import kotlinx.serialization.json.JsonElement
 import stock.me.provider.response.HistoricalQuoteDto
 import stock.me.provider.response.StockDto
 import stock.me.provider.response.StockQuoteDto
+import stock.me.service.symbolquery.SymbolSuggestion
 
 interface ServiceProvider {
 
-    fun getSymbolSuggestions(query: String): List<JsonElement>
+    fun getSymbolSuggestions(query: String): List<SymbolSuggestion>
 
     fun getStockSymbolInformation(symbol: String): StockDto
 

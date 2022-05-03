@@ -1,17 +1,17 @@
 package stock.me.provider
 
-import kotlinx.serialization.json.JsonElement
 import stock.me.provider.response.HistoricalQuoteDto
 import stock.me.provider.response.StockDto
 import stock.me.provider.response.StockQuoteDto
 import stock.me.service.symbolquery.SymbolQueryService
+import stock.me.service.symbolquery.SymbolSuggestion
 
 
 class DefaultServiceProvider(
     private val symbolService: SymbolQueryService
 ) : ServiceProvider {
 
-    override fun getSymbolSuggestions(query: String): List<JsonElement> =
+    override fun getSymbolSuggestions(query: String): List<SymbolSuggestion> =
         symbolService.getSymbolSuggestions(query)
 
     override fun getStockQuote(symbol: String): StockQuoteDto =

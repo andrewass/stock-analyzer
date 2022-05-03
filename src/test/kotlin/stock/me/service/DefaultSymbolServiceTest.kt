@@ -6,13 +6,11 @@ import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import org.elasticsearch.action.search.SearchResponse
 import org.elasticsearch.action.search.SearchResponseSections
-import org.elasticsearch.client.RequestOptions
-import org.elasticsearch.client.RestHighLevelClient
 import org.elasticsearch.search.SearchHits
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertTrue
-import stock.me.service.symbolquery.DefaultSymbolService
+import redis.clients.jedis.JedisPooled
+import stock.me.service.symbolquery.DefaultSymbolQueryService
 import yahoofinance.Stock
 import yahoofinance.YahooFinance
 import yahoofinance.histquotes.Interval
@@ -26,10 +24,10 @@ private val PRICE_100 = BigDecimal("100")
 internal class DefaultSymbolServiceTest {
 
     @MockK
-    private lateinit var restClient: RestHighLevelClient
+    private lateinit var redisClient: JedisPooled
 
     @InjectMockKs
-    private lateinit var symbolSearchService: DefaultSymbolService
+    private lateinit var symbolSearchService: DefaultSymbolQueryService
 
 
     @BeforeAll
@@ -45,15 +43,6 @@ internal class DefaultSymbolServiceTest {
 
     @Test
     fun shouldCallElasticSearchClientForSymbolSuggestions() {
-        every {
-            restClient.search(any(), RequestOptions.DEFAULT)
-        } returns stubSearchResponse()
-
-        val response = symbolSearchService.getSymbolSuggestions(AAPL)
-
-        verify { restClient.search(any(), any()) }
-
-        assertTrue(response.isEmpty())
     }
 
     @Test

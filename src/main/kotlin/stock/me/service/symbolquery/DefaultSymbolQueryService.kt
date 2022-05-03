@@ -1,7 +1,6 @@
 package stock.me.service.symbolquery
 
 import io.ktor.features.*
-import kotlinx.serialization.json.JsonElement
 import redis.clients.jedis.JedisPooled
 import stock.me.service.cache.addHistoricalQuotesCache
 import stock.me.service.cache.getHistoricalQuotesCache
@@ -10,21 +9,27 @@ import yahoofinance.YahooFinance
 import yahoofinance.histquotes.Interval
 import java.util.*
 
-class SymbolServiceRedis(
-    private val jedis : JedisPooled
+class DefaultSymbolQueryService(
+    private val jedis: JedisPooled
 ) : SymbolQueryService {
 
-    override fun getSymbolSuggestions(query: String): List<JsonElement> {
-        TODO("Not yet implemented")
+    override fun getSymbolSuggestions(query: String): List<SymbolSuggestion> {
+        val rank = jedis.zrank("symbols", query.lowercase(Locale.getDefault()))
+
+        return jedis.zrange("symbols", rank + 1, rank + 101)
+            .filter { it.endsWith('*') }
+            .take(10)
+            .map { toSymbolSuggestion(it) }
     }
 
-    override fun getStockSymbolInformation(symbol: String): Stock {
-        TODO("Not yet implemented")
-    }
+    override fun getStockSymbolInformation(symbol: String): Stock =
+        YahooFinance.get(symbol)
+            ?: throw NotFoundException("Stock symbol information : No results found for $symbol")
 
-    override fun getStockQuote(symbol: String): Stock {
-        TODO("Not yet implemented")
-    }
+
+    override fun getStockQuote(symbol: String): Stock =
+        YahooFinance.get(symbol)
+            ?: throw NotFoundException("Stock Quote : No results found for $symbol")
 
     override fun getHistoricalQuotes(symbol: String): Stock {
         val (from, to) = getFromAndToDates()
@@ -37,6 +42,12 @@ class SymbolServiceRedis(
 
     override fun getStockQuotesOfTrendingSymbols(): Collection<Stock> =
         YahooFinance.get(getTrendingSymbols()).values
+
+    private fun toSymbolSuggestion(symbol: String) =
+        SymbolSuggestion(
+            symbol = symbol,
+            description = jedis.hget("description", symbol)
+        )
 
     private fun getTrendingSymbols(): Array<String> =
         arrayOf("AAPL", "GOOGL", "BABA", "AMZN", "MSFT", "NVDA", "FB", "TSLA", "V", "PLTR")

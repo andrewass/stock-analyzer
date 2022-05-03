@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory
 import redis.clients.jedis.JedisPooled
 import stock.me.consumer.StockConsumer
 import stock.me.model.Stock
+import java.util.*
 
 class EntityPopulatorServiceRedis(
     private val jedis: JedisPooled,
@@ -21,7 +22,7 @@ class EntityPopulatorServiceRedis(
         exchanges.forEach { exchange ->
             stockConsumer.getAllStocksFromExchange(exchange).also { stocks ->
                 logger.info("Fetched ${stocks.size} stocks from exchange $exchange")
-                stocks.forEach { insertSymbol(it)}
+                stocks.forEach { insertSymbol(it) }
             }
             delay(60000L)
         }
@@ -30,10 +31,11 @@ class EntityPopulatorServiceRedis(
     }
 
     private fun insertSymbol(stock: Stock) {
-        stock.symbol.allPrefixes().forEach {
-            jedis.zadd("symbols",0.00, it)
-        }
-        jedis.zadd("symbols",0.00,stock.symbol+"*")
+        stock.symbol.lowercase(Locale.getDefault())
+            .allPrefixes().forEach {
+                jedis.zadd("symbols", 0.00, it)
+            }
+        jedis.zadd("symbols", 0.00, stock.symbol + "*")
         jedis.zadd(stock.symbol, 0.00, stock.description)
 
         jedis.hset("description", stock.symbol, stock.description)
@@ -47,10 +49,10 @@ class EntityPopulatorServiceRedis(
             .map { it[0] }
     }
 
-    private fun String.allPrefixes() : List<String> {
+    private fun String.allPrefixes(): List<String> {
         val prefixes = mutableListOf<String>()
-        for (i in 1..this.length){
-            prefixes.add(this.substring(0,i))
+        for (i in 1..this.length) {
+            prefixes.add(this.substring(0, i))
         }
         return prefixes
     }
