@@ -20,10 +20,11 @@ class EntityPopulatorServiceRedis(
         logger.info("Fetched ${exchanges.size} exchanges")
 
         exchanges.forEach { exchange ->
-            stockConsumer.getAllStocksFromExchange(exchange).also { stocks ->
-                logger.info("Fetched ${stocks.size} stocks from exchange $exchange")
-                stocks.forEach { insertSymbol(it) }
-            }
+            stockConsumer.getAllStocksFromExchange(exchange)
+                .also { stocks ->
+                    logger.info("Fetched ${stocks.size} stocks from exchange $exchange")
+                    stocks.forEach { insertSymbol(it) }
+                }
             delay(60000L)
         }
         logger.info("Populating stocks by ticker symbol : Completed")
@@ -31,14 +32,12 @@ class EntityPopulatorServiceRedis(
     }
 
     private fun insertSymbol(stock: Stock) {
-        stock.symbol.lowercase(Locale.getDefault())
-            .allPrefixes().forEach {
-                jedis.zadd("symbols", 0.00, it)
-            }
-        jedis.zadd("symbols", 0.00, stock.symbol + "*")
-        jedis.zadd(stock.symbol, 0.00, stock.description)
-
-        jedis.hset("description", stock.symbol, stock.description)
+        val symbol = stock.symbol.lowercase(Locale.getDefault())
+        symbol.allPrefixes().forEach {
+            jedis.zadd("symbols", 0.00, it)
+        }
+        jedis.zadd("symbols", 0.00, "$symbol*")
+        jedis.hset("description", symbol, stock.description)
     }
 
     private fun getStockExchanges(): List<String> {

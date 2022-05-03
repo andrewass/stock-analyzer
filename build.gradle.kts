@@ -11,7 +11,6 @@ val jUnitVersion: String by project
 val kGraphqlVersion: String by project
 val ehcacheVersion: String by project
 val mockkVersion: String by project
-val elasticSearchVersion: String by project
 val jedisVersion: String by project
 
 plugins {
@@ -43,8 +42,6 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-datetime:$kotlinxDateTimeVersion")
     implementation("org.kodein.di:kodein-di-framework-ktor-server-controller-jvm:$kodeinVersion")
     implementation("com.yahoofinance-api:YahooFinanceAPI:$yahooFinanceVersion")
-    implementation("org.elasticsearch.client:elasticsearch-rest-high-level-client:7.15.2")
-    implementation("co.elastic.clients:elasticsearch-java:$elasticSearchVersion")
     implementation("org.ehcache:ehcache:$ehcacheVersion")
     implementation("com.apurebase:kgraphql:$kGraphqlVersion")
     implementation("com.apurebase:kgraphql-ktor:$kGraphqlVersion")

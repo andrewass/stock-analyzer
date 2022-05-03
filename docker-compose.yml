@@ -24,10 +24,6 @@ services:
       - "5005:5005"
     environment:
       FINNHUB_API_KEY : ${FINNHUB_API_KEY}
-      ELASTIC_SEARCH : elastic-search
-      ELASTIC_SEARCH_PORT : 9200
-      ES_USERNAME: username
-      ES_PASSWORD: password
       REDIS_HOST: redis
       REDIS_PORT: 6379
       REDIS_USER: default

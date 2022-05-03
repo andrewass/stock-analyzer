@@ -19,6 +19,7 @@ class DefaultSymbolQueryService(
         return jedis.zrange("symbols", rank + 1, rank + 101)
             .filter { it.endsWith('*') }
             .take(10)
+            .map { it.removeSuffix("*") }
             .map { toSymbolSuggestion(it) }
     }
 

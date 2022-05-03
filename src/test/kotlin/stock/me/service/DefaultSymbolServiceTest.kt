@@ -4,9 +4,6 @@ import io.ktor.features.*
 import io.mockk.*
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
-import org.elasticsearch.action.search.SearchResponse
-import org.elasticsearch.action.search.SearchResponseSections
-import org.elasticsearch.search.SearchHits
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import redis.clients.jedis.JedisPooled
@@ -39,10 +36,6 @@ internal class DefaultSymbolServiceTest {
     @AfterAll
     private fun teardown() {
         unmockkStatic(YahooFinance::class)
-    }
-
-    @Test
-    fun shouldCallElasticSearchClientForSymbolSuggestions() {
     }
 
     @Test
@@ -98,9 +91,4 @@ internal class DefaultSymbolServiceTest {
                     name = AAPL
                 }
         }
-
-    private fun stubSearchResponse(): SearchResponse =
-        SearchResponseSections(
-            SearchHits(emptyArray(), null, 1.0f), null, null, false, null, null, 0
-        ).let { SearchResponse(it, null, 1, 1, 1, 1, null, null) }
 }
