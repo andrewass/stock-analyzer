@@ -3,8 +3,8 @@ package stock.me.provider
 import stock.me.provider.response.HistoricalQuoteDto
 import stock.me.provider.response.StockDto
 import stock.me.provider.response.StockQuoteDto
-import stock.me.service.symbolquery.SymbolQueryService
-import stock.me.service.symbolquery.SymbolSuggestion
+import stock.me.symbols.query.service.SymbolQueryService
+import stock.me.symbols.query.SymbolSuggestion
 
 
 class DefaultServiceProvider(

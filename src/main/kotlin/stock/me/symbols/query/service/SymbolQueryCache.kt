@@ -1,4 +1,4 @@
-package stock.me.service.cache
+package stock.me.symbols.query.service
 
 import org.ehcache.CacheManager
 import org.kodein.di.instance

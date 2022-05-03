@@ -5,7 +5,6 @@ val kotlinVersion: String by project
 val kotlinxDateTimeVersion: String by project
 val yahooFinanceVersion: String by project
 val logbackVersion: String by project
-val log4jVersion: String by project
 val kodeinVersion: String by project
 val jUnitVersion: String by project
 val kGraphqlVersion: String by project
@@ -38,7 +37,6 @@ dependencies {
     implementation("io.ktor:ktor-serialization:$ktorVersion")
     implementation("io.ktor:ktor-jackson:$ktorVersion")
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
-    implementation("org.apache.logging.log4j:log4j-core:$log4jVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-datetime:$kotlinxDateTimeVersion")
     implementation("org.kodein.di:kodein-di-framework-ktor-server-controller-jvm:$kodeinVersion")
     implementation("com.yahoofinance-api:YahooFinanceAPI:$yahooFinanceVersion")

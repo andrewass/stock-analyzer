@@ -1,4 +1,4 @@
-package stock.me.service.symbolquery
+package stock.me.symbols.query
 
 import kotlinx.serialization.Serializable
 

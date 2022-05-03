@@ -1,9 +1,8 @@
-package stock.me.service.symbolquery
+package stock.me.symbols.query.service
 
 import io.ktor.features.*
 import redis.clients.jedis.JedisPooled
-import stock.me.service.cache.addHistoricalQuotesCache
-import stock.me.service.cache.getHistoricalQuotesCache
+import stock.me.symbols.query.SymbolSuggestion
 import yahoofinance.Stock
 import yahoofinance.YahooFinance
 import yahoofinance.histquotes.Interval

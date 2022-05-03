@@ -3,7 +3,7 @@ package stock.me.provider
 import stock.me.provider.response.HistoricalQuoteDto
 import stock.me.provider.response.StockDto
 import stock.me.provider.response.StockQuoteDto
-import stock.me.service.symbolquery.SymbolSuggestion
+import stock.me.symbols.query.SymbolSuggestion
 
 interface ServiceProvider {
 

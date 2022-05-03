@@ -1,5 +1,6 @@
-package stock.me.service.symbolquery
+package stock.me.symbols.query.service
 
+import stock.me.symbols.query.SymbolSuggestion
 import yahoofinance.Stock
 
 interface SymbolQueryService {
