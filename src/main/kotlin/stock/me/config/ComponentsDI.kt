@@ -3,14 +3,14 @@ package stock.me.config
 import org.kodein.di.DI
 import org.kodein.di.bindSingleton
 import org.kodein.di.instance
-import stock.me.symbols.populator.consumer.FinnHubConsumer
-import stock.me.symbols.populator.consumer.StockConsumer
-import stock.me.provider.DefaultServiceProvider
-import stock.me.provider.ServiceProvider
-import stock.me.symbols.populator.service.SymbolPopulatorService
-import stock.me.symbols.populator.service.SymbolPopulatorServiceRedis
-import stock.me.symbols.query.service.SymbolQueryService
-import stock.me.symbols.query.service.DefaultSymbolQueryService
+import stock.me.symbols.populate.consumer.FinnHubConsumer
+import stock.me.symbols.populate.consumer.StockConsumer
+import stock.me.symbols.search.provider.DefaultServiceProvider
+import stock.me.symbols.search.provider.ServiceProvider
+import stock.me.symbols.populate.service.SymbolPopulatorService
+import stock.me.symbols.populate.service.SymbolPopulatorServiceRedis
+import stock.me.symbols.search.service.SymbolQueryService
+import stock.me.symbols.search.service.DefaultSymbolQueryService
 
 /**
  * Make components available with dependency injection using Kodein

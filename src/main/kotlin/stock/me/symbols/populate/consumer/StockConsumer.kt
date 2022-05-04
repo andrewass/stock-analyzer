@@ -1,4 +1,4 @@
-package stock.me.symbols.populator.consumer
+package stock.me.symbols.populate.consumer
 
 import stock.me.model.Stock
 

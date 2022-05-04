@@ -1,4 +1,4 @@
-package stock.me.graphql
+package stock.me.symbols.search.graphql
 
 import com.apurebase.kgraphql.schema.dsl.SchemaBuilder
 import stock.me.provider.response.HistoricalQuoteDto

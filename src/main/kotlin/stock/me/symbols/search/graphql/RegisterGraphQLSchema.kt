@@ -1,11 +1,11 @@
-package stock.me.graphql
+package stock.me.symbols.search.graphql
 
 import com.apurebase.kgraphql.GraphQL
 import io.ktor.application.*
 import kotlinx.datetime.LocalDate
 import org.kodein.di.instance
 import stock.me.config.kodein
-import stock.me.provider.ServiceProvider
+import stock.me.symbols.search.provider.ServiceProvider
 
 
 fun Application.registerGraphQLSchema() {

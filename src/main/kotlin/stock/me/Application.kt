@@ -5,9 +5,9 @@ import io.ktor.features.*
 import io.ktor.http.*
 import io.ktor.serialization.*
 import kotlinx.coroutines.runBlocking
-import stock.me.graphql.registerGraphQLSchema
+import stock.me.symbols.search.graphql.registerGraphQLSchema
 import stock.me.routes.registerRoutes
-import stock.me.symbols.populator.initStockTasks
+import stock.me.symbols.populate.initStockTasks
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 

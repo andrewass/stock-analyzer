@@ -6,7 +6,7 @@ import io.ktor.routing.*
 fun Application.registerRoutes() {
 
     routing {
-        stockRoute()
+        symbolSearchRoutes()
         utilRoute()
     }
 }

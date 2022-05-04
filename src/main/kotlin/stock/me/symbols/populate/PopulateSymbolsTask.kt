@@ -1,4 +1,4 @@
-package stock.me.symbols.populator
+package stock.me.symbols.populate
 
 import io.ktor.application.*
 import kotlinx.coroutines.CoroutineScope
@@ -6,7 +6,7 @@ import kotlinx.coroutines.Dispatchers.Default
 import kotlinx.coroutines.launch
 import org.kodein.di.instance
 import stock.me.config.kodein
-import stock.me.symbols.populator.service.SymbolPopulatorService
+import stock.me.symbols.populate.service.SymbolPopulatorService
 
 suspend fun Application.initStockTasks() {
 

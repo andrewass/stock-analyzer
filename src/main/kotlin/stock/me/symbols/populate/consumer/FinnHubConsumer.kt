@@ -1,4 +1,4 @@
-package stock.me.symbols.populator.consumer
+package stock.me.symbols.populate.consumer
 
 import io.ktor.client.*
 import io.ktor.client.call.*

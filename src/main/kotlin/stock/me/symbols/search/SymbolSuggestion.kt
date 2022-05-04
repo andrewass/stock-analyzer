@@ -1,4 +1,4 @@
-package stock.me.symbols.query
+package stock.me.symbols.search
 
 import kotlinx.serialization.Serializable
 

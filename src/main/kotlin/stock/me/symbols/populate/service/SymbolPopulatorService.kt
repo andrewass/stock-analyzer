@@ -1,4 +1,4 @@
-package stock.me.symbols.populator.service
+package stock.me.symbols.populate.service
 
 interface SymbolPopulatorService {
 

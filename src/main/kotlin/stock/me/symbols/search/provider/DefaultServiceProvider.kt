@@ -1,11 +1,13 @@
-package stock.me.provider
+package stock.me.symbols.search.provider
 
 import stock.me.provider.response.HistoricalQuoteDto
 import stock.me.provider.response.StockDto
 import stock.me.provider.response.StockQuoteDto
-import stock.me.symbols.query.service.SymbolQueryService
-import stock.me.symbols.query.SymbolSuggestion
-
+import stock.me.provider.toHistoricalQuoteDto
+import stock.me.provider.toStockDto
+import stock.me.provider.toStockQuoteDto
+import stock.me.symbols.search.SymbolSuggestion
+import stock.me.symbols.search.service.SymbolQueryService
 
 class DefaultServiceProvider(
     private val symbolService: SymbolQueryService

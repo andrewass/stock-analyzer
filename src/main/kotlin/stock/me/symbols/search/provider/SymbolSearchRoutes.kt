@@ -6,9 +6,9 @@ import io.ktor.response.*
 import io.ktor.routing.*
 import org.kodein.di.instance
 import stock.me.config.kodein
-import stock.me.provider.ServiceProvider
+import stock.me.symbols.search.provider.ServiceProvider
 
-fun Route.stockRoute() {
+fun Route.symbolSearchRoutes() {
 
     val serviceProvider by kodein.instance<ServiceProvider>()
 

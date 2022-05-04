@@ -1,9 +1,9 @@
-package stock.me.provider
+package stock.me.symbols.search.provider
 
 import stock.me.provider.response.HistoricalQuoteDto
 import stock.me.provider.response.StockDto
 import stock.me.provider.response.StockQuoteDto
-import stock.me.symbols.query.SymbolSuggestion
+import stock.me.symbols.search.SymbolSuggestion
 
 interface ServiceProvider {
 
