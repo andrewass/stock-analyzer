@@ -1,31 +1,27 @@
-package stock.me.provider
+package stock.me.symbols.search.provider
 
 import kotlinx.datetime.toKotlinLocalDate
-import stock.me.model.Currency
-import stock.me.provider.response.HistoricalQuoteDto
-import stock.me.provider.response.StockDto
-import stock.me.provider.response.StockStatsDto
-import stock.me.provider.response.StockQuoteDto
+import stock.me.symbols.model.*
 import yahoofinance.Stock
 import yahoofinance.YahooFinance
 import java.time.LocalDate
 import java.time.ZoneId
 
-fun toStockDto(stock: Stock) = StockDto(
-    symbol = stock.symbol,
-    companyName = stock.name,
-    stockQuote = toStockQuoteDto(stock),
-    stockStats = toStockInformationDto(stock)
+fun toStock(src: Stock) =  Stock(
+    symbol = src.symbol,
+    description = src.name,
+    stockQuote = toStockQuoteDto(src),
+    stockStats = toStockInformationDto(src)
 )
 
-fun toStockQuoteDto(stock: Stock): StockQuoteDto {
+fun toStockQuoteDto(stock: Stock): StockQuote {
     val currency = Currency.valueOf(stock.currency)
     val usdPrice = getUsdPrice(stock.quote.price.toDouble(), currency)
 
     return mapToStockQuoteDto(stock, currency, usdPrice)
 }
 
-private fun toStockInformationDto(stock: Stock) = StockStatsDto(
+private fun toStockInformationDto(stock: Stock) = StockStats(
     annualDividendYieldPercent = stock.dividend?.annualYieldPercent?.toDouble(),
     earningsPerShare = stock.stats?.eps?.toDouble(),
     marketCap = stock.stats?.marketCap?.toDouble(),
@@ -36,11 +32,11 @@ private fun toStockInformationDto(stock: Stock) = StockStatsDto(
     shortRatio = stock.stats?.shortRatio?.toDouble()
 )
 
-fun toHistoricalQuoteDto(stock: Stock): List<HistoricalQuoteDto> =
+fun toHistoricalQuoteDto(stock: Stock): List<HistoricalQuote> =
     stock.history
         .filter { it.close != null }
         .map {
-            HistoricalQuoteDto(
+            HistoricalQuote(
                 price = it.close.toDouble(),
                 volume = it.volume,
                 date = LocalDate.ofInstant(it.date.toInstant(), ZoneId.systemDefault()).toKotlinLocalDate()
@@ -48,10 +44,10 @@ fun toHistoricalQuoteDto(stock: Stock): List<HistoricalQuoteDto> =
         }
 
 
-private fun mapToStockQuoteDto(stock: Stock, currency: Currency, usdPrice: Double): StockQuoteDto {
+private fun mapToStockQuoteDto(stock: Stock, currency: Currency, usdPrice: Double): StockQuote {
     val quote = stock.quote
 
-    return StockQuoteDto(
+    return StockQuote(
         symbol = stock.symbol,
         name = stock.name,
         price = quote.price.toDouble(),

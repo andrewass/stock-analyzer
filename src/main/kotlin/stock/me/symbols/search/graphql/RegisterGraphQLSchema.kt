@@ -5,12 +5,12 @@ import io.ktor.application.*
 import kotlinx.datetime.LocalDate
 import org.kodein.di.instance
 import stock.me.config.kodein
-import stock.me.symbols.search.provider.ServiceProvider
+import stock.me.symbols.search.provider.SymbolSearchProvider
 
 
 fun Application.registerGraphQLSchema() {
 
-    val serviceProvider by kodein.instance<ServiceProvider>()
+    val serviceProvider by kodein.instance<SymbolSearchProvider>()
 
     install(GraphQL) {
         playground = true

@@ -7,7 +7,7 @@ import io.mockk.impl.annotations.MockK
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import redis.clients.jedis.JedisPooled
-import stock.me.symbols.search.service.DefaultSymbolQueryService
+import stock.me.symbols.search.service.DefaultSymbolSearchService
 import yahoofinance.Stock
 import yahoofinance.YahooFinance
 import yahoofinance.histquotes.Interval
@@ -24,7 +24,7 @@ internal class DefaultSymbolServiceTest {
     private lateinit var redisClient: JedisPooled
 
     @InjectMockKs
-    private lateinit var symbolSearchService: DefaultSymbolQueryService
+    private lateinit var symbolSearchService: DefaultSymbolSearchService
 
 
     @BeforeAll

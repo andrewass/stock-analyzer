@@ -2,15 +2,15 @@ package stock.me.symbols.search.service
 
 import io.ktor.features.*
 import redis.clients.jedis.JedisPooled
-import stock.me.symbols.search.SymbolSuggestion
+import stock.me.symbols.model.SymbolSuggestion
 import yahoofinance.Stock
 import yahoofinance.YahooFinance
 import yahoofinance.histquotes.Interval
 import java.util.*
 
-class DefaultSymbolQueryService(
+class DefaultSymbolSearchService(
     private val jedis: JedisPooled
-) : SymbolQueryService {
+) : SymbolSearchService {
 
     override fun getSymbolSuggestions(query: String): List<SymbolSuggestion> {
         val rank = jedis.zrank("symbols", query.lowercase(Locale.getDefault()))

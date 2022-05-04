@@ -5,12 +5,12 @@ import org.kodein.di.bindSingleton
 import org.kodein.di.instance
 import stock.me.symbols.populate.consumer.FinnHubConsumer
 import stock.me.symbols.populate.consumer.StockConsumer
-import stock.me.symbols.search.provider.DefaultServiceProvider
-import stock.me.symbols.search.provider.ServiceProvider
+import stock.me.symbols.search.provider.DefaultSymbolSearchProvider
+import stock.me.symbols.search.provider.SymbolSearchProvider
 import stock.me.symbols.populate.service.SymbolPopulatorService
 import stock.me.symbols.populate.service.SymbolPopulatorServiceRedis
-import stock.me.symbols.search.service.SymbolQueryService
-import stock.me.symbols.search.service.DefaultSymbolQueryService
+import stock.me.symbols.search.service.SymbolSearchService
+import stock.me.symbols.search.service.DefaultSymbolSearchService
 
 /**
  * Make components available with dependency injection using Kodein
@@ -27,7 +27,7 @@ val kodein = DI {
         SymbolPopulatorServiceRedis(instance(), instance())
     }
 
-    bindSingleton<SymbolQueryService> { DefaultSymbolQueryService(instance()) }
+    bindSingleton<SymbolSearchService> { DefaultSymbolSearchService(instance()) }
 
-    bindSingleton<ServiceProvider> { DefaultServiceProvider(instance()) }
+    bindSingleton<SymbolSearchProvider> { DefaultSymbolSearchProvider(instance()) }
 }

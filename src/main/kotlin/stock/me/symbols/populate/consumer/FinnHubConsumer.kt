@@ -7,7 +7,7 @@ import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json
-import stock.me.model.Stock
+import stock.me.symbols.model.Stock
 
 class FinnHubConsumer : StockConsumer {
 

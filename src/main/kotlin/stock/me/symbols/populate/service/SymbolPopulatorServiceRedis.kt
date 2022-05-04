@@ -3,7 +3,7 @@ package stock.me.symbols.populate.service
 import kotlinx.coroutines.delay
 import org.slf4j.LoggerFactory
 import redis.clients.jedis.JedisPooled
-import stock.me.model.Stock
+import stock.me.symbols.model.Stock
 import stock.me.symbols.populate.consumer.StockConsumer
 import java.util.*
 

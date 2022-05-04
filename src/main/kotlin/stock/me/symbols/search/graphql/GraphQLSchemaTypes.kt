@@ -1,25 +1,22 @@
 package stock.me.symbols.search.graphql
 
 import com.apurebase.kgraphql.schema.dsl.SchemaBuilder
-import stock.me.provider.response.HistoricalQuoteDto
-import stock.me.provider.response.StockDto
-import stock.me.provider.response.StockStatsDto
-import stock.me.provider.response.StockQuoteDto
+import stock.me.symbols.model.*
 
 fun createSchemaTypes(builder: SchemaBuilder){
-    builder.type<StockDto>(){
+    builder.type<Stock> {
         description = "Root entity of stock data for a given symbol"
     }
 
-    builder.type<StockStatsDto>(){
+    builder.type<StockStats> {
         description = "General information of a stock for a given symbol"
     }
 
-    builder.type<StockQuoteDto> {
+    builder.type<StockQuote> {
         description = "Stock quote containing price information for a given symbol"
     }
 
-    builder.type<HistoricalQuoteDto> {
+    builder.type<HistoricalQuote> {
         description = "List of historical stock quotes for a given symbol"
     }
 }

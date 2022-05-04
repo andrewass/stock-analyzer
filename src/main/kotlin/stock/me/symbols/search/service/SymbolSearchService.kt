@@ -1,9 +1,9 @@
 package stock.me.symbols.search.service
 
-import stock.me.symbols.search.SymbolSuggestion
+import stock.me.symbols.model.SymbolSuggestion
 import yahoofinance.Stock
 
-interface SymbolQueryService {
+interface SymbolSearchService {
 
     fun getSymbolSuggestions(query: String): List<SymbolSuggestion>
 
