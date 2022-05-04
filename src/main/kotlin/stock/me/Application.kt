@@ -5,7 +5,6 @@ import io.ktor.features.*
 import io.ktor.http.*
 import io.ktor.serialization.*
 import kotlinx.coroutines.runBlocking
-import stock.me.symbols.search.graphql.registerGraphQLSchema
 import stock.me.routes.registerRoutes
 import stock.me.symbols.populate.initStockTasks
 
@@ -29,6 +28,5 @@ fun Application.main() = runBlocking {
     }
 
     registerRoutes()
-    registerGraphQLSchema()
     initStockTasks()
 }

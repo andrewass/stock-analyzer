@@ -7,6 +7,5 @@ fun Application.registerRoutes() {
 
     routing {
         symbolSearchRoutes()
-        utilRoute()
     }
 }

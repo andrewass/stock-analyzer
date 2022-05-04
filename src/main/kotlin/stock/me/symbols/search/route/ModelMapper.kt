@@ -1,4 +1,4 @@
-package stock.me.symbols.search.provider
+package stock.me.symbols.search.route
 
 import kotlinx.datetime.toKotlinLocalDate
 import stock.me.symbols.model.*

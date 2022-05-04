@@ -7,7 +7,6 @@ val yahooFinanceVersion: String by project
 val logbackVersion: String by project
 val kodeinVersion: String by project
 val jUnitVersion: String by project
-val kGraphqlVersion: String by project
 val ehcacheVersion: String by project
 val mockkVersion: String by project
 val jedisVersion: String by project
@@ -41,8 +40,6 @@ dependencies {
     implementation("org.kodein.di:kodein-di-framework-ktor-server-controller-jvm:$kodeinVersion")
     implementation("com.yahoofinance-api:YahooFinanceAPI:$yahooFinanceVersion")
     implementation("org.ehcache:ehcache:$ehcacheVersion")
-    implementation("com.apurebase:kgraphql:$kGraphqlVersion")
-    implementation("com.apurebase:kgraphql-ktor:$kGraphqlVersion")
     implementation("redis.clients:jedis:4.2.2")
     testImplementation("io.ktor:ktor-server-test-host:$ktorVersion")
     testImplementation("org.jetbrains.kotlin:kotlin-test:$kotlinVersion")

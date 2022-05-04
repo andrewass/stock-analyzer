@@ -5,8 +5,8 @@ import org.kodein.di.bindSingleton
 import org.kodein.di.instance
 import stock.me.symbols.populate.consumer.FinnHubConsumer
 import stock.me.symbols.populate.consumer.StockConsumer
-import stock.me.symbols.search.provider.DefaultSymbolSearchProvider
-import stock.me.symbols.search.provider.SymbolSearchProvider
+import stock.me.symbols.search.route.DefaultSymbolSearchProvider
+import stock.me.symbols.search.route.SymbolSearchProvider
 import stock.me.symbols.populate.service.SymbolPopulatorService
 import stock.me.symbols.populate.service.SymbolPopulatorServiceRedis
 import stock.me.symbols.search.service.SymbolSearchService

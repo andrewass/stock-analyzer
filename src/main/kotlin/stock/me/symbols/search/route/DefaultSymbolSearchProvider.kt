@@ -1,4 +1,4 @@
-package stock.me.symbols.search.provider
+package stock.me.symbols.search.route
 
 import stock.me.symbols.model.HistoricalQuote
 import stock.me.symbols.model.Stock

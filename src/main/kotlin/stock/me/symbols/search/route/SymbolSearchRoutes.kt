@@ -6,7 +6,7 @@ import io.ktor.response.*
 import io.ktor.routing.*
 import org.kodein.di.instance
 import stock.me.config.kodein
-import stock.me.symbols.search.provider.SymbolSearchProvider
+import stock.me.symbols.search.route.SymbolSearchProvider
 
 fun Route.symbolSearchRoutes() {
 
