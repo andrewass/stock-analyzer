@@ -10,6 +10,7 @@ val jUnitVersion: String by project
 val ehcacheVersion: String by project
 val mockkVersion: String by project
 val jedisVersion: String by project
+val jacksonDataTypeVersion: String by project
 
 plugins {
     application
@@ -31,10 +32,13 @@ repositories {
 dependencies {
     implementation("io.ktor:ktor-server-core:$ktorVersion")
     implementation("io.ktor:ktor-server-netty:$ktorVersion")
+    implementation("io.ktor:ktor-server-cors:$ktorVersion")
     implementation("io.ktor:ktor-client-core:$ktorVersion")
     implementation("io.ktor:ktor-client-cio:$ktorVersion")
-    implementation("io.ktor:ktor-serialization:$ktorVersion")
-    implementation("io.ktor:ktor-jackson:$ktorVersion")
+    implementation("io.ktor:ktor-server-content-negotiation:$ktorVersion")
+    implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
+    implementation("io.ktor:ktor-serialization-jackson:$ktorVersion")
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonDataTypeVersion")
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-datetime:$kotlinxDateTimeVersion")
     implementation("org.kodein.di:kodein-di-framework-ktor-server-controller-jvm:$kodeinVersion")

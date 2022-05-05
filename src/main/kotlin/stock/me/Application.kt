@@ -1,9 +1,12 @@
 package stock.me
 
-import io.ktor.application.*
-import io.ktor.features.*
+
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import io.ktor.http.*
-import io.ktor.serialization.*
+import io.ktor.serialization.jackson.*
+import io.ktor.server.application.*
+import io.ktor.server.plugins.contentnegotiation.*
+import io.ktor.server.plugins.cors.routing.*
 import kotlinx.coroutines.runBlocking
 import stock.me.routes.registerRoutes
 import stock.me.symbols.populate.initStockTasks
@@ -13,18 +16,20 @@ fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 fun Application.main() = runBlocking {
 
     install(ContentNegotiation) {
-        json()
+        jackson{
+            registerModule(JavaTimeModule())
+        }
     }
 
     install(CORS) {
         allowCredentials = true
-        host("localhost:8000")
-        host("localhost:8080")
-        header(HttpHeaders.ContentType)
-        method(HttpMethod.Options)
-        method(HttpMethod.Put)
-        method(HttpMethod.Patch)
-        method(HttpMethod.Delete)
+        allowHost("localhost:8000")
+        allowHost("localhost:8080")
+        allowHeader(HttpHeaders.ContentType)
+        allowMethod(HttpMethod.Options)
+        allowMethod(HttpMethod.Put)
+        allowMethod(HttpMethod.Patch)
+        allowMethod(HttpMethod.Delete)
     }
 
     registerRoutes()

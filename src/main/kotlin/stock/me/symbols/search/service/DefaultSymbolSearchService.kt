@@ -1,6 +1,6 @@
 package stock.me.symbols.search.service
 
-import io.ktor.features.*
+import io.ktor.server.plugins.*
 import redis.clients.jedis.JedisPooled
 import stock.me.symbols.model.SymbolSuggestion
 import yahoofinance.Stock

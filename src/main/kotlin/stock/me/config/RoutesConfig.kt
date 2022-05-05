@@ -1,7 +1,8 @@
 package stock.me.routes
 
-import io.ktor.application.*
-import io.ktor.routing.*
+import io.ktor.server.application.*
+import io.ktor.server.routing.*
+import stock.me.symbols.search.route.symbolSearchRoutes
 
 fun Application.registerRoutes() {
 

@@ -1,8 +1,6 @@
 package stock.me.symbols.model
 
-import kotlinx.serialization.Serializable
 
-@Serializable
 data class StockStats(
     val annualDividendYieldPercent: Double?,
     val priceToEarnings: Double?,

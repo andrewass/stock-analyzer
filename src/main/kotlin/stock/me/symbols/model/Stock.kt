@@ -1,9 +1,8 @@
 package stock.me.symbols.model
 
-import kotlinx.serialization.Serializable
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 
-
-@Serializable
+@JsonIgnoreProperties(ignoreUnknown = true)
 data class Stock(
     val symbol: String,
     val description: String,
