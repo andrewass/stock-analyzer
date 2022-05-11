@@ -1,10 +1,11 @@
 package stock.me.symbols.model
 
 import kotlinx.datetime.LocalDate
+import kotlinx.serialization.Serializable
 
-
-class HistoricalQuote(
-    val price : Double,
-    val date : LocalDate,
-    val volume : Long
+@Serializable
+data class HistoricalQuote(
+    val price: Double,
+    val quoteDate: LocalDate,
+    val volume: Long
 )

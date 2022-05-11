@@ -39,7 +39,7 @@ fun toHistoricalQuoteDto(stock: Stock): List<HistoricalQuote> =
             HistoricalQuote(
                 price = it.close.toDouble(),
                 volume = it.volume,
-                date = LocalDate.ofInstant(it.date.toInstant(), ZoneId.systemDefault()).toKotlinLocalDate()
+                quoteDate = LocalDate.ofInstant(it.date.toInstant(), ZoneId.systemDefault()).toKotlinLocalDate()
             )
         }
 
