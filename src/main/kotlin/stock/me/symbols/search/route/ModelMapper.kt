@@ -51,14 +51,15 @@ private fun mapToStockQuoteDto(stock: Stock, currency: Currency, usdPrice: Doubl
         symbol = stock.symbol,
         name = stock.name,
         price = quote.price.toDouble(),
-        previousClose = quote.previousClose.toDouble(),
-        dayLow = quote.dayLow.toDouble(),
-        dayHigh = quote.dayHigh.toDouble(),
-        openPrice = quote.open.toDouble(),
+        priceChange = calculatePriceChange(stock),
         currency = currency.name,
         usdPrice = usdPrice
     )
 }
+
+private fun calculatePriceChange(stock: Stock) : Double =
+    stock.quote.price.toDouble() - (stock.quote.previousClose ?: 0).toDouble()
+
 
 private fun getUsdPrice(price: Double, currency: Currency): Double {
     return if (currency == Currency.USD) {
