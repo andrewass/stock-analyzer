@@ -14,25 +14,25 @@ fun Route.symbolSearchRoutes() {
 
     route("/stock") {
 
-        get("/symbol-information/{query}") {
-            call.parameters["query"]
+        get("/symbol-information") {
+            call.request.queryParameters["symbol"]
                 ?.let { serviceProvider.getStockSymbolInformation(it) }
                 ?.also { call.respond(it) }
-                ?: return@get call.respond(HttpStatusCode.BadRequest)
+                ?: return@get call.respond(HttpStatusCode.NotFound)
         }
 
-        get("/suggestions/{query}") {
-            call.parameters["query"]
+        get("/suggestions") {
+            call.request.queryParameters["symbol"]
                 ?.let { serviceProvider.getSymbolSuggestions(it) }
                 ?.also { call.respond(it) }
-                ?: return@get call.respond(HttpStatusCode.BadRequest)
+                ?: return@get call.respond(HttpStatusCode.NotFound)
         }
 
-        get("/stock-quote/{symbol}") {
-            call.parameters["symbol"]
+        get("/stock-quote") {
+            call.request.queryParameters["symbol"]
                 ?.let { serviceProvider.getStockQuote(it) }
                 ?.also { call.respond(it) }
-                ?: return@get call.respond(HttpStatusCode.BadRequest)
+                ?: return@get call.respond(HttpStatusCode.NotFound)
         }
 
         get("/stock-quote-trending") {
@@ -40,11 +40,11 @@ fun Route.symbolSearchRoutes() {
                 .also { call.respond(it) }
         }
 
-        get("/historical-quotes/{symbol}") {
-            call.parameters["symbol"]
+        get("/historical-quotes") {
+            call.request.queryParameters["symbol"]
                 ?.let { serviceProvider.getHistoricalQuotes(it) }
                 ?.also { call.respond(it) }
-                ?: return@get call.respond(HttpStatusCode.BadRequest)
+                ?: return@get call.respond(HttpStatusCode.NotFound)
         }
     }
 }
