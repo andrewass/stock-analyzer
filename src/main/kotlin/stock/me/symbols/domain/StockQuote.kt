@@ -1,4 +1,4 @@
-package stock.me.symbols.model
+package stock.me.symbols.domain
 
 import kotlinx.serialization.Serializable
 
@@ -8,6 +8,7 @@ data class StockQuote(
     val name : String,
     val price: Double,
     val priceChange: Double,
+    val percentageChange: Double,
     val usdPrice: Double,
     val currency : String
 )

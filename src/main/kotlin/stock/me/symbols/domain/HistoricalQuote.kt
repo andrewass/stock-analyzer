@@ -1,4 +1,4 @@
-package stock.me.symbols.model
+package stock.me.symbols.domain
 
 import kotlinx.datetime.LocalDate
 import kotlinx.serialization.Serializable

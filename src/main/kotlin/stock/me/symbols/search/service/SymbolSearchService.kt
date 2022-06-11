@@ -1,6 +1,6 @@
 package stock.me.symbols.search.service
 
-import stock.me.symbols.model.SymbolSuggestion
+import stock.me.symbols.domain.SymbolSuggestion
 import yahoofinance.Stock
 
 interface SymbolSearchService {

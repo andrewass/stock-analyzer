@@ -1,6 +1,6 @@
 package stock.me.symbols.populate.consumer
 
-import stock.me.symbols.model.Stock
+import stock.me.symbols.domain.Stock
 
 interface StockConsumer {
 

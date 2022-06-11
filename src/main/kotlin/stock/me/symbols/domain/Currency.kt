@@ -1,4 +1,4 @@
-package stock.me.symbols.model
+package stock.me.symbols.domain
 
 enum class Currency(val forexCode : String) {
     USD("USD"),

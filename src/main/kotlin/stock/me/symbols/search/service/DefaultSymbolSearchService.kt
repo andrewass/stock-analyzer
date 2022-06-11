@@ -2,7 +2,7 @@ package stock.me.symbols.search.service
 
 import io.ktor.server.plugins.*
 import redis.clients.jedis.JedisPooled
-import stock.me.symbols.model.SymbolSuggestion
+import stock.me.symbols.domain.SymbolSuggestion
 import yahoofinance.Stock
 import yahoofinance.YahooFinance
 import yahoofinance.histquotes.Interval

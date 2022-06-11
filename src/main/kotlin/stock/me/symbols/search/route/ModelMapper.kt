@@ -1,13 +1,13 @@
 package stock.me.symbols.search.route
 
 import kotlinx.datetime.toKotlinLocalDate
-import stock.me.symbols.model.*
+import stock.me.symbols.domain.*
 import yahoofinance.Stock
 import yahoofinance.YahooFinance
 import java.time.LocalDate
 import java.time.ZoneId
 
-fun toStock(src: Stock) =  Stock(
+fun toStock(src: Stock) = Stock(
     symbol = src.symbol,
     description = src.name,
     stockQuote = toStockQuoteDto(src),
@@ -52,12 +52,20 @@ private fun mapToStockQuoteDto(stock: Stock, currency: Currency, usdPrice: Doubl
         name = stock.name,
         price = quote.price.toDouble(),
         priceChange = calculatePriceChange(stock),
+        percentageChange = calculatePercentageChange(stock),
         currency = currency.name,
         usdPrice = usdPrice
     )
 }
 
-private fun calculatePriceChange(stock: Stock) : Double =
+private fun calculatePercentageChange(stock: Stock): Double =
+    if (stock.quote.previousClose != null) {
+        (calculatePriceChange(stock) / stock.quote.previousClose.toDouble()) * 100
+    } else {
+        0.00
+    }
+
+private fun calculatePriceChange(stock: Stock): Double =
     stock.quote.price.toDouble() - (stock.quote.previousClose ?: 0).toDouble()
 
 

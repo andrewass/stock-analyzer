@@ -8,7 +8,7 @@ import stock.me.symbols.populate.consumer.StockConsumer
 import stock.me.symbols.search.route.DefaultSymbolSearchProvider
 import stock.me.symbols.search.route.SymbolSearchProvider
 import stock.me.symbols.populate.service.SymbolPopulatorService
-import stock.me.symbols.populate.service.SymbolPopulatorServiceRedis
+import stock.me.symbols.populate.service.DefaultSymbolPopulatorService
 import stock.me.symbols.search.service.SymbolSearchService
 import stock.me.symbols.search.service.DefaultSymbolSearchService
 
@@ -24,7 +24,7 @@ val kodein = DI {
     bindSingleton<StockConsumer> { FinnHubConsumer() }
 
     bindSingleton<SymbolPopulatorService> {
-        SymbolPopulatorServiceRedis(instance(), instance())
+        DefaultSymbolPopulatorService(instance(), instance())
     }
 
     bindSingleton<SymbolSearchService> { DefaultSymbolSearchService(instance()) }

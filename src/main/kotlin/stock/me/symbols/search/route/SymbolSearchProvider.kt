@@ -1,9 +1,9 @@
 package stock.me.symbols.search.route
 
-import stock.me.symbols.model.HistoricalQuote
-import stock.me.symbols.model.Stock
-import stock.me.symbols.model.StockQuote
-import stock.me.symbols.model.SymbolSuggestion
+import stock.me.symbols.domain.HistoricalQuote
+import stock.me.symbols.domain.Stock
+import stock.me.symbols.domain.StockQuote
+import stock.me.symbols.domain.SymbolSuggestion
 
 interface SymbolSearchProvider {
 

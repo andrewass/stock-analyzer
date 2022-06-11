@@ -3,16 +3,16 @@ package stock.me.symbols.populate.service
 import kotlinx.coroutines.delay
 import org.slf4j.LoggerFactory
 import redis.clients.jedis.JedisPooled
-import stock.me.symbols.model.Stock
+import stock.me.symbols.domain.Stock
 import stock.me.symbols.populate.consumer.StockConsumer
 import java.util.*
 
-class SymbolPopulatorServiceRedis(
+class DefaultSymbolPopulatorService(
     private val jedis: JedisPooled,
     private val stockConsumer: StockConsumer
 ) : SymbolPopulatorService {
 
-    private val logger = LoggerFactory.getLogger(SymbolPopulatorServiceRedis::class.simpleName)
+    private val logger = LoggerFactory.getLogger(DefaultSymbolPopulatorService::class.simpleName)
 
     override suspend fun populateStocksByTickerSymbol() {
         logger.info("Populating stocks by ticker symbol : Started")

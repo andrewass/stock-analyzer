@@ -1,4 +1,4 @@
-package stock.me.symbols.model
+package stock.me.symbols.domain
 
 import kotlinx.serialization.Serializable
 

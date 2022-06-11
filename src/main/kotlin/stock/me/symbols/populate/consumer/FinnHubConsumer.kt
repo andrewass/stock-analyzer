@@ -9,15 +9,15 @@ import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.serialization.json.Json
-import stock.me.symbols.model.Stock
+import stock.me.symbols.domain.Stock
 
 class FinnHubConsumer : StockConsumer {
 
     private val finnHubApiKey = System.getenv("FINNHUB_API_KEY")
     private val baseUrl = "https://finnhub.io/api/v1"
 
-    private val client = HttpClient(CIO){
-        install(ContentNegotiation){
+    private val client = HttpClient(CIO) {
+        install(ContentNegotiation) {
             json(
                 Json {
                     ignoreUnknownKeys = true
