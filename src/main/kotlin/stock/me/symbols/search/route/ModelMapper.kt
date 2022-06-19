@@ -7,32 +7,20 @@ import yahoofinance.YahooFinance
 import java.time.LocalDate
 import java.time.ZoneId
 
-fun toStock(src: Stock) = Stock(
+fun toStockDetails(src: Stock) = Stock(
     symbol = src.symbol,
     description = src.name,
-    stockQuote = toStockQuoteDto(src),
-    stockStats = toStockInformationDto(src)
+    stockQuote = toStockQuote(src),
+    stockStats = toStockStats(src)
 )
 
-fun toStockQuoteDto(stock: Stock): StockQuote {
-    val currency = Currency.valueOf(stock.currency)
-    val usdPrice = getUsdPrice(stock.quote.price.toDouble(), currency)
-
-    return mapToStockQuoteDto(stock, currency, usdPrice)
-}
-
-private fun toStockInformationDto(stock: Stock) = StockStats(
-    annualDividendYieldPercent = stock.dividend?.annualYieldPercent?.toDouble(),
-    earningsPerShare = stock.stats?.eps?.toDouble(),
-    marketCap = stock.stats?.marketCap?.toDouble(),
-    priceToBook = stock.stats?.priceBook?.toDouble(),
-    priceToEarnings = stock.stats?.pe?.toDouble(),
-    revenue = stock.stats?.revenue?.toDouble(),
-    sharesOwned = stock.stats?.sharesOwned,
-    shortRatio = stock.stats?.shortRatio?.toDouble()
+fun toStockSimple(src: Stock) = Stock(
+    symbol = src.symbol,
+    description = src.name,
+    stockQuote = toStockQuote(src)
 )
 
-fun toHistoricalQuoteDto(stock: Stock): List<HistoricalQuote> =
+fun toHistoricalQuotes(stock: Stock): List<HistoricalQuote> =
     stock.history
         .filter { it.close != null }
         .map {
@@ -43,13 +31,28 @@ fun toHistoricalQuoteDto(stock: Stock): List<HistoricalQuote> =
             )
         }
 
+private fun toStockQuote(stock: Stock): StockQuote {
+    val currency = Currency.valueOf(stock.currency)
+    val usdPrice = getUsdPrice(stock.quote.price.toDouble(), currency)
 
-private fun mapToStockQuoteDto(stock: Stock, currency: Currency, usdPrice: Double): StockQuote {
+    return toStockQuote(stock, currency, usdPrice)
+}
+
+private fun toStockStats(stock: Stock) = StockStats(
+    annualDividendYieldPercent = stock.dividend?.annualYieldPercent?.toDouble(),
+    earningsPerShare = stock.stats?.eps?.toDouble(),
+    marketCap = stock.stats?.marketCap?.toDouble(),
+    priceToBook = stock.stats?.priceBook?.toDouble(),
+    priceToEarnings = stock.stats?.pe?.toDouble(),
+    revenue = stock.stats?.revenue?.toDouble(),
+    sharesOwned = stock.stats?.sharesOwned,
+    shortRatio = stock.stats?.shortRatio?.toDouble()
+)
+
+private fun toStockQuote(stock: Stock, currency: Currency, usdPrice: Double): StockQuote {
     val quote = stock.quote
 
     return StockQuote(
-        symbol = stock.symbol,
-        name = stock.name,
         price = quote.price.toDouble(),
         priceChange = calculatePriceChange(stock),
         percentageChange = calculatePercentageChange(stock),

@@ -7,7 +7,7 @@ interface SymbolSearchService {
 
     fun getSymbolSuggestions(query: String): List<SymbolSuggestion>
 
-    fun getStockSymbolInformation(symbol: String): Stock
+    fun getStockDetails(symbol: String): Stock
 
     fun getStockQuote(symbol: String): Stock
 

@@ -13,16 +13,18 @@ class DefaultSymbolSearchService(
 ) : SymbolSearchService {
 
     override fun getSymbolSuggestions(query: String): List<SymbolSuggestion> {
-        val rank = jedis.zrank("symbols", query.lowercase(Locale.getDefault()))
-
-        return jedis.zrange("symbols", rank + 1, rank + 101)
-            .filter { it.endsWith('*') }
-            .take(10)
-            .map { it.removeSuffix("*") }
-            .map { toSymbolSuggestion(it) }
+        val rank : Long? = jedis.zrank("symbols", query.lowercase(Locale.getDefault()))
+        if (rank != null) {
+            return jedis.zrange("symbols", rank + 1, rank + 101)
+                .filter { it.endsWith('*') }
+                .take(10)
+                .map { it.removeSuffix("*") }
+                .map { toSymbolSuggestion(it) }
+        }
+        return emptyList()
     }
 
-    override fun getStockSymbolInformation(symbol: String): Stock =
+    override fun getStockDetails(symbol: String): Stock =
         YahooFinance.get(symbol)
             ?: throw NotFoundException("Stock symbol information : No results found for $symbol")
 
@@ -50,7 +52,7 @@ class DefaultSymbolSearchService(
         )
 
     private fun getTrendingSymbols(): Array<String> =
-        arrayOf("AAPL", "GOOGL", "BABA", "AMZN", "MSFT", "NVDA", "FB", "TSLA", "V", "PLTR")
+        arrayOf("AAPL", "GOOGL", "BABA", "AMZN", "MSFT", "NVDA", "AMD", "TSLA", "V", "PLTR")
 
     private fun getFromAndToDates(): Pair<Calendar, Calendar> {
         val from = Calendar.getInstance()

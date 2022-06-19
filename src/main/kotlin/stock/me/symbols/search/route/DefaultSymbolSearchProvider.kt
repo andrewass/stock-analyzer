@@ -2,7 +2,6 @@ package stock.me.symbols.search.route
 
 import stock.me.symbols.domain.HistoricalQuote
 import stock.me.symbols.domain.Stock
-import stock.me.symbols.domain.StockQuote
 import stock.me.symbols.domain.SymbolSuggestion
 import stock.me.symbols.search.service.SymbolSearchService
 
@@ -13,16 +12,16 @@ class DefaultSymbolSearchProvider(
     override fun getSymbolSuggestions(query: String): List<SymbolSuggestion> =
         symbolService.getSymbolSuggestions(query)
 
-    override fun getStockQuote(symbol: String): StockQuote =
-        toStockQuoteDto(symbolService.getStockQuote(symbol))
+    override fun getStockQuote(symbol: String): Stock =
+        toStockSimple(symbolService.getStockDetails(symbol))
 
-    override fun getStockSymbolInformation(symbol: String): Stock =
-        toStock(symbolService.getStockSymbolInformation(symbol))
+    override fun getStockDetails(symbol: String): Stock =
+        toStockDetails(symbolService.getStockDetails(symbol))
 
     override fun getHistoricalQuotes(symbol: String): List<HistoricalQuote> =
-        toHistoricalQuoteDto(symbolService.getHistoricalQuotes(symbol))
+        toHistoricalQuotes(symbolService.getHistoricalQuotes(symbol))
 
-    override fun getStockQuotesOfTrendingSymbols(): List<StockQuote> =
+    override fun getStockQuotesOfTrendingSymbols(): List<Stock> =
         symbolService.getStockQuotesOfTrendingSymbols()
-            .map { toStockQuoteDto(it) }
+            .map { toStockSimple(it) }
 }

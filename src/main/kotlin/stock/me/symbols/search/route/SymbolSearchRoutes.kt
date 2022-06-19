@@ -16,13 +16,13 @@ fun Route.symbolSearchRoutes() {
 
         get("/symbol-information") {
             call.request.queryParameters["symbol"]
-                ?.let { serviceProvider.getStockSymbolInformation(it) }
+                ?.let { serviceProvider.getStockDetails(it) }
                 ?.also { call.respond(it) }
                 ?: return@get call.respond(HttpStatusCode.NotFound)
         }
 
         get("/suggestions") {
-            call.request.queryParameters["symbol"]
+            call.request.queryParameters["query"]
                 ?.let { serviceProvider.getSymbolSuggestions(it) }
                 ?.also { call.respond(it) }
                 ?: return@get call.respond(HttpStatusCode.NotFound)
