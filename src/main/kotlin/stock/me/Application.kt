@@ -7,12 +7,14 @@ import io.ktor.server.application.*
 import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.server.plugins.cors.routing.*
 import kotlinx.coroutines.runBlocking
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import stock.me.routes.registerRoutes
 import stock.me.symbols.populate.initStockTasks
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
+@OptIn(ExperimentalSerializationApi::class)
 fun Application.main() = runBlocking {
 
     install(ContentNegotiation) {
@@ -22,7 +24,6 @@ fun Application.main() = runBlocking {
                 explicitNulls = false
             }
         )
-
     }
 
     install(CORS) {

@@ -13,7 +13,7 @@ class DefaultSymbolSearchService(
 ) : SymbolSearchService {
 
     override fun getSymbolSuggestions(query: String): List<SymbolSuggestion> {
-        val rank : Long? = jedis.zrank("symbols", query.lowercase(Locale.getDefault()))
+        val rank: Long? = jedis.zrank("symbols", query.lowercase(Locale.getDefault()))
         if (rank != null) {
             return jedis.zrange("symbols", rank + 1, rank + 101)
                 .filter { it.endsWith('*') }

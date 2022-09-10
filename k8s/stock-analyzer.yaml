@@ -18,6 +18,12 @@ spec:
           ports:
             - containerPort: 8088
           env:
+            - name: REDIS_PORT
+              value: "6379"
+            - name: REDIS_HOST
+              value: "redis"
+            - name: REDIS_USER
+              value: "default"
             - name: FINNHUB_API_KEY
               valueFrom:
                 configMapKeyRef:
@@ -33,9 +39,32 @@ metadata:
   labels:
     app: stock-analyzer
 spec:
+  type: NodePort
   selector:
     app: stock-analyzer
   ports:
     - protocol: TCP
       port: 8088
       targetPort: 8088
+      nodePort: 32101
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: stock-analyzer-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+    - host: stock-analyzer.io
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: stock-analyzer-service
+                port:
+                  number: 80
