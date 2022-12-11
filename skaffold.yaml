@@ -1,0 +1,11 @@
+apiVersion: skaffold/v4beta1
+kind: Config
+build:
+  artifacts:
+    - image: stockanalyzer-image
+manifests:
+  rawYaml:
+    - k8s/redis-config.yaml
+    - https://raw.githubusercontent.com/kubernetes/website/main/content/en/examples/pods/config/redis-pod.yaml
+    - k8s/app-config.yaml
+    - k8s/stock-analyzer.yaml

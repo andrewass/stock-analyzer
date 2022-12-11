@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: stock-analyzer
-          image: ghcr.io/andrewass/stock-analyzer:latest
+          image: stockanalyzer-image
           ports:
             - containerPort: 8088
           env:
@@ -36,29 +36,25 @@ apiVersion: v1
 kind: Service
 metadata:
   name: stock-analyzer-service
-  labels:
-    app: stock-analyzer
 spec:
-  type: NodePort
   selector:
     app: stock-analyzer
   ports:
     - protocol: TCP
       port: 8088
       targetPort: 8088
-      nodePort: 32101
 
 ---
 
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: stock-analyzer-ingress
+  name: ingress-stock-analyzer
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
-    - host: stock-analyzer.io
+    - host: stockanalyzer.io
       http:
         paths:
           - path: /
@@ -67,4 +63,4 @@ spec:
               service:
                 name: stock-analyzer-service
                 port:
-                  number: 80
+                  number: 8088

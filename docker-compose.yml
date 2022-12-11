@@ -1,4 +1,4 @@
-version: "3.8"
+version: "3.9"
 
 services:
 
@@ -13,9 +13,9 @@ services:
     command: redis-server --save 20 1 --loglevel warning --requirepass redisDockerTestPassword
 
   stock-analyzer:
-    image: custom-stock-analyzer
     container_name: stock-analyzer
-    build: .
+    build:
+      context: .
     depends_on:
       - redis
     restart: on-failure
@@ -28,6 +28,11 @@ services:
       REDIS_PORT: 6379
       REDIS_USER: default
       REDIS_PASSWORD: redisDockerTestPassword
+
+networks:
+  default:
+    name: compose_network
+    external: true
 
 volumes:
   redis-volume:
