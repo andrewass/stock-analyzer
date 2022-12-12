@@ -19,7 +19,9 @@ class DefaultSymbolPopulatorService(
         val exchanges = getStockExchanges()
         logger.info("Fetched ${exchanges.size} exchanges")
 
-        exchanges.forEach { exchange ->
+        exchanges
+            .filter { it == "US" }
+            .forEach { exchange ->
             stockConsumer.getAllStocksFromExchange(exchange)
                 .also { stocks ->
                     logger.info("Fetched ${stocks.size} stocks from exchange $exchange")

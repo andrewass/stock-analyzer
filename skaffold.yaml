@@ -3,9 +3,10 @@ kind: Config
 build:
   artifacts:
     - image: stockanalyzer-image
+      jib: {}
+
 manifests:
   rawYaml:
-    - k8s/redis-config.yaml
-    - https://raw.githubusercontent.com/kubernetes/website/main/content/en/examples/pods/config/redis-pod.yaml
+    - k8s/redis.yaml
     - k8s/app-config.yaml
     - k8s/stock-analyzer.yaml

@@ -15,6 +15,7 @@ plugins {
     application
     kotlin("jvm") version "1.7.0"
     kotlin("plugin.serialization") version "1.7.0"
+    id("com.google.cloud.tools.jib") version "3.3.1"
 }
 
 group = "stock.me"
@@ -47,6 +48,8 @@ dependencies {
     testImplementation("io.mockk:mockk:$mockkVersion")
     testImplementation("io.ktor:ktor-server-test-host-jvm:$ktorVersion")
 }
+
+jib.to.image="stockanalyzer-image"
 
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "17"
