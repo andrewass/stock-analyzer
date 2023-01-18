@@ -30,6 +30,7 @@ fun Application.main() = runBlocking {
         allowCredentials = true
         allowHost("localhost:8000")
         allowHost("localhost:8080")
+        allowHost("stockcompclient.io")
         allowHeader(HttpHeaders.ContentType)
         allowMethod(HttpMethod.Options)
         allowMethod(HttpMethod.Put)
