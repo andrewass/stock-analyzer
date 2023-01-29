@@ -30,7 +30,7 @@ fun Route.symbolSearchRoutes() {
 
         get("/stock-quote") {
             call.request.queryParameters["symbol"]
-                ?.let { serviceProvider.getStockQuote(it) }
+                ?.let { serviceProvider.getRealTimePrice(it) }
                 ?.also { call.respond(it) }
                 ?: return@get call.respond(HttpStatusCode.NotFound)
         }

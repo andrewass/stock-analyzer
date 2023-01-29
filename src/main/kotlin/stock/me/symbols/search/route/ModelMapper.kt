@@ -14,6 +14,12 @@ fun toStockDetails(src: Stock) = Stock(
     stockStats = toStockStats(src)
 )
 
+fun toRealTimePrice(src: Stock) = RealTimePrice(
+    currency = Currency.valueOf(src.currency),
+    price = src.quote.price.toDouble(),
+    usdPrice =  getUsdPrice(src.quote.price.toDouble(), Currency.valueOf(src.currency))
+)
+
 fun toStockSimple(src: Stock) = Stock(
     symbol = src.symbol,
     description = src.name,
