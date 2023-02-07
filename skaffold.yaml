@@ -7,6 +7,5 @@ build:
 
 manifests:
   rawYaml:
-    - k8s/redis.yaml
     - k8s/app-config.yaml
     - k8s/stock-analyzer.yaml
