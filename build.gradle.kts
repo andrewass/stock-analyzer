@@ -49,7 +49,7 @@ dependencies {
     testImplementation("io.ktor:ktor-server-test-host-jvm:$ktorVersion")
 }
 
-jib.to.image="stockanalyzer-image"
+jib.to.image="stockfetcher-image"
 
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "17"

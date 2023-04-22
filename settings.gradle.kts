@@ -1,1 +1,1 @@
-rootProject.name = "stock-analyzer"
+rootProject.name = "stock-fetcher"

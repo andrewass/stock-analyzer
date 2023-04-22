@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stock-fetcher-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: stock-fetcher
+  template:
+    metadata:
+      labels:
+        app: stock-fetcher
+    spec:
+      containers:
+        - name: stock-fetcher
+          image: stockfetcher-image
+          ports:
+            - containerPort: 8088
+          env:
+            - name: REDIS_PORT
+              value: "6379"
+            - name: REDIS_HOST
+              value: "redis-service"
+            - name: REDIS_USER
+              value: "default"
+            - name: FINNHUB_API_KEY
+              valueFrom:
+                configMapKeyRef:
+                  name: config-sa
+                  key: finnhub_api_key
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: stock-fetcher-service
+spec:
+  selector:
+    app: stock-fetcher
+  ports:
+    - port: 8088
+      targetPort: 8088
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-stock-fetcher
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+    - host: stockfetcher.io
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: stock-fetcher-service
+                port:
+                  number: 8088
