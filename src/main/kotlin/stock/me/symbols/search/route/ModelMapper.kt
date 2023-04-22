@@ -32,7 +32,6 @@ fun toHistoricalQuotes(stock: Stock): List<HistoricalQuote> =
         .map {
             HistoricalQuote(
                 price = it.close.toDouble(),
-                volume = it.volume,
                 quoteDate = LocalDate.ofInstant(it.date.toInstant(), ZoneId.systemDefault()).toKotlinLocalDate()
             )
         }
