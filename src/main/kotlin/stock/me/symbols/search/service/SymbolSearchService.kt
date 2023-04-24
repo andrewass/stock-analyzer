@@ -9,8 +9,6 @@ interface SymbolSearchService {
 
     fun getStockDetails(symbol: String): Stock
 
-    fun getStockQuote(symbol: String): Stock
-
     fun getHistoricalQuotes(symbol: String): Stock
 
     fun getStockQuotesOfTrendingSymbols(): Collection<Stock>
