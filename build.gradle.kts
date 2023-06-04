@@ -6,7 +6,6 @@ val kotlinxDateTimeVersion: String by project
 val yahooFinanceVersion: String by project
 val logbackVersion: String by project
 val kodeinVersion: String by project
-val jUnitVersion: String by project
 val ehcacheVersion: String by project
 val mockkVersion: String by project
 val jedisVersion: String by project

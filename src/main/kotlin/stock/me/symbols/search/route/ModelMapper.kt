@@ -17,7 +17,7 @@ fun toStockDetails(src: Stock) = Stock(
 fun toRealTimePrice(src: Stock) = RealTimePrice(
     currency = Currency.valueOf(src.currency),
     price = src.quote.price.toDouble(),
-    usdPrice =  getUsdPrice(src.quote.price.toDouble(), Currency.valueOf(src.currency))
+    usdPrice = getUsdPrice(src.quote.price.toDouble(), Currency.valueOf(src.currency))
 )
 
 fun toStockSimple(src: Stock) = Stock(
@@ -54,17 +54,13 @@ private fun toStockStats(stock: Stock) = StockStats(
     shortRatio = stock.stats?.shortRatio?.toDouble()
 )
 
-private fun toStockQuote(stock: Stock, currency: Currency, usdPrice: Double): StockQuote {
-    val quote = stock.quote
-
-    return StockQuote(
-        price = quote.price.toDouble(),
-        priceChange = calculatePriceChange(stock),
-        percentageChange = calculatePercentageChange(stock),
-        currency = currency.name,
-        usdPrice = usdPrice
-    )
-}
+private fun toStockQuote(stock: Stock, currency: Currency, usdPrice: Double) = StockQuote(
+    price = stock.quote.price.toDouble(),
+    priceChange = calculatePriceChange(stock),
+    percentageChange = calculatePercentageChange(stock),
+    currency = currency.name,
+    usdPrice = usdPrice
+)
 
 private fun calculatePercentageChange(stock: Stock): Double =
     if (stock.quote.previousClose != null) {
