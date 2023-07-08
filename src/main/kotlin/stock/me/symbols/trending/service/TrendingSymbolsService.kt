@@ -4,7 +4,7 @@ interface TrendingSymbolsService {
 
     fun updateWithQueriedSymbol(symbol: String)
 
-    fun getTrendingSymbols(symbolCount: Long): Array<String>
+    fun getTrendingSymbols(symbolCount: Long): List<String>
 
-    fun getTrendingSymbolsFallback(): Array<String>
+    fun getTrendingSymbolsFallback(): List<String>
 }

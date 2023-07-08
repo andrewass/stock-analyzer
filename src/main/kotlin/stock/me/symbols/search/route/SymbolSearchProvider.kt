@@ -15,5 +15,5 @@ interface SymbolSearchProvider {
 
     fun getHistoricalQuotes(symbol: String): List<HistoricalQuote>
 
-    fun getStockQuotesOfTrendingSymbols(): List<Stock>
+    suspend fun getStockQuotesOfTrendingSymbols(): List<Stock>
 }

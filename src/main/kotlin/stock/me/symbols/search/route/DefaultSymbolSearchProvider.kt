@@ -22,7 +22,7 @@ class DefaultSymbolSearchProvider(
     override fun getHistoricalQuotes(symbol: String): List<HistoricalQuote> =
         toHistoricalQuotes(symbolService.getHistoricalQuotes(symbol))
 
-    override fun getStockQuotesOfTrendingSymbols(): List<Stock> =
+    override suspend fun getStockQuotesOfTrendingSymbols(): List<Stock> =
         symbolService.getStockQuotesOfTrendingSymbols()
             .map { toStockSimple(it) }
 }

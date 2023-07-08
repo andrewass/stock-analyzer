@@ -4,5 +4,7 @@ import stock.me.symbols.domain.Stock
 
 interface StockConsumer {
 
-    suspend fun getAllStocksFromExchange(exchange : String): List<Stock>
+    suspend fun getAllStocksFromExchange(exchange: String): List<Stock>
+
+    fun getCurrentPrice(symbol: String): Stock
 }
