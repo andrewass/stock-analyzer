@@ -1,43 +1,18 @@
 package stock.me
 
 
-import io.ktor.http.*
-import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
-import io.ktor.server.plugins.contentnegotiation.*
-import io.ktor.server.plugins.cors.routing.*
-import kotlinx.coroutines.runBlocking
-import kotlinx.serialization.ExperimentalSerializationApi
-import kotlinx.serialization.json.Json
-import stock.me.routes.registerRoutes
-import stock.me.symbols.populate.initStockTasks
+import stock.me.plugins.configureCors
+import stock.me.plugins.configureRouting
+import stock.me.plugins.configureSerialization
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
-@OptIn(ExperimentalSerializationApi::class)
-fun Application.main() = runBlocking {
+@Suppress("unused")
+fun Application.module() {
 
-    install(ContentNegotiation) {
-        json(
-            Json {
-                ignoreUnknownKeys = true
-                explicitNulls = false
-            }
-        )
-    }
-
-    install(CORS) {
-        allowCredentials = true
-        allowHost("localhost:8000")
-        allowHost("localhost:8080")
-        allowHost("stockcompclient.io")
-        allowHeader(HttpHeaders.ContentType)
-        allowMethod(HttpMethod.Options)
-        allowMethod(HttpMethod.Put)
-        allowMethod(HttpMethod.Patch)
-        allowMethod(HttpMethod.Delete)
-    }
-
-    registerRoutes()
+    configureSerialization()
+    configureCors()
+    configureRouting()
     initStockTasks()
 }

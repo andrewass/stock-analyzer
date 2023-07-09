@@ -11,9 +11,9 @@ val mockkVersion: String by project
 val jedisVersion: String by project
 
 plugins {
-    application
     kotlin("jvm") version "1.8.20"
-    kotlin("plugin.serialization") version "1.8.20"
+    id("io.ktor.plugin") version "2.3.2"
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.8.20"
     id("com.google.cloud.tools.jib") version "3.3.1"
 }
 
@@ -37,15 +37,15 @@ dependencies {
     implementation("redis.clients:jedis:$jedisVersion")
     implementation("io.ktor:ktor-server-cors:$ktorVersion")
     implementation("io.ktor:ktor-server-content-negotiation:$ktorVersion")
-    implementation("io.ktor:ktor-server-core-jvm:$ktorVersion")
-    implementation("io.ktor:ktor-server-netty-jvm:$ktorVersion")
-    implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
+    implementation("io.ktor:ktor-server-core:$ktorVersion")
+    implementation("io.ktor:ktor-server-netty:$ktorVersion")
     implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
-    implementation("io.ktor:ktor-client-core-jvm:$ktorVersion")
-    implementation("io.ktor:ktor-client-cio-jvm:$ktorVersion")
-    testImplementation("org.jetbrains.kotlin:kotlin-test:$kotlinVersion")
+    implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
+    implementation("io.ktor:ktor-client-core:$ktorVersion")
+    implementation("io.ktor:ktor-client-cio:$ktorVersion")
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion")
+    testImplementation("io.ktor:ktor-server-test-host:$ktorVersion")
     testImplementation("io.mockk:mockk:$mockkVersion")
-    testImplementation("io.ktor:ktor-server-test-host-jvm:$ktorVersion")
 }
 
 jib.to.image="stockfetcher-image"

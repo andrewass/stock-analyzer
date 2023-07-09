@@ -37,7 +37,7 @@ val kodein = DI {
 
     bindSingleton<TrendingSymbolsService> { DefaultTrendingSymbolsService(instance()) }
 
-    bindSingleton<SymbolConsumer> { FastFinanceConsumer(getHttpClient()) }
+    bindSingleton<SymbolConsumer> { FastFinanceConsumer(getHttpClient(), "") }
 
     bindSingleton<SymbolSearchService> { DefaultSymbolSearchService(instance(), instance(), instance()) }
 
