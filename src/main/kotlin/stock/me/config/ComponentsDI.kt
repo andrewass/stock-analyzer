@@ -3,6 +3,7 @@ package stock.me.config
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
 import io.ktor.client.plugins.contentnegotiation.*
+import io.ktor.client.plugins.logging.*
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
@@ -37,7 +38,7 @@ val kodein = DI {
 
     bindSingleton<TrendingSymbolsService> { DefaultTrendingSymbolsService(instance()) }
 
-    bindSingleton<SymbolConsumer> { FastFinanceConsumer(getHttpClient(), "") }
+    bindSingleton<SymbolConsumer> { FastFinanceConsumer(getHttpClient(), "http://fastfinance-service:8000") }
 
     bindSingleton<SymbolSearchService> { DefaultSymbolSearchService(instance(), instance(), instance()) }
 
@@ -55,5 +56,8 @@ fun getHttpClient(): HttpClient =
                     explicitNulls = false
                 }
             )
+        }
+        install(Logging) {
+            logger = Logger.DEFAULT
         }
     }

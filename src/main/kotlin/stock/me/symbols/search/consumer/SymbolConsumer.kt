@@ -1,8 +1,10 @@
 package stock.me.symbols.search.consumer
 
+import stock.me.symbols.domain.CurrentPrice
+
 interface SymbolConsumer {
 
-    fun getCurrentPriceSymbol(symbol: String)
+    suspend fun getCurrentPriceSymbol(symbol: String) : CurrentPrice
 
-    suspend fun getCurrentPriceSymbols(symbols: List<String>)
+    suspend fun getCurrentPriceSymbols(symbols: List<String>) : List<CurrentPrice>
 }
