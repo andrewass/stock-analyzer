@@ -1,5 +1,6 @@
 package stock.me.symbols.search.service
 
+import stock.me.symbols.domain.CurrentPrice
 import stock.me.symbols.domain.SymbolSuggestion
 import yahoofinance.Stock
 
@@ -11,5 +12,7 @@ interface SymbolSearchService {
 
     fun getHistoricalQuotes(symbol: String): Stock
 
-    suspend fun getStockQuotesOfTrendingSymbols(): Collection<Stock>
+    suspend fun getCurrentPriceOfSymbol(symbol: String): CurrentPrice
+
+    suspend fun getCurrentPriceOfTrendingSymbols(): List<CurrentPrice>
 }

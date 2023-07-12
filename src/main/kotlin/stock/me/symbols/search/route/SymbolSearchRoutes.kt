@@ -7,10 +7,13 @@ import io.ktor.server.routing.*
 
 import org.kodein.di.instance
 import stock.me.config.kodein
+import stock.me.symbols.search.service.SymbolSearchService
 
 fun Route.symbolSearchRoutes() {
 
     val serviceProvider by kodein.instance<SymbolSearchProvider>()
+
+    val symbolSearchService by kodein.instance<SymbolSearchService>()
 
     route("/stock") {
 
@@ -28,15 +31,14 @@ fun Route.symbolSearchRoutes() {
                 ?: return@get call.respond(HttpStatusCode.NotFound)
         }
 
-        get("/stock-quote") {
+        get("/current-price-symbol") {
             call.request.queryParameters["symbol"]
-                ?.let { serviceProvider.getRealTimePrice(it) }
+                ?.let { symbolSearchService.getCurrentPriceOfSymbol(it) }
                 ?.also { call.respond(it) }
-                ?: return@get call.respond(HttpStatusCode.NotFound)
         }
 
-        get("/stock-quote-trending") {
-            serviceProvider.getStockQuotesOfTrendingSymbols()
+        get("/current-price-trending-symbols") {
+            symbolSearchService.getCurrentPriceOfTrendingSymbols()
                 .also { call.respond(it) }
         }
 

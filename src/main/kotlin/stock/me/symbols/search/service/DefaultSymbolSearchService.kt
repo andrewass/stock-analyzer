@@ -2,6 +2,7 @@ package stock.me.symbols.search.service
 
 import io.ktor.server.plugins.*
 import redis.clients.jedis.JedisPooled
+import stock.me.symbols.domain.CurrentPrice
 import stock.me.symbols.domain.SymbolSuggestion
 import stock.me.symbols.search.consumer.SymbolConsumer
 import stock.me.symbols.trending.service.TrendingSymbolsService
@@ -43,10 +44,13 @@ class DefaultSymbolSearchService(
             ?: throw NotFoundException("No historical prices found for $symbol")
     }
 
-    override suspend fun getStockQuotesOfTrendingSymbols(): Collection<Stock> {
+    override suspend fun getCurrentPriceOfSymbol(symbol: String): CurrentPrice =
+        symbolConsumer.getCurrentPriceSymbol(symbol)
+
+
+    override suspend fun getCurrentPriceOfTrendingSymbols(): List<CurrentPrice> =
         symbolConsumer.getCurrentPriceSymbols(trendingSymbolsService.getTrendingSymbols(10))
-        return emptyList()
-    }
+
 
     private fun toSymbolSuggestion(symbol: String) =
         SymbolSuggestion(
