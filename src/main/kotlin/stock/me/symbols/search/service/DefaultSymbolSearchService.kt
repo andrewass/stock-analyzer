@@ -3,6 +3,7 @@ package stock.me.symbols.search.service
 import io.ktor.server.plugins.*
 import redis.clients.jedis.JedisPooled
 import stock.me.symbols.domain.CurrentPrice
+import stock.me.symbols.domain.SymbolFinancials
 import stock.me.symbols.domain.SymbolSuggestion
 import stock.me.symbols.search.consumer.SymbolConsumer
 import stock.me.symbols.search.consumer.request.CurrentPriceResponse
@@ -30,10 +31,8 @@ class DefaultSymbolSearchService(
         return emptyList()
     }
 
-    override fun getStockDetails(symbol: String): Stock =
-        YahooFinance.get(symbol)
-            ?.also { trendingSymbolsService.updateWithQueriedSymbol(symbol) }
-            ?: throw NotFoundException("Stock symbol information : No results found for $symbol")
+    override suspend fun getStockSymbolFinancials(symbol: String): SymbolFinancials =
+       symbolConsumer.getFinancialsSymbol(symbol)
 
 
     override fun getHistoricalQuotes(symbol: String): Stock {
