@@ -5,6 +5,7 @@ import redis.clients.jedis.JedisPooled
 import stock.me.symbols.domain.CurrentPrice
 import stock.me.symbols.domain.SymbolSuggestion
 import stock.me.symbols.search.consumer.SymbolConsumer
+import stock.me.symbols.search.consumer.request.CurrentPriceResponse
 import stock.me.symbols.trending.service.TrendingSymbolsService
 import yahoofinance.Stock
 import yahoofinance.YahooFinance
@@ -37,7 +38,6 @@ class DefaultSymbolSearchService(
 
     override fun getHistoricalQuotes(symbol: String): Stock {
         val (from, to) = getFromAndToDates()
-
         return getHistoricalQuotesCache(symbol)
             ?: YahooFinance.get(symbol, from, to, Interval.DAILY)
                 ?.also { addHistoricalQuotesCache(symbol, it) }
@@ -45,11 +45,25 @@ class DefaultSymbolSearchService(
     }
 
     override suspend fun getCurrentPriceOfSymbol(symbol: String): CurrentPrice =
-        symbolConsumer.getCurrentPriceSymbol(symbol)
+        toCurrentPrice(symbolConsumer.getCurrentPriceSymbol(symbol))
 
 
     override suspend fun getCurrentPriceOfTrendingSymbols(): List<CurrentPrice> =
         symbolConsumer.getCurrentPriceSymbols(trendingSymbolsService.getTrendingSymbols(10))
+            .map { toCurrentPrice(it) }
+
+
+    private fun toCurrentPrice(source: CurrentPriceResponse): CurrentPrice =
+        CurrentPrice(
+            symbol = source.symbol,
+            companyName = source.companyName,
+            currency = source.currency,
+            currentPrice = source.currentPrice,
+            previousClose = source.previousClose,
+            priceChange = source.currentPrice - source.previousClose,
+            percentageChange = ((source.currentPrice - source.previousClose) / source.previousClose) * 100,
+            usdPrice = source.currentPrice
+        )
 
 
     private fun toSymbolSuggestion(symbol: String) =

@@ -1,16 +1,12 @@
-package stock.me.symbols.domain
+package stock.me.symbols.search.consumer.request
 
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class CurrentPrice(
+data class CurrentPriceResponse(
     val symbol: String,
     val companyName: String,
     val currentPrice: Double,
     val previousClose: Double,
     val currency: String,
-    val usdPrice: Double,
-    val priceChange: Double,
-    val percentageChange: Double,
-
 )

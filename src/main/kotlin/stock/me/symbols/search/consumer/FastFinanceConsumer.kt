@@ -4,7 +4,7 @@ import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.http.*
-import stock.me.symbols.domain.CurrentPrice
+import stock.me.symbols.search.consumer.request.CurrentPriceResponse
 import stock.me.symbols.search.consumer.request.CurrentPriceSymbolsRequest
 
 class FastFinanceConsumer(
@@ -12,12 +12,12 @@ class FastFinanceConsumer(
     private val baseUrl: String,
 ) : SymbolConsumer {
 
-    override suspend fun getCurrentPriceSymbol(symbol: String): CurrentPrice =
-        client.get("$baseUrl/current-price-symbol/$symbol").body()
+    override suspend fun getCurrentPriceSymbol(symbol: String): CurrentPriceResponse =
+        client.get("$baseUrl/price/current-price-symbol/$symbol").body()
 
 
-    override suspend fun getCurrentPriceSymbols(symbols: List<String>): List<CurrentPrice> =
-        client.post("$baseUrl/current-price-symbols") {
+    override suspend fun getCurrentPriceSymbols(symbols: List<String>): List<CurrentPriceResponse> =
+        client.post("$baseUrl/price/current-price-symbols") {
             setBody(CurrentPriceSymbolsRequest(symbols))
             contentType(ContentType.Application.Json)
         }.body()

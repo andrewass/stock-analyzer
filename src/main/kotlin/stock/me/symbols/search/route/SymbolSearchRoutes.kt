@@ -17,7 +17,7 @@ fun Route.symbolSearchRoutes() {
 
     route("/stock") {
 
-        get("/symbol-information") {
+        get("/financial-details-symbol") {
             call.request.queryParameters["symbol"]
                 ?.let { serviceProvider.getStockDetails(it) }
                 ?.also { call.respond(it) }
