@@ -4,6 +4,7 @@ import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.http.*
+import stock.me.symbols.domain.HistoricalPrice
 import stock.me.symbols.domain.SymbolFinancials
 import stock.me.symbols.search.consumer.request.CurrentPriceResponse
 import stock.me.symbols.search.consumer.request.CurrentPriceSymbolsRequest
@@ -26,4 +27,8 @@ class FastFinanceConsumer(
 
     override suspend fun getFinancialsSymbol(symbol: String): SymbolFinancials =
         client.get("$baseUrl/financials/financial-details-symbol/$symbol").body()
+
+    override suspend fun getHistoricalPriceSymbol(symbol: String): List<HistoricalPrice> {
+        TODO("Not yet implemented")
+    }
 }

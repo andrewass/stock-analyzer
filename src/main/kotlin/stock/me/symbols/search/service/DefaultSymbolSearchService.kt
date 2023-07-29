@@ -1,16 +1,13 @@
 package stock.me.symbols.search.service
 
-import io.ktor.server.plugins.*
 import redis.clients.jedis.JedisPooled
 import stock.me.symbols.domain.CurrentPrice
+import stock.me.symbols.domain.HistoricalPriceResponse
 import stock.me.symbols.domain.SymbolFinancials
 import stock.me.symbols.domain.SymbolSuggestion
 import stock.me.symbols.search.consumer.SymbolConsumer
 import stock.me.symbols.search.consumer.request.CurrentPriceResponse
 import stock.me.symbols.trending.service.TrendingSymbolsService
-import yahoofinance.Stock
-import yahoofinance.YahooFinance
-import yahoofinance.histquotes.Interval
 import java.util.*
 
 class DefaultSymbolSearchService(
@@ -35,12 +32,10 @@ class DefaultSymbolSearchService(
        symbolConsumer.getFinancialsSymbol(symbol)
 
 
-    override fun getHistoricalQuotes(symbol: String): Stock {
-        val (from, to) = getFromAndToDates()
+    override suspend fun getHistoricalPrice(symbol: String): HistoricalPriceResponse {
         return getHistoricalQuotesCache(symbol)
-            ?: YahooFinance.get(symbol, from, to, Interval.DAILY)
-                ?.also { addHistoricalQuotesCache(symbol, it) }
-            ?: throw NotFoundException("No historical prices found for $symbol")
+            ?: HistoricalPriceResponse(historicalPriceList = symbolConsumer.getHistoricalPriceSymbol(symbol))
+                .also { addHistoricalQuotesCache(symbol, it) }
     }
 
     override suspend fun getCurrentPriceOfSymbol(symbol: String): CurrentPrice =
@@ -70,12 +65,4 @@ class DefaultSymbolSearchService(
             symbol = symbol,
             description = jedis.hget("description", symbol)
         )
-
-    private fun getFromAndToDates(): Pair<Calendar, Calendar> {
-        val from = Calendar.getInstance()
-        val to = Calendar.getInstance()
-        from.add(Calendar.YEAR, -10)
-
-        return Pair(from, to)
-    }
 }

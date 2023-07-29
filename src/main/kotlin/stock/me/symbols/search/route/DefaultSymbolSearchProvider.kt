@@ -9,7 +9,4 @@ class DefaultSymbolSearchProvider(
 
     override fun getSymbolSuggestions(query: String): List<SymbolSuggestion> =
         symbolService.getSymbolSuggestions(query)
-
-    override fun getHistoricalQuotes(symbol: String): List<HistoricalQuote> =
-        toHistoricalQuotes(symbolService.getHistoricalQuotes(symbol))
 }

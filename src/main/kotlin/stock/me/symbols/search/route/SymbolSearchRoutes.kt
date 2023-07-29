@@ -41,11 +41,10 @@ fun Route.symbolSearchRoutes() {
                 .also { call.respond(it) }
         }
 
-        get("/historical-quotes") {
+        get("/historical-price") {
             call.request.queryParameters["symbol"]
-                ?.let { serviceProvider.getHistoricalQuotes(it) }
+                ?.let { symbolSearchService.getHistoricalPrice(it) }
                 ?.also { call.respond(it) }
-                ?: return@get call.respond(HttpStatusCode.NotFound)
         }
     }
 }

@@ -5,6 +5,4 @@ import stock.me.symbols.domain.*
 interface SymbolSearchProvider {
 
     fun getSymbolSuggestions(query: String): List<SymbolSuggestion>
-
-    fun getHistoricalQuotes(symbol: String): List<HistoricalQuote>
 }

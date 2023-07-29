@@ -3,7 +3,6 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 val ktorVersion: String by project
 val kotlinVersion: String by project
 val kotlinxDateTimeVersion: String by project
-val yahooFinanceVersion: String by project
 val logbackVersion: String by project
 val kodeinVersion: String by project
 val ehcacheVersion: String by project
@@ -32,7 +31,6 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-datetime:$kotlinxDateTimeVersion")
     implementation("org.kodein.di:kodein-di-framework-ktor-server-controller-jvm:$kodeinVersion")
-    implementation("com.yahoofinance-api:YahooFinanceAPI:$yahooFinanceVersion")
     implementation("org.ehcache:ehcache:$ehcacheVersion")
     implementation("redis.clients:jedis:$jedisVersion")
     implementation("io.ktor:ktor-server-cors:$ktorVersion")
