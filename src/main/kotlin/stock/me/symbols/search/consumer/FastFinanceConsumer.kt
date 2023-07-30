@@ -28,7 +28,13 @@ class FastFinanceConsumer(
     override suspend fun getFinancialsSymbol(symbol: String): SymbolFinancials =
         client.get("$baseUrl/financials/financial-details-symbol/$symbol").body()
 
-    override suspend fun getHistoricalPriceSymbol(symbol: String): List<HistoricalPrice> {
-        TODO("Not yet implemented")
-    }
+
+    override suspend fun getHistoricalPriceSymbol(symbol: String): List<HistoricalPrice> =
+        client.get(baseUrl) {
+            url {
+                appendPathSegments("price", "historical-prices-symbol")
+                parameters.append("symbol", symbol)
+                parameters.append("period", "max")
+            }
+        }.body()
 }
