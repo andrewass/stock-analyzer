@@ -7,16 +7,14 @@ import io.ktor.server.routing.*
 
 import org.kodein.di.instance
 import stock.me.config.kodein
+import stock.me.symbols.search.domain.Period
 import stock.me.symbols.search.service.SymbolSearchService
 
 fun Route.symbolSearchRoutes() {
-
     val serviceProvider by kodein.instance<SymbolSearchProvider>()
-
     val symbolSearchService by kodein.instance<SymbolSearchService>()
 
     route("/stock") {
-
         get("/financial-details-symbol") {
             call.request.queryParameters["symbol"]
                 ?.let { symbolSearchService.getStockSymbolFinancials(it) }
@@ -42,9 +40,10 @@ fun Route.symbolSearchRoutes() {
         }
 
         get("/historical-price") {
-            call.request.queryParameters["symbol"]
-                ?.let { symbolSearchService.getHistoricalPrice(it) }
-                ?.also { call.respond(it) }
+            val symbol = call.request.queryParameters["symbol"]!!
+            val period: Period = Period.valueOf(call.request.queryParameters["period"]!!)
+            symbolSearchService.getHistoricalPrice(symbol, period)
+                .also { call.respond(it) }
         }
     }
 }

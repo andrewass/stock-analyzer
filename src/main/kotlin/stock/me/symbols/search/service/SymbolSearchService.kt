@@ -4,6 +4,7 @@ import stock.me.symbols.domain.CurrentPrice
 import stock.me.symbols.domain.HistoricalPriceResponse
 import stock.me.symbols.domain.SymbolFinancials
 import stock.me.symbols.domain.SymbolSuggestion
+import stock.me.symbols.search.domain.Period
 
 interface SymbolSearchService {
 
@@ -11,7 +12,7 @@ interface SymbolSearchService {
 
     suspend fun getStockSymbolFinancials(symbol: String): SymbolFinancials
 
-    suspend fun getHistoricalPrice(symbol: String): HistoricalPriceResponse
+    suspend fun getHistoricalPrice(symbol: String, period: Period): HistoricalPriceResponse
 
     suspend fun getCurrentPriceOfSymbol(symbol: String): CurrentPrice
 

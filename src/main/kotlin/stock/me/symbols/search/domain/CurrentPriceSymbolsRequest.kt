@@ -1,4 +1,4 @@
-package stock.me.symbols.search.consumer.request
+package stock.me.symbols.search.domain
 
 import kotlinx.serialization.Serializable
 

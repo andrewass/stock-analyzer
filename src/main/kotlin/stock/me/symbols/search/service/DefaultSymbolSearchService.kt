@@ -6,7 +6,8 @@ import stock.me.symbols.domain.HistoricalPriceResponse
 import stock.me.symbols.domain.SymbolFinancials
 import stock.me.symbols.domain.SymbolSuggestion
 import stock.me.symbols.search.consumer.SymbolConsumer
-import stock.me.symbols.search.consumer.request.CurrentPriceResponse
+import stock.me.symbols.search.domain.CurrentPriceResponse
+import stock.me.symbols.search.domain.Period
 import stock.me.symbols.trending.service.TrendingSymbolsService
 import java.util.*
 
@@ -32,9 +33,9 @@ class DefaultSymbolSearchService(
        symbolConsumer.getFinancialsSymbol(symbol)
 
 
-    override suspend fun getHistoricalPrice(symbol: String): HistoricalPriceResponse {
+    override suspend fun getHistoricalPrice(symbol: String, period: Period): HistoricalPriceResponse {
         return getHistoricalQuotesCache(symbol)
-            ?: HistoricalPriceResponse(historicalPriceList = symbolConsumer.getHistoricalPriceSymbol(symbol))
+            ?: HistoricalPriceResponse(historicalPriceList = symbolConsumer.getHistoricalPriceSymbol(symbol, period))
                 .also { addHistoricalQuotesCache(symbol, it) }
     }
 

@@ -6,8 +6,9 @@ import io.ktor.client.request.*
 import io.ktor.http.*
 import stock.me.symbols.domain.HistoricalPrice
 import stock.me.symbols.domain.SymbolFinancials
-import stock.me.symbols.search.consumer.request.CurrentPriceResponse
-import stock.me.symbols.search.consumer.request.CurrentPriceSymbolsRequest
+import stock.me.symbols.search.domain.CurrentPriceResponse
+import stock.me.symbols.search.domain.CurrentPriceSymbolsRequest
+import stock.me.symbols.search.domain.Period
 
 class FastFinanceConsumer(
     private val client: HttpClient,
@@ -29,12 +30,12 @@ class FastFinanceConsumer(
         client.get("$baseUrl/financials/financial-details-symbol/$symbol").body()
 
 
-    override suspend fun getHistoricalPriceSymbol(symbol: String): List<HistoricalPrice> =
+    override suspend fun getHistoricalPriceSymbol(symbol: String, period: Period): List<HistoricalPrice> =
         client.get(baseUrl) {
             url {
                 appendPathSegments("price", "historical-prices-symbol")
                 parameters.append("symbol", symbol)
-                parameters.append("period", "max")
+                parameters.append("period", period.decode)
             }
         }.body()
 }

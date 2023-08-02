@@ -11,7 +11,7 @@ val jedisVersion: String by project
 
 plugins {
     kotlin("jvm") version "1.9.0"
-    id("io.ktor.plugin") version "2.3.2"
+    id("io.ktor.plugin") version "2.3.3"
     id("org.jetbrains.kotlin.plugin.serialization") version "1.9.0"
     id("com.google.cloud.tools.jib") version "3.3.1"
 }

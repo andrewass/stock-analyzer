@@ -7,5 +7,4 @@ data class Stock(
     val symbol: String,
     val description: String,
     val stockQuote: StockQuote? = null,
-    val stockStats: StockStats? = null
 )

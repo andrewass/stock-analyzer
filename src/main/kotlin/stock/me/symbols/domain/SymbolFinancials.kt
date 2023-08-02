@@ -8,9 +8,9 @@ data class SymbolFinancials(
     val companyName: String,
     val currency: String,
     val marketCap: Long,
-    val priceToBook: Double,
-    val priceToEarnings: Double,
-    val earningsPerShare: Double,
+    val priceToBook: Double?,
+    val priceToEarnings: Double?,
+    val earningsPerShare: Double?,
     val dividendRate: Double?,
     val dividendYieldPercentage: Double?,
 )
