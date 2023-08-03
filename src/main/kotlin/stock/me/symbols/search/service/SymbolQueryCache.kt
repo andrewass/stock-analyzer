@@ -9,10 +9,10 @@ import stock.me.symbols.domain.HistoricalPriceResponse
 private val cacheManager by kodein.instance<CacheManager>()
 
 private val historicQuotesCache =
-    cacheManager.getCache("historicQuotes", String::class.java, HistoricalPriceResponse::class.java)
+    cacheManager.getCache("historicQuotes", CacheKey::class.java, HistoricalPriceResponse::class.java)
 
-fun getHistoricalQuotesCache(symbol: String): HistoricalPriceResponse? = historicQuotesCache.get(symbol)
+fun getHistoricalQuotesCache(cacheKey: CacheKey): HistoricalPriceResponse? = historicQuotesCache.get(cacheKey)
 
-fun addHistoricalQuotesCache(symbol: String, response: HistoricalPriceResponse) {
-    historicQuotesCache.put(symbol, response)
+fun addHistoricalQuotesCache(cacheKey: CacheKey, response: HistoricalPriceResponse) {
+    historicQuotesCache.put(cacheKey, response)
 }

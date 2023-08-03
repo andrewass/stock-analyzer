@@ -30,13 +30,13 @@ class DefaultSymbolSearchService(
     }
 
     override suspend fun getStockSymbolFinancials(symbol: String): SymbolFinancials =
-       symbolConsumer.getFinancialsSymbol(symbol)
+        symbolConsumer.getFinancialsSymbol(symbol)
 
 
     override suspend fun getHistoricalPrice(symbol: String, period: Period): HistoricalPriceResponse {
-        return getHistoricalQuotesCache(symbol)
+        return getHistoricalQuotesCache(CacheKey(symbol, period))
             ?: HistoricalPriceResponse(historicalPriceList = symbolConsumer.getHistoricalPriceSymbol(symbol, period))
-                .also { addHistoricalQuotesCache(symbol, it) }
+                .also { addHistoricalQuotesCache(CacheKey(symbol, period), it) }
     }
 
     override suspend fun getCurrentPriceOfSymbol(symbol: String): CurrentPrice =
