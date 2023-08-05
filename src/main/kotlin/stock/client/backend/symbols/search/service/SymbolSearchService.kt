@@ -1,14 +1,11 @@
 package stock.client.backend.symbols.search.service
 
-import stock.client.backend.symbols.domain.CurrentPrice
-import stock.client.backend.symbols.domain.HistoricalPriceResponse
-import stock.client.backend.symbols.domain.SymbolFinancials
-import stock.client.backend.symbols.domain.SymbolSuggestion
+import stock.client.backend.symbols.domain.*
 import stock.client.backend.symbols.search.domain.Period
 
 interface SymbolSearchService {
 
-    fun getSymbolSuggestions(query: String): List<SymbolSuggestion>
+    fun getSymbolSuggestions(query: String): List<Stock>
 
     suspend fun getStockSymbolFinancials(symbol: String): SymbolFinancials
 

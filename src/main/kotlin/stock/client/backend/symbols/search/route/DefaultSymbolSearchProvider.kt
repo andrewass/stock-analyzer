@@ -7,6 +7,6 @@ class DefaultSymbolSearchProvider(
     private val symbolService: SymbolSearchService
 ) : SymbolSearchProvider {
 
-    override fun getSymbolSuggestions(query: String): List<SymbolSuggestion> =
+    override fun getSymbolSuggestions(query: String): List<Stock> =
         symbolService.getSymbolSuggestions(query)
 }

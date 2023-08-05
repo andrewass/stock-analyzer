@@ -4,5 +4,5 @@ import stock.client.backend.symbols.domain.*
 
 interface SymbolSearchProvider {
 
-    fun getSymbolSuggestions(query: String): List<SymbolSuggestion>
+    fun getSymbolSuggestions(query: String): List<Stock>
 }

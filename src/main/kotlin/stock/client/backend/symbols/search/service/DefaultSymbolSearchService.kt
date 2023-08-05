@@ -1,10 +1,7 @@
 package stock.client.backend.symbols.search.service
 
 import redis.clients.jedis.JedisPooled
-import stock.client.backend.symbols.domain.CurrentPrice
-import stock.client.backend.symbols.domain.HistoricalPriceResponse
-import stock.client.backend.symbols.domain.SymbolFinancials
-import stock.client.backend.symbols.domain.SymbolSuggestion
+import stock.client.backend.symbols.domain.*
 import stock.client.backend.symbols.search.consumer.SymbolConsumer
 import stock.client.backend.symbols.search.domain.CurrentPriceResponse
 import stock.client.backend.symbols.search.domain.Period
@@ -17,14 +14,14 @@ class DefaultSymbolSearchService(
     private val symbolConsumer: SymbolConsumer
 ) : SymbolSearchService {
 
-    override fun getSymbolSuggestions(query: String): List<SymbolSuggestion> {
+    override fun getSymbolSuggestions(query: String): List<Stock> {
         val rank: Long? = jedis.zrank("symbols", query.lowercase(Locale.getDefault()))
         if (rank != null) {
             return jedis.zrange("symbols", rank + 1, rank + 101)
                 .filter { it.endsWith('*') }
                 .take(10)
                 .map { it.removeSuffix("*") }
-                .map { toSymbolSuggestion(it) }
+                .map { Stock(symbol = it, description = jedis.hget("description", it)) }
         }
         return emptyList()
     }
@@ -58,12 +55,5 @@ class DefaultSymbolSearchService(
             priceChange = source.currentPrice - source.previousClose,
             percentageChange = ((source.currentPrice - source.previousClose) / source.previousClose) * 100,
             usdPrice = source.currentPrice
-        )
-
-
-    private fun toSymbolSuggestion(symbol: String) =
-        SymbolSuggestion(
-            symbol = symbol,
-            description = jedis.hget("description", symbol)
         )
 }

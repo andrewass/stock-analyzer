@@ -36,8 +36,4 @@ class FinnHubConsumer : StockConsumer {
         }
         return response.body()
     }
-
-    override fun getCurrentPrice(symbol: String): Stock {
-        TODO("Not yet implemented")
-    }
 }
