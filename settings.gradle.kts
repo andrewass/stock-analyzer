@@ -1,1 +1,1 @@
-rootProject.name = "stock-client-backend"
+rootProject.name = "stockcomp-client-backend"

@@ -16,7 +16,7 @@ plugins {
     id("com.google.cloud.tools.jib") version "3.3.1"
 }
 
-group = "stock.client.backend"
+group = "stockcomp.client.backend"
 version = "0.0.1"
 
 application {
@@ -47,7 +47,7 @@ dependencies {
     testImplementation("io.mockk:mockk:$mockkVersion")
 }
 
-jib.to.image="stock-client-backend-image"
+jib.to.image="stockcomp-client-backend-image"
 
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "17"
@@ -60,7 +60,7 @@ tasks.withType<Test> {
 tasks.withType<Jar> {
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
     manifest {
-        attributes("Main-Class" to "stock.client.backend.ApplicationKt")
+        attributes("Main-Class" to "stockcomp.client.backend.ApplicationKt")
     }
     from(configurations.compileClasspath.get()
         .map { if (it.isDirectory) it else zipTree(it) })

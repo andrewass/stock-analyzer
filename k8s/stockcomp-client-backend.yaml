@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stockcomp-client-backend-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: stockcomp-client-backend
+  template:
+    metadata:
+      labels:
+        app: stockcomp-client-backend
+    spec:
+      containers:
+        - name: stock-client
+          image: stockcomp-client-backend-image
+          ports:
+            - containerPort: 8088
+          env:
+            - name: REDIS_PORT
+              value: "6379"
+            - name: REDIS_HOST
+              value: "redis-service"
+            - name: REDIS_USER
+              value: "default"
+            - name: FINNHUB_API_KEY
+              valueFrom:
+                configMapKeyRef:
+                  name: config-sa
+                  key: finnhub_api_key
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: stockcomp-client-backend-service
+spec:
+  selector:
+    app: stockcomp-client-backend
+  ports:
+    - port: 8088
+      targetPort: 8088
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-stockcomp-client-backend
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+    - host: stockcompclientbackend.io
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: stockcomp-client-backend-service
+                port:
+                  number: 8088
