@@ -16,7 +16,7 @@ plugins {
     id("com.google.cloud.tools.jib") version "3.3.1"
 }
 
-group = "stock.me"
+group = "stock.client.backend"
 version = "0.0.1"
 
 application {
@@ -60,7 +60,7 @@ tasks.withType<Test> {
 tasks.withType<Jar> {
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
     manifest {
-        attributes("Main-Class" to "stock.me.ApplicationKt")
+        attributes("Main-Class" to "stock.client.backend.ApplicationKt")
     }
     from(configurations.compileClasspath.get()
         .map { if (it.isDirectory) it else zipTree(it) })
