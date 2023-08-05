@@ -2,7 +2,7 @@ package stock.client.backend.symbols.search.service
 
 import redis.clients.jedis.JedisPooled
 import stock.client.backend.symbols.domain.*
-import stock.client.backend.symbols.search.consumer.SymbolConsumer
+import stock.client.backend.symbols.search.consumer.SymbolSearchConsumer
 import stock.client.backend.symbols.search.domain.CurrentPriceResponse
 import stock.client.backend.symbols.search.domain.Period
 import stock.client.backend.symbols.trending.service.TrendingSymbolsService
@@ -11,7 +11,7 @@ import java.util.*
 class DefaultSymbolSearchService(
     private val jedis: JedisPooled,
     private val trendingSymbolsService: TrendingSymbolsService,
-    private val symbolConsumer: SymbolConsumer
+    private val symbolConsumer: SymbolSearchConsumer
 ) : SymbolSearchService {
 
     override fun getSymbolSuggestions(query: String): List<Stock> {

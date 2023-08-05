@@ -12,7 +12,7 @@ import stock.client.backend.symbols.search.domain.CurrentPriceSymbolsRequest
 class FastFinanceConsumer(
     private val client: HttpClient,
     private val baseUrl: String,
-) : SymbolConsumer {
+) : SymbolSearchConsumer {
 
     override suspend fun getCurrentPriceSymbol(symbol: String): CurrentPriceResponse =
         client.get("$baseUrl/price/current-price-symbol/$symbol").body()

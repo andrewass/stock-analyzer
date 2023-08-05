@@ -11,11 +11,11 @@ import org.kodein.di.DI
 import org.kodein.di.bindSingleton
 import org.kodein.di.instance
 import stock.client.backend.symbols.populate.consumer.FinnHubConsumer
-import stock.client.backend.symbols.populate.consumer.StockConsumer
+import stock.client.backend.symbols.populate.consumer.SymbolPopulatorConsumer
 import stock.client.backend.symbols.populate.service.DefaultSymbolPopulatorService
 import stock.client.backend.symbols.populate.service.SymbolPopulatorService
 import stock.client.backend.symbols.search.consumer.FastFinanceConsumer
-import stock.client.backend.symbols.search.consumer.SymbolConsumer
+import stock.client.backend.symbols.search.consumer.SymbolSearchConsumer
 import stock.client.backend.symbols.search.route.DefaultSymbolSearchProvider
 import stock.client.backend.symbols.search.route.SymbolSearchProvider
 import stock.client.backend.symbols.search.service.DefaultSymbolSearchService
@@ -28,17 +28,19 @@ import stock.client.backend.symbols.trending.service.TrendingSymbolsService
  */
 val kodein = DI {
 
+    val httpClient = getHttpClient()
+
     bindSingleton { getCacheManager() }
 
     bindSingleton { getRedisClient() }
 
-    bindSingleton<StockConsumer> { FinnHubConsumer() }
+    bindSingleton<SymbolPopulatorConsumer> { FinnHubConsumer(httpClient) }
 
     bindSingleton<SymbolPopulatorService> { DefaultSymbolPopulatorService(instance(), instance()) }
 
     bindSingleton<TrendingSymbolsService> { DefaultTrendingSymbolsService(instance()) }
 
-    bindSingleton<SymbolConsumer> { FastFinanceConsumer(getHttpClient(), "http://fastfinance-service:8000") }
+    bindSingleton<SymbolSearchConsumer> { FastFinanceConsumer(httpClient, "http://fastfinance-service:8000") }
 
     bindSingleton<SymbolSearchService> { DefaultSymbolSearchService(instance(), instance(), instance()) }
 

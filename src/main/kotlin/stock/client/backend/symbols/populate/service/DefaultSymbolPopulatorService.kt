@@ -4,12 +4,12 @@ import kotlinx.coroutines.delay
 import org.slf4j.LoggerFactory
 import redis.clients.jedis.JedisPooled
 import stock.client.backend.symbols.domain.Stock
-import stock.client.backend.symbols.populate.consumer.StockConsumer
+import stock.client.backend.symbols.populate.consumer.SymbolPopulatorConsumer
 import java.util.*
 
 class DefaultSymbolPopulatorService(
     private val jedis: JedisPooled,
-    private val stockConsumer: StockConsumer
+    private val symbolPopulatorConsumer: SymbolPopulatorConsumer
 ) : SymbolPopulatorService {
 
     private val logger = LoggerFactory.getLogger(DefaultSymbolPopulatorService::class.simpleName)
@@ -22,7 +22,7 @@ class DefaultSymbolPopulatorService(
         exchanges
             .filter { it == "US" }
             .forEach { exchange ->
-            stockConsumer.getAllStocksFromExchange(exchange)
+            symbolPopulatorConsumer.getAllSymbolsFromExchange(exchange)
                 .also { stocks ->
                     logger.info("Fetched ${stocks.size} stocks from exchange $exchange")
                     stocks.forEach { insertSymbol(it) }

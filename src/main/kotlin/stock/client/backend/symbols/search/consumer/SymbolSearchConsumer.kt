@@ -5,7 +5,7 @@ import stock.client.backend.symbols.domain.SymbolFinancials
 import stock.client.backend.symbols.search.domain.CurrentPriceResponse
 import stock.client.backend.symbols.search.domain.Period
 
-interface SymbolConsumer {
+interface SymbolSearchConsumer {
     suspend fun getCurrentPriceSymbol(symbol: String): CurrentPriceResponse
 
     suspend fun getCurrentPriceSymbols(symbols: List<String>): List<CurrentPriceResponse>
