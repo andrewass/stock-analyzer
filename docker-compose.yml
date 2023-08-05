@@ -12,8 +12,8 @@ services:
       - redis-volume:/data
     command: redis-server --save 20 1 --loglevel warning --requirepass redisDockerTestPassword
 
-  stock-fetcher:
-    container_name: stock-fetcher
+  stock-client-backend:
+    container_name: stock-client-backend
     build:
       context: .
     depends_on:

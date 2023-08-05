@@ -47,7 +47,7 @@ dependencies {
     testImplementation("io.mockk:mockk:$mockkVersion")
 }
 
-jib.to.image="stockfetcher-image"
+jib.to.image="stock-client-backend-image"
 
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "17"

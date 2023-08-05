@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: stock-fetcher-deployment
+  name: stock-client-backend-deployment
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: stock-fetcher
+      app: stock-client-backend
   template:
     metadata:
       labels:
-        app: stock-fetcher
+        app: stock-client-backend
     spec:
       containers:
-        - name: stock-fetcher
-          image: stockfetcher-image
+        - name: stock-client
+          image: stock-client-backend-image
           ports:
             - containerPort: 8088
           env:
@@ -35,10 +35,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: stock-fetcher-service
+  name: stock-client-backend-service
 spec:
   selector:
-    app: stock-fetcher
+    app: stock-client-backend
   ports:
     - port: 8088
       targetPort: 8088
@@ -48,18 +48,18 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: ingress-stock-fetcher
+  name: ingress-stock-client-backend
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
-    - host: stockfetcher.io
+    - host: stockclientbackend.io
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: stock-fetcher-service
+                name: stock-client-backend-service
                 port:
                   number: 8088

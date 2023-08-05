@@ -1,1 +1,1 @@
-rootProject.name = "stock-fetcher"
+rootProject.name = "stock-client-backend"

@@ -2,10 +2,10 @@ apiVersion: skaffold/v4beta1
 kind: Config
 build:
   artifacts:
-    - image: stockfetcher-image
+    - image: stock-client-backend-image
       jib: {}
 
 manifests:
   rawYaml:
     - k8s/app-config.yaml
-    - k8s/stock-fetcher.yaml
+    - k8s/stock-client-backend.yaml
