@@ -11,7 +11,6 @@ import stockcomp.client.backend.symbols.search.domain.Period
 import stockcomp.client.backend.symbols.search.service.SymbolSearchService
 
 fun Route.symbolSearchRoutes() {
-    val serviceProvider by kodein.instance<SymbolSearchProvider>()
     val symbolSearchService by kodein.instance<SymbolSearchService>()
 
     route("/stock") {
@@ -23,7 +22,7 @@ fun Route.symbolSearchRoutes() {
 
         get("/suggestions") {
             call.request.queryParameters["query"]
-                ?.let { serviceProvider.getSymbolSuggestions(it) }
+                ?.let { symbolSearchService.getSymbolSuggestions(it) }
                 ?.also { call.respond(it) }
                 ?: return@get call.respond(HttpStatusCode.NotFound)
         }

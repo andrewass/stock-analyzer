@@ -16,8 +16,6 @@ import stockcomp.client.backend.symbols.populate.service.DefaultSymbolPopulatorS
 import stockcomp.client.backend.symbols.populate.service.SymbolPopulatorService
 import stockcomp.client.backend.symbols.search.consumer.FastFinanceConsumer
 import stockcomp.client.backend.symbols.search.consumer.SymbolSearchConsumer
-import stockcomp.client.backend.symbols.search.route.DefaultSymbolSearchProvider
-import stockcomp.client.backend.symbols.search.route.SymbolSearchProvider
 import stockcomp.client.backend.symbols.search.service.DefaultSymbolSearchService
 import stockcomp.client.backend.symbols.search.service.SymbolSearchService
 import stockcomp.client.backend.symbols.trending.service.DefaultTrendingSymbolsService
@@ -43,9 +41,6 @@ val kodein = DI {
     bindSingleton<SymbolSearchConsumer> { FastFinanceConsumer(httpClient, "http://fastfinance-service:8000") }
 
     bindSingleton<SymbolSearchService> { DefaultSymbolSearchService(instance(), instance(), instance()) }
-
-    bindSingleton<SymbolSearchProvider> { DefaultSymbolSearchProvider(instance()) }
-
 }
 
 @OptIn(ExperimentalSerializationApi::class)
