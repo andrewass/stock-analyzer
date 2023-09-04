@@ -1,12 +1,5 @@
 package stockcomp.client.backend.config
 
-import io.ktor.client.*
-import io.ktor.client.engine.cio.*
-import io.ktor.client.plugins.contentnegotiation.*
-import io.ktor.client.plugins.logging.*
-import io.ktor.serialization.kotlinx.json.*
-import kotlinx.serialization.ExperimentalSerializationApi
-import kotlinx.serialization.json.Json
 import org.kodein.di.DI
 import org.kodein.di.bindSingleton
 import org.kodein.di.instance
@@ -25,36 +18,17 @@ import stockcomp.client.backend.symbols.trending.service.TrendingSymbolsService
  * Make components available with dependency injection using Kodein
  */
 val kodein = DI {
-
-    val httpClient = getHttpClient()
-
     bindSingleton { getCacheManager() }
 
     bindSingleton { getRedisClient() }
 
-    bindSingleton<SymbolPopulatorConsumer> { FinnHubConsumer(httpClient) }
+    bindSingleton<SymbolPopulatorConsumer> { FinnHubConsumer(HttpClient.client) }
 
     bindSingleton<SymbolPopulatorService> { DefaultSymbolPopulatorService(instance(), instance()) }
 
     bindSingleton<TrendingSymbolsService> { DefaultTrendingSymbolsService(instance()) }
 
-    bindSingleton<SymbolSearchConsumer> { FastFinanceConsumer(httpClient, "http://fastfinance-service:8000") }
+    bindSingleton<SymbolSearchConsumer> { FastFinanceConsumer(HttpClient.client, "http://fastfinance-service:8000") }
 
     bindSingleton<SymbolSearchService> { DefaultSymbolSearchService(instance(), instance(), instance()) }
 }
-
-@OptIn(ExperimentalSerializationApi::class)
-fun getHttpClient(): HttpClient =
-    HttpClient(CIO) {
-        install(ContentNegotiation) {
-            json(
-                Json {
-                    ignoreUnknownKeys = true
-                    explicitNulls = false
-                }
-            )
-        }
-        install(Logging) {
-            logger = Logger.DEFAULT
-        }
-    }
