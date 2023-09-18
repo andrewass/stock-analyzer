@@ -29,6 +29,16 @@ spec:
                 configMapKeyRef:
                   name: config-sa
                   key: finnhub_api_key
+            - name: GOOGLE_CLIENT_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: config-sa
+                  key: google_client_id
+            - name: GOOGLE_CLIENT_SECRET
+              valueFrom:
+                configMapKeyRef:
+                  name: config-sa
+                  key: google_client_secret
 
 ---
 
