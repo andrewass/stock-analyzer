@@ -7,5 +7,5 @@ build:
 
 manifests:
   rawYaml:
-    - k8s/app-config.yaml
+    - k8s/config-map-client-backend.yaml
     - k8s/stockcomp-client-backend.yaml

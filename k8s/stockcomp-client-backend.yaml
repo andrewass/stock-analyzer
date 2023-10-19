@@ -27,17 +27,17 @@ spec:
             - name: FINNHUB_API_KEY
               valueFrom:
                 configMapKeyRef:
-                  name: config-sa
+                  name: config-stockcomp-client-backend
                   key: finnhub_api_key
             - name: GOOGLE_CLIENT_ID
               valueFrom:
                 configMapKeyRef:
-                  name: config-sa
+                  name: config-stockcomp-client-backend
                   key: google_client_id
             - name: GOOGLE_CLIENT_SECRET
               valueFrom:
                 configMapKeyRef:
-                  name: config-sa
+                  name: config-stockcomp-client-backend
                   key: google_client_secret
 
 ---
@@ -58,15 +58,14 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: ingress-stockcomp-client-backend
+  name: stockcomp-client-backend-ingress
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
-    - host: stockcompclientbackend.io
+    - host: stockcompclient.io
       http:
         paths:
-          - path: /
+          - path: /api
             pathType: Prefix
             backend:
               service:
