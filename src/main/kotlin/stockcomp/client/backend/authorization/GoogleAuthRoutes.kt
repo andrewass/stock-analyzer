@@ -10,16 +10,17 @@ import stockcomp.client.backend.plugins.UserSession
 val redirects = mutableMapOf<String, String>()
 
 fun Route.googleAuthRoutes(){
-    authenticate("auth-oauth-google") {
-        get("/login") {
-            // Redirects to 'authorizeUrl' automatically
-        }
+    route("/api/") {
+        authenticate("auth-oauth-google") {
+            get("/login") {
+                // Redirects to 'authorizeUrl' automatically
+            }
 
-        get("/callback") {
-            val principal: OAuthAccessTokenResponse.OAuth2? = call.principal()
-            call.sessions.set(UserSession(principal!!.state!!, principal.accessToken))
-            val redirect = redirects[principal.state!!]
-            call.respondRedirect(redirect!!)
+            get("/callback") {
+                val principal: OAuthAccessTokenResponse.OAuth2? = call.principal()
+                call.sessions.set(UserSession(principal!!.state!!, principal.accessToken))
+                call.respondRedirect("/leaderboard")
+            }
         }
     }
 }

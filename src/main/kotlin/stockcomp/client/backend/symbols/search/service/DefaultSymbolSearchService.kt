@@ -8,6 +8,19 @@ import stockcomp.client.backend.symbols.search.domain.Period
 import stockcomp.client.backend.symbols.trending.service.TrendingSymbolsService
 import java.util.*
 
+interface SymbolSearchService {
+    fun getSymbolSuggestions(query: String): List<Stock>
+
+    suspend fun getStockSymbolFinancials(symbol: String): SymbolFinancials
+
+    suspend fun getHistoricalPrice(symbol: String, period: Period): HistoricalPriceResponse
+
+    suspend fun getCurrentPriceOfSymbol(symbol: String): CurrentPrice
+
+    suspend fun getCurrentPriceOfTrendingSymbols(): List<CurrentPrice>
+}
+
+
 class DefaultSymbolSearchService(
     private val jedis: JedisPooled,
     private val trendingSymbolsService: TrendingSymbolsService,

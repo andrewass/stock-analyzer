@@ -50,7 +50,7 @@ spec:
   selector:
     app: stockcomp-client-backend
   ports:
-    - port: 8088
+    - port: 80
       targetPort: 8088
 
 ---
@@ -71,4 +71,4 @@ spec:
               service:
                 name: stockcomp-client-backend-service
                 port:
-                  number: 8088
+                  number: 80

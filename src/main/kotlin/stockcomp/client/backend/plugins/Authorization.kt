@@ -9,7 +9,7 @@ fun Application.configureAuthorization() {
 
     install(Authentication) {
         oauth("auth-oauth-google") {
-            urlProvider = { "http://localhost:8088/callback" }
+            urlProvider = { "http://stockcompclient.io/api/callback" }
             providerLookup = {
                 OAuthServerSettings.OAuth2ServerSettings(
                     name = "google",
