@@ -39,6 +39,16 @@ spec:
                 configMapKeyRef:
                   name: config-stockcomp-client-backend
                   key: google_client_secret
+            - name: CUSTOM_CLIENT_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: config-stockcomp-client-backend
+                  key: custom_client_id
+            - name: CUSTOM_CLIENT_SECRET
+              valueFrom:
+                configMapKeyRef:
+                  name: config-stockcomp-client-backend
+                  key: custom_client_secret
 
 ---
 
