@@ -63,22 +63,3 @@ spec:
     - port: 80
       targetPort: 8088
 
----
-
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: stockcomp-client-backend-ingress
-  annotations:
-spec:
-  rules:
-    - host: stockcompclient.io
-      http:
-        paths:
-          - path: /api
-            pathType: Prefix
-            backend:
-              service:
-                name: stockcomp-client-backend-service
-                port:
-                  number: 80

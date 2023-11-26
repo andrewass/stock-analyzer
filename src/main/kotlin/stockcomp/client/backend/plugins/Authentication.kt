@@ -7,16 +7,17 @@ import stockcomp.client.backend.config.HttpClient
 
 fun Application.configureCustomAuthentication() {
     install(Authentication) {
-        oauth("custom-oauth2") {
-            urlProvider = { "http://stockcompclient.io/api/callback" }
+        oauth("google-oauth-auth") {
+            urlProvider = { "http://stockcomp.io/api/callback" }
             providerLookup = {
                 OAuthServerSettings.OAuth2ServerSettings(
-                    name = "custom-oauth2",
-                    authorizeUrl = "http://authfrontend.io/authorize",
-                    accessTokenUrl = "http://auth-backend-service:8089/token",
+                    name = "google",
+                    authorizeUrl = "https://accounts.google.com/o/oauth2/auth",
+                    accessTokenUrl = "https://accounts.google.com/o/oauth2/token",
                     requestMethod = HttpMethod.Post,
-                    clientId = System.getenv("CUSTOM_CLIENT_ID"),
-                    clientSecret = System.getenv("CUSTOM_CLIENT_SECRET")
+                    clientId = System.getenv("GOOGLE_CLIENT_ID"),
+                    clientSecret = System.getenv("GOOGLE_CLIENT_SECRET"),
+                    defaultScopes = listOf("https://www.googleapis.com/auth/userinfo.profile")
                 )
             }
             client = HttpClient.client
