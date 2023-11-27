@@ -8,7 +8,7 @@ import stockcomp.client.backend.config.HttpClient
 fun Application.configureCustomAuthentication() {
     install(Authentication) {
         oauth("google-oauth-auth") {
-            urlProvider = { "http://stockcomp.io/api/callback" }
+            urlProvider = { "http://stockcomp.io/api/auth/callback" }
             providerLookup = {
                 OAuthServerSettings.OAuth2ServerSettings(
                     name = "google",

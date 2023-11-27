@@ -1,4 +1,4 @@
-package stockcomp.client.backend.leaderboard
+package stockcomp.client.backend.leaderboard.route
 
 import io.ktor.client.request.*
 import io.ktor.http.*
@@ -16,17 +16,15 @@ import stockcomp.client.backend.plugins.UserSession
 fun Route.leaderboardRoutes() {
     val baseUrl = environment!!.config.propertyOrNull("contest-server.service")?.getString()
 
-    route("/api/leaderboard") {
-        get("/sorted-entries") {
-        }
+    route("/leaderboard") {
+        get("/sorted-entries") {}
 
         get("/user-entry") {
             val userSession: UserSession? = call.sessions.get()
-            println("USER SESSION IS -------------------------------- $userSession")
             val request = call.receive<String>()
 
             val response = HttpClient.client.get("$baseUrl/leaderboard/sorted-entries") {
-                header(HttpHeaders.Authorization, "Bearer ${userSession!!.token}")
+                header(HttpHeaders.Authorization, "Bearer ${userSession!!.idToken}")
                 body = request
             }
             call.respond(response.content)

@@ -11,13 +11,18 @@ import stockcomp.client.backend.plugins.UserSession
 
 
 fun Route.customAuthRoutes() {
-    route("/api") {
+    route("/auth") {
         authenticate("google-oauth-auth") {
             get("/login") {}
 
             get("/callback") {
                 val principal: OAuthAccessTokenResponse.OAuth2? = call.authentication.principal()
-                call.sessions.set(UserSession(principal!!.state!!, principal.accessToken))
+                call.sessions.set(UserSession(
+                    state = principal!!.state!!,
+                    accessToken = principal.accessToken,
+                    idToken = principal.extraParameters["id_token"]!!,
+                    expiresIn = principal.expiresIn
+                ))
                 call.respondRedirect("/symbols")
             }
         }

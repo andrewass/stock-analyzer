@@ -13,7 +13,7 @@ import stockcomp.client.backend.symbols.search.service.SymbolSearchService
 fun Route.symbolSearchRoutes() {
     val symbolSearchService by kodein.instance<SymbolSearchService>()
 
-    route("/api/stock") {
+    route("/stock") {
         get("/financial-details-symbol") {
             call.request.queryParameters["symbol"]
                 ?.let { symbolSearchService.getStockSymbolFinancials(it) }
