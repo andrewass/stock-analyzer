@@ -24,7 +24,7 @@ fun Route.leaderboardRoutes() {
             val request = call.receive<String>()
 
             val response = HttpClient.client.get("$baseUrl/leaderboard/sorted-entries") {
-                header(HttpHeaders.Authorization, "Bearer ${userSession!!.idToken}")
+                header(HttpHeaders.Authorization, "Bearer ${userSession!!.accessToken}")
                 body = request
             }
             call.respond(response.content)

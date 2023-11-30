@@ -19,7 +19,7 @@ fun Route.contestRoutes() {
             val userSession: UserSession? = call.sessions.get()
             val response = HttpClient.client.post("$baseUrl/contest/get-by-status") {
                 contentType(ContentType.Application.Json)
-                header(HttpHeaders.Authorization, "Bearer ${userSession!!.idToken}")
+                header(HttpHeaders.Authorization, "Bearer ${userSession!!.accessToken}")
                 setBody(call.receiveText())
             }
             call.respondText(response.body())

@@ -10,8 +10,7 @@ fun Application.configureSessions() {
 }
 
 data class UserSession(
-    val state: String,
     val accessToken: String,
-    val idToken: String,
+    val refreshToken: String,
     val expiresIn: Long,
 )
