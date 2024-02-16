@@ -24,5 +24,15 @@ fun Route.contestRoutes() {
             }
             call.respondText(response.body())
         }
+
+        post("/create") {
+            val userSession: UserSession? = call.sessions.get()
+            val response = HttpClient.client.post("$baseUrl/contest/create") {
+                contentType(ContentType.Application.Json)
+                header(HttpHeaders.Authorization, "Bearer ${userSession!!.accessToken}")
+                setBody(call.receiveText())
+            }
+            call.respond(HttpStatusCode.Created)
+        }
     }
 }

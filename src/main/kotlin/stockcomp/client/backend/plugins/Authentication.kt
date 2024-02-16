@@ -17,8 +17,8 @@ fun Application.configureCustomAuthentication() {
             providerLookup = {
                 OAuthServerSettings.OAuth2ServerSettings(
                     name = "custom-oauth",
-                    authorizeUrl = "http://authserver.io/authorize",
-                    accessTokenUrl = "$baseUrl/api/token/token",
+                    authorizeUrl = "http://authserver.io/authentication",
+                    accessTokenUrl = "$baseUrl/server/token/token",
                     requestMethod = HttpMethod.Post,
                     clientId = System.getenv("CUSTOM_CLIENT_ID"),
                     clientSecret = System.getenv("CUSTOM_CLIENT_SECRET")
@@ -28,7 +28,6 @@ fun Application.configureCustomAuthentication() {
         }
     }
 }
-
 
 class RenewExpiredToken(){
 
@@ -40,8 +39,6 @@ class RenewExpiredToken(){
             configure: Configuration.() -> Unit
         ): RenewExpiredToken {
             val plugin = RenewExpiredToken()
-
-
             return plugin
         }
 
