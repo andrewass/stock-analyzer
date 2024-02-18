@@ -11,7 +11,7 @@ import stockcomp.client.backend.config.HttpClient
 import stockcomp.client.backend.plugins.UserSession
 
 
-suspend fun callResourceServerGet(call: ApplicationCall, serverUrl: String, ) {
+suspend fun callResourceServerGet(call: ApplicationCall, serverUrl: String) {
     val userSession: UserSession? = call.sessions.get()
     val response = HttpClient.client.get(serverUrl) {
         url {
@@ -24,7 +24,47 @@ suspend fun callResourceServerGet(call: ApplicationCall, serverUrl: String, ) {
     call.respondText(response.body())
 }
 
-private fun getParams(parameters: Parameters) : List<Parameter> =
+suspend fun callResourceServerPost(call: ApplicationCall, serverUrl: String) {
+    val userSession: UserSession? = call.sessions.get()
+    val response = HttpClient.client.post(serverUrl) {
+        url {
+            getParams(call.parameters).forEach { parameters.append(it.key, it.value) }
+        }
+        contentType(ContentType.Application.Json)
+        header(HttpHeaders.Authorization, "Bearer ${userSession!!.accessToken}")
+        setBody(call.receiveText())
+    }
+    call.respondText(response.body())
+}
+
+suspend fun callResourceServerPatch(call: ApplicationCall, serverUrl: String) {
+    val userSession: UserSession? = call.sessions.get()
+    val response = HttpClient.client.patch(serverUrl) {
+        url {
+            getParams(call.parameters).forEach { parameters.append(it.key, it.value) }
+        }
+        contentType(ContentType.Application.Json)
+        header(HttpHeaders.Authorization, "Bearer ${userSession!!.accessToken}")
+        setBody(call.receiveText())
+    }
+    call.respondText(response.body())
+}
+
+suspend fun callResourceServerDelete(call: ApplicationCall, serverUrl: String) {
+    val userSession: UserSession? = call.sessions.get()
+    val response = HttpClient.client.delete(serverUrl) {
+        url {
+            getParams(call.parameters).forEach { parameters.append(it.key, it.value) }
+        }
+        contentType(ContentType.Application.Json)
+        header(HttpHeaders.Authorization, "Bearer ${userSession!!.accessToken}")
+        setBody(call.receiveText())
+    }
+    call.respondText(response.body())
+}
+
+
+private fun getParams(parameters: Parameters): List<Parameter> =
     parameters.entries().map { Parameter(key = it.key, value = it.value.first()) }
 
 private class Parameter(

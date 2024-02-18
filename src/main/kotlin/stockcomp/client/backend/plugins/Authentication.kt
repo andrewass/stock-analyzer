@@ -8,7 +8,6 @@ import io.ktor.util.*
 import stockcomp.client.backend.config.HttpClient
 
 fun Application.configureCustomAuthentication() {
-
     val baseUrl = environment!!.config.propertyOrNull("auth-server.service")?.getString()
 
     install(Authentication) {
@@ -30,7 +29,6 @@ fun Application.configureCustomAuthentication() {
 }
 
 class RenewExpiredToken(){
-
     companion object Plugin : BaseApplicationPlugin<ApplicationCallPipeline, Configuration, RenewExpiredToken> {
         override val key = AttributeKey<RenewExpiredToken>("RenewExpiredToken")
 
@@ -41,6 +39,5 @@ class RenewExpiredToken(){
             val plugin = RenewExpiredToken()
             return plugin
         }
-
     }
 }
