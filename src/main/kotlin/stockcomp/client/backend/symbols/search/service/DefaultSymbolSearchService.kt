@@ -20,7 +20,6 @@ interface SymbolSearchService {
     suspend fun getCurrentPriceOfTrendingSymbols(): List<CurrentPrice>
 }
 
-
 class DefaultSymbolSearchService(
     private val jedis: JedisPooled,
     private val trendingSymbolsService: TrendingSymbolsService,
@@ -42,21 +41,18 @@ class DefaultSymbolSearchService(
     override suspend fun getStockSymbolFinancials(symbol: String): SymbolFinancials =
         symbolConsumer.getFinancialsSymbol(symbol)
 
-
     override suspend fun getHistoricalPrice(symbol: String, period: Period): HistoricalPriceResponse {
         return getHistoricalQuotesCache(CacheKey(symbol, period))
-            ?: HistoricalPriceResponse(historicalPriceList = symbolConsumer.getHistoricalPriceSymbol(symbol, period))
+            ?: symbolConsumer.getHistoricalPriceSymbol(symbol, period)
                 .also { addHistoricalQuotesCache(CacheKey(symbol, period), it) }
     }
 
     override suspend fun getCurrentPriceOfSymbol(symbol: String): CurrentPrice =
         toCurrentPrice(symbolConsumer.getCurrentPriceSymbol(symbol))
 
-
     override suspend fun getCurrentPriceOfTrendingSymbols(): List<CurrentPrice> =
         symbolConsumer.getCurrentPriceSymbols(trendingSymbolsService.getTrendingSymbols(10))
             .map { toCurrentPrice(it) }
-
 
     private fun toCurrentPrice(source: CurrentPriceResponse): CurrentPrice =
         CurrentPrice(

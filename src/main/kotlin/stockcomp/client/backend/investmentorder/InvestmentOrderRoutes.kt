@@ -3,30 +3,35 @@ package stockcomp.client.backend.investmentorder
 import io.ktor.server.application.*
 import io.ktor.server.routing.*
 import stockcomp.client.backend.consumer.callResourceServerDelete
+import stockcomp.client.backend.consumer.callResourceServerGet
 import stockcomp.client.backend.consumer.callResourceServerPost
 
 fun Route.investmentOrderRoutes() {
     val baseUrl = environment!!.config.propertyOrNull("contest-server.service")?.getString()
 
     route("/investmentorder") {
-        post("/place-order") {
-            callResourceServerPost(call, "$baseUrl/investmentorder/place-order")
+        post("/post") {
+            callResourceServerPost(call, "$baseUrl/investmentorder/post")
         }
 
-        delete("/delete-order") {
-            callResourceServerDelete(call, "$baseUrl/investmentorder/delete-order")
+        delete("/delete") {
+            callResourceServerDelete(call, "$baseUrl/investmentorder/delete")
         }
 
-        post("/get-by-status") {
-            callResourceServerPost(call, "$baseUrl/investmentorder/get-by-status")
+        get("/all-active") {
+            callResourceServerGet(call, "$baseUrl/investmentorder/all-active")
         }
 
-        post("/get-all-by-status") {
-            callResourceServerPost(call, "$baseUrl/investmentorder/get-all-by-status")
+        get("/all-completed") {
+            callResourceServerGet(call, "$baseUrl/investmentorder/all-completed")
         }
 
-        post("/get-by-status-symbol") {
-            callResourceServerPost(call, "$baseUrl/investmentorder/get-by-status-symbol")
+        get("/symbol-active") {
+            callResourceServerGet(call, "$baseUrl/investmentorder/symbol-active")
+        }
+
+        get("/symbol-completed") {
+            callResourceServerGet(call, "$baseUrl/investmentorder/symbol-completed")
         }
     }
 }
