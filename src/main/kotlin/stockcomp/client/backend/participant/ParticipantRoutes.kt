@@ -6,27 +6,27 @@ import stockcomp.client.backend.consumer.callResourceServerGet
 import stockcomp.client.backend.consumer.callResourceServerPost
 
 fun Route.participantRoutes() {
-    val baseUrl = environment!!.config.propertyOrNull("contest-server.service")?.getString()
+    val baseUrl = environment!!.config.propertyOrNull("contest-server.service")?.getString() + "/participant"
 
     route("/participant") {
-        get("/by-contest") {
-            callResourceServerGet(call, "$baseUrl/participant/participant-by-contest")
-        }
-
-        get("/by-active-contest") {
-            callResourceServerGet(call, "$baseUrl/participant/participant-by-active-contest")
+        get("/contest") {
+            callResourceServerGet(call, "$baseUrl/contest")
         }
 
         post("/sign-up") {
-            callResourceServerPost(call, "$baseUrl/participant/sign-up-participant")
+            callResourceServerPost(call, "$baseUrl/sign-up-participant")
         }
 
         get("/sorted") {
-            callResourceServerGet(call, "$baseUrl/participant/sorted-participants")
+            callResourceServerGet(call, "$baseUrl/sorted")
         }
 
         get("/history") {
-            callResourceServerGet(call, "$baseUrl/participant/detailed-participant-history")
+            callResourceServerGet(call, "$baseUrl/history")
+        }
+
+        get("/running-participants"){
+            callResourceServerGet(call, "$baseUrl/running-participants")
         }
     }
 }
