@@ -8,7 +8,7 @@ import io.ktor.util.*
 import stockcomp.client.backend.config.HttpClient
 
 fun Application.configureCustomAuthentication() {
-    val baseUrl = environment!!.config.propertyOrNull("auth-server.service")?.getString()
+    val baseUrl = environment.config.propertyOrNull("auth-server.service")?.getString()
 
     install(Authentication) {
         oauth("custom-oauth") {

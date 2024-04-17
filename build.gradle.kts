@@ -10,10 +10,10 @@ val mockkVersion: String by project
 val jedisVersion: String by project
 
 plugins {
-    kotlin("jvm") version "1.9.10"
+    kotlin("jvm") version "1.9.23"
     id("io.ktor.plugin") version "2.3.4"
-    id("org.jetbrains.kotlin.plugin.serialization") version "1.9.10"
-    id("com.google.cloud.tools.jib") version "3.3.1"
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.9.23"
+    id("com.google.cloud.tools.jib") version "3.4.2"
 }
 
 group = "stockcomp.client.backend"
@@ -51,7 +51,7 @@ dependencies {
 jib.to.image="stockcomp-client-backend-image"
 
 tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "17"
+    kotlinOptions.jvmTarget = "21"
 }
 
 tasks.withType<Test> {
