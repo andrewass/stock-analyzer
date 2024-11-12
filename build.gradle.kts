@@ -10,9 +10,9 @@ val mockkVersion: String by project
 val jedisVersion: String by project
 
 plugins {
-    kotlin("jvm") version "1.9.23"
-    id("io.ktor.plugin") version "2.3.4"
-    id("org.jetbrains.kotlin.plugin.serialization") version "1.9.23"
+    kotlin("jvm") version "2.0.21"
+    id("io.ktor.plugin") version "3.0.1"
+    id("org.jetbrains.kotlin.plugin.serialization") version "2.0.21"
     id("com.google.cloud.tools.jib") version "3.4.2"
 }
 

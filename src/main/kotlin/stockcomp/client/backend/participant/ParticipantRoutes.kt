@@ -6,9 +6,9 @@ import stockcomp.client.backend.consumer.callResourceServerGet
 import stockcomp.client.backend.consumer.callResourceServerPost
 
 fun Route.participantRoutes() {
-    val baseUrl = environment!!.config.propertyOrNull("contest-server.service")?.getString() + "/participant"
+    val baseUrl = environment!!.config.propertyOrNull("contest-server.service")?.getString() + "/participants"
 
-    route("/participant") {
+    route("/participants") {
         get("/contest") {
             callResourceServerGet(call, "$baseUrl/contest")
         }
