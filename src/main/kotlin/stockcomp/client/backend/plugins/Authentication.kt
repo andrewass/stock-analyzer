@@ -25,10 +25,24 @@ fun Application.configureCustomAuthentication() {
             }
             client = HttpClient.client
         }
+
+        oauth("auth-oauth-google") {
+            urlProvider = { "http://stockcomp.io/api/auth/callback" }
+            providerLookup = {
+                OAuthServerSettings.OAuth2ServerSettings(
+                    name = "google",
+                    authorizeUrl = "https://accounts.google.com/o/oauth2/auth",
+                    accessTokenUrl = "https://accounts.google.com/o/oauth2/token",
+                    clientId = System.getenv("GOOGLE_CLIENT_ID"),
+                    clientSecret = System.getenv("GOOGLE_CLIENT_SECRET"),
+                    defaultScopes = listOf("https://www.googleapis.com/auth/userinfo.profile"),                )
+            }
+            client = HttpClient.client
+        }
     }
 }
 
-class RenewExpiredToken(){
+class RenewExpiredToken {
     companion object Plugin : BaseApplicationPlugin<ApplicationCallPipeline, Configuration, RenewExpiredToken> {
         override val key = AttributeKey<RenewExpiredToken>("RenewExpiredToken")
 

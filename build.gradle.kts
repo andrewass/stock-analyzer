@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 val ktorVersion: String by project
 val kotlinVersion: String by project
 val kotlinxDateTimeVersion: String by project
@@ -48,21 +46,8 @@ dependencies {
     testImplementation("io.mockk:mockk:$mockkVersion")
 }
 
-jib.to.image="stockcomp-client-backend-image"
-
-tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "21"
-}
-
-tasks.withType<Test> {
-    useJUnitPlatform()
-}
-
-tasks.withType<Jar> {
-    duplicatesStrategy = DuplicatesStrategy.INCLUDE
-    manifest {
-        attributes("Main-Class" to "stockcomp.client.backend.ApplicationKt")
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
     }
-    from(configurations.compileClasspath.get()
-        .map { if (it.isDirectory) it else zipTree(it) })
 }

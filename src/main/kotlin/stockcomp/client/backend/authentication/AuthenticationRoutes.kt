@@ -1,7 +1,6 @@
 package stockcomp.client.backend.authentication
 
 import io.ktor.http.*
-import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
@@ -12,7 +11,7 @@ import stockcomp.client.backend.plugins.UserSession
 
 fun Route.customAuthRoutes() {
     route("/auth") {
-        authenticate("custom-oauth") {
+        authenticate("auth-oauth-google") {
             get("/login") {}
 
             get("/callback") {

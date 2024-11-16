@@ -8,7 +8,7 @@ import stockcomp.client.backend.consumer.callResourceServerPatch
 import stockcomp.client.backend.consumer.callResourceServerPost
 
 fun Route.contestRoutes() {
-    val baseUrl = environment!!.config.propertyOrNull("contest-server.service")?.getString() + "/contests"
+    val baseUrl = environment.config.propertyOrNull("contest-server.service")?.getString() + "/contests"
 
     route("/contests") {
 

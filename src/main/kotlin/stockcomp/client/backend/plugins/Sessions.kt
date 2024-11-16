@@ -2,6 +2,7 @@ package stockcomp.client.backend.plugins
 
 import io.ktor.server.application.*
 import io.ktor.server.sessions.*
+import kotlinx.serialization.Serializable
 
 fun Application.configureSessions() {
     install(Sessions) {
@@ -9,6 +10,7 @@ fun Application.configureSessions() {
     }
 }
 
+@Serializable
 data class UserSession(
     val accessToken: String,
     val refreshToken: String,
