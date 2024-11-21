@@ -16,11 +16,13 @@ fun Route.customAuthRoutes() {
 
             get("/callback") {
                 val principal: OAuthAccessTokenResponse.OAuth2? = call.authentication.principal()
-                call.sessions.set(UserSession(
-                    accessToken = principal!!.accessToken,
-                    refreshToken = principal.extraParameters["refresh_token"]!!,
-                    expiresIn = principal.expiresIn
-                ))
+                if (principal != null) {
+                    call.sessions.set(UserSession(
+                        accessToken = principal.extraParameters["id_token"]!!,
+                        refreshToken = principal.extraParameters["refresh_token"],
+                        expiresIn = principal.expiresIn
+                    ))
+                }
                 call.respondRedirect("/symbols")
             }
         }

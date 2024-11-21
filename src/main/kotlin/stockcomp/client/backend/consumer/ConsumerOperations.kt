@@ -20,7 +20,7 @@ suspend fun callResourceServerGet(call: ApplicationCall, serverUrl: String) {
         contentType(ContentType.Application.Json)
         header(HttpHeaders.Authorization, "Bearer ${userSession!!.accessToken}")
         setBody(call.receiveText())
-    }
+    }   
     call.respondText(response.body())
 }
 

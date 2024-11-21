@@ -13,6 +13,6 @@ fun Application.configureSessions() {
 @Serializable
 data class UserSession(
     val accessToken: String,
-    val refreshToken: String,
+    val refreshToken: String?,
     val expiresIn: Long,
 )
