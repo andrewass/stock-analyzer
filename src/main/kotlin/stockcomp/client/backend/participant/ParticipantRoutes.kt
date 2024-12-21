@@ -20,8 +20,8 @@ fun Route.participantRoutes() {
             callResourceServerGet(call, "$baseUrl/unregistered")
         }
 
-        post("/sign-up") {
-            callResourceServerPost(call, "$baseUrl/sign-up")
+        post("/sign-up/{contestId}") {
+            callResourceServerPost(call, "$baseUrl/sign-up/${call.parameters["contestId"]}")
         }
 
         get("/sorted") {

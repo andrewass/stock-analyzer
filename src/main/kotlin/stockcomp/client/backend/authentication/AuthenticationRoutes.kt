@@ -5,7 +5,6 @@ import io.ktor.server.auth.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.server.sessions.*
-import stockcomp.client.backend.authentication.dto.ValidSession
 import stockcomp.client.backend.plugins.UserSession
 
 
@@ -17,11 +16,13 @@ fun Route.customAuthRoutes() {
             get("/callback") {
                 val principal: OAuthAccessTokenResponse.OAuth2? = call.authentication.principal()
                 if (principal != null) {
-                    call.sessions.set(UserSession(
-                        accessToken = principal.extraParameters["id_token"]!!,
-                        refreshToken = principal.extraParameters["refresh_token"],
-                        expiresIn = principal.expiresIn
-                    ))
+                    call.sessions.set(
+                        UserSession(
+                            accessToken = principal.extraParameters["id_token"]!!,
+                            refreshToken = principal.extraParameters["refresh_token"],
+                            expiresAt = System.currentTimeMillis() + (principal.expiresIn * 1000)
+                        )
+                    )
                 }
                 call.respondRedirect("/symbols")
             }

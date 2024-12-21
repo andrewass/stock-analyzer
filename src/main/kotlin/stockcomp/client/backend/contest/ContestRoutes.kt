@@ -1,6 +1,5 @@
 package stockcomp.client.backend.contest
 
-import io.ktor.server.application.*
 import io.ktor.server.routing.*
 import stockcomp.client.backend.consumer.callResourceServerDelete
 import stockcomp.client.backend.consumer.callResourceServerGet
@@ -44,7 +43,7 @@ fun Route.contestRoutes() {
             callResourceServerPost(call, "$baseUrl/create")
         }
 
-        patch("/update") {
+        post("/update") {
             callResourceServerPatch(call, "$baseUrl/update")
         }
 
