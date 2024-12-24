@@ -6,11 +6,11 @@ import stockcomp.client.backend.consumer.callResourceServerGet
 import stockcomp.client.backend.consumer.callResourceServerPost
 
 fun Route.investmentOrderRoutes() {
-    val baseUrl = environment.config.propertyOrNull("contest-server.service")?.getString() + "/investmentorder"
+    val baseUrl = environment.config.propertyOrNull("contest-server.service")?.getString() + "/investmentorders"
 
-    route("/investmentorder") {
-        post("/post") {
-            callResourceServerPost(call, "$baseUrl/post")
+    route("/investmentorders") {
+        post {
+            callResourceServerPost(call, baseUrl)
         }
 
         delete("/delete") {

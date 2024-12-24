@@ -1,6 +1,5 @@
 package stockcomp.client.backend.investment
 
-import io.ktor.server.application.*
 import io.ktor.server.routing.*
 import stockcomp.client.backend.consumer.callResourceServerGet
 import stockcomp.client.backend.consumer.callResourceServerPost

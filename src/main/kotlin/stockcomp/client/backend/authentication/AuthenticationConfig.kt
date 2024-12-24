@@ -6,6 +6,7 @@ import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.sessions.*
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import stockcomp.client.backend.config.HttpClient
 import stockcomp.client.backend.plugins.UserSession
@@ -48,9 +49,9 @@ val RefreshTokenPlugin = createApplicationPlugin(name = "RefreshTokenPlugin") {
                 session.refreshToken?.let {
                     val tokenResponse = refreshGoogleToken(it)
                     val newSession = UserSession(
-                        accessToken = tokenResponse.id_token,
+                        accessToken = tokenResponse.idToken,
                         refreshToken = it,
-                        expiresAt = System.currentTimeMillis() + (tokenResponse.expires_in * 1000)
+                        expiresAt = System.currentTimeMillis() + (tokenResponse.expiresIn * 1000)
                     )
                     call.sessions.set(newSession)
                 }
@@ -80,6 +81,8 @@ suspend fun refreshGoogleToken(refreshToken: String): TokenResponse {
 
 @Serializable
 data class TokenResponse(
-    val expires_in: Int,
-    val id_token: String
+    @SerialName("expires_in")
+    val expiresIn: Int,
+    @SerialName("id_token")
+    val idToken: String
 )
