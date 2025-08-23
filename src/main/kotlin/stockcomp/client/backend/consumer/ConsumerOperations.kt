@@ -1,7 +1,7 @@
 package stockcomp.client.backend.consumer
 
-import io.ktor.client.call.*
 import io.ktor.client.request.*
+import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
@@ -20,8 +20,8 @@ suspend fun callResourceServerGet(call: ApplicationCall, serverUrl: String) {
         contentType(ContentType.Application.Json)
         header(HttpHeaders.Authorization, "Bearer ${userSession!!.accessToken}")
         setBody(call.receiveText())
-    }   
-    call.respondText(response.body())
+    }
+    handleResponse(response, call)
 }
 
 suspend fun callResourceServerPost(call: ApplicationCall, serverUrl: String) {
@@ -34,7 +34,7 @@ suspend fun callResourceServerPost(call: ApplicationCall, serverUrl: String) {
         header(HttpHeaders.Authorization, "Bearer ${userSession!!.accessToken}")
         setBody(call.receiveText())
     }
-    call.respondText(response.body())
+    handleResponse(response, call)
 }
 
 suspend fun callResourceServerPatch(call: ApplicationCall, serverUrl: String) {
@@ -47,7 +47,7 @@ suspend fun callResourceServerPatch(call: ApplicationCall, serverUrl: String) {
         header(HttpHeaders.Authorization, "Bearer ${userSession!!.accessToken}")
         setBody(call.receiveText())
     }
-    call.respondText(response.body())
+    handleResponse(response, call)
 }
 
 suspend fun callResourceServerDelete(call: ApplicationCall, serverUrl: String) {
@@ -60,9 +60,22 @@ suspend fun callResourceServerDelete(call: ApplicationCall, serverUrl: String) {
         header(HttpHeaders.Authorization, "Bearer ${userSession!!.accessToken}")
         setBody(call.receiveText())
     }
-    call.respondText(response.body())
+    handleResponse(response, call)
 }
 
+private suspend fun handleResponse(response: HttpResponse, call: ApplicationCall) {
+    when (response.status) {
+        HttpStatusCode.NoContent -> call.response.status(HttpStatusCode.NoContent)
+        HttpStatusCode.OK -> {
+            val responseBody = response.bodyAsText()
+            call.respondText(responseBody, ContentType.Application.Json)
+        }
+        else -> {
+            val error = response.bodyAsText()
+            call.respond(response.status, error)
+        }
+    }
+}
 
 private fun getParams(parameters: Parameters): List<Parameter> =
     parameters.entries().map { Parameter(key = it.key, value = it.value.first()) }

@@ -5,7 +5,7 @@ import stockcomp.client.backend.consumer.callResourceServerGet
 import stockcomp.client.backend.consumer.callResourceServerPost
 
 fun Route.investmentRoutes() {
-    val baseUrl = environment!!.config.propertyOrNull("contest-server.service")?.getString()
+    val baseUrl = environment.config.propertyOrNull("contest-server.service")?.getString()
 
     route("/investment") {
         get("/get-all") {

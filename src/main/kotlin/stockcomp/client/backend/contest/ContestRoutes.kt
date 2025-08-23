@@ -39,6 +39,10 @@ fun Route.contestRoutes() {
             callResourceServerGet(call, "$baseUrl/all")
         }
 
+        get("/exists-active") {
+            callResourceServerGet(call, "$baseUrl/exists-active")
+        }
+
         post("/create") {
             callResourceServerPost(call, "$baseUrl/create")
         }

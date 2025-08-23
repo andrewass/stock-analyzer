@@ -8,8 +8,12 @@ fun Route.participantRoutes() {
     val baseUrl = environment.config.propertyOrNull("contest-server.service")?.getString() + "/participants"
 
     route("/participants") {
-        get("/contest") {
-            callResourceServerGet(call, "$baseUrl/contest")
+        get("/detailed/contest/{contestId}") {
+            callResourceServerGet(call, "$baseUrl/detailed/contest/${call.parameters["contestId"]}")
+        }
+
+        get("/detailed/symbol/{symbol}") {
+            callResourceServerGet(call, "$baseUrl/detailed/symbol/${call.parameters["symbol"]}")
         }
 
         get("/registered") {
@@ -18,10 +22,6 @@ fun Route.participantRoutes() {
 
         get("/unregistered") {
             callResourceServerGet(call, "$baseUrl/unregistered")
-        }
-
-        get("/symbol/{symbol}") {
-            callResourceServerGet(call, "$baseUrl/symbol/${call.parameters["symbol"]}")
         }
 
         post("/sign-up/{contestId}") {

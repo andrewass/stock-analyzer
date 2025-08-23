@@ -8,10 +8,10 @@ val mockkVersion: String by project
 val jedisVersion: String by project
 
 plugins {
-    kotlin("jvm") version "2.0.21"
-    id("io.ktor.plugin") version "3.0.1"
-    id("org.jetbrains.kotlin.plugin.serialization") version "2.0.21"
-    id("com.google.cloud.tools.jib") version "3.4.2"
+    kotlin("jvm") version "2.2.10"
+    id("io.ktor.plugin") version "3.2.3"
+    id("org.jetbrains.kotlin.plugin.serialization") version "2.2.10"
+    id("com.google.cloud.tools.jib") version "3.4.5"
 }
 
 group = "stockcomp.client.backend"

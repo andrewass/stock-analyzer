@@ -1,10 +1,9 @@
-apiVersion: skaffold/v4beta11
+apiVersion: skaffold/v4beta12
 kind: Config
 build:
   artifacts:
     - image: stockcomp-client-backend-image
-      docker:
-        dockerfile: Dockerfile
+      jib: { }
 manifests:
   rawYaml:
     - k8s/config-map-client-backend.yaml
