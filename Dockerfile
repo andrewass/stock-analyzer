@@ -8,16 +8,12 @@ RUN gradle clean build -i --stacktrace
 
 # Stage 2: Build Application
 FROM gradle:latest AS build
-COPY --from=cache /home/gradle/cache_home /home/gradle/.gradle
-COPY . /usr/src/app/
-WORKDIR /usr/src/app
 COPY --chown=gradle:gradle . /home/gradle/src
 WORKDIR /home/gradle/src
 RUN gradle build --no-daemon
 
 # Stage 3
 FROM eclipse-temurin:21-jre-alpine
-ARG JAR_FILE=./build/libs/stockcomp-client-backend-all.jar
-COPY ${JAR_FILE} app.jar
+COPY --from=build /home/gradle/src/build/libs/*-all.jar app.jar
 EXPOSE 8088
 ENTRYPOINT ["java","-jar","/app.jar"]
