@@ -1,17 +1,9 @@
-val ktorVersion: String by project
-val kotlinVersion: String by project
-val kotlinxDateTimeVersion: String by project
-val logbackVersion: String by project
-val kodeinVersion: String by project
-val ehcacheVersion: String by project
-val mockkVersion: String by project
-val jedisVersion: String by project
 
 plugins {
-    kotlin("jvm") version "2.2.20"
-    id("io.ktor.plugin") version "3.3.0"
-    id("org.jetbrains.kotlin.plugin.serialization") version "2.2.20"
-    id("com.google.cloud.tools.jib") version "3.4.5"
+    alias(libs.plugins.kotlin)
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.ktor)
+    alias(libs.plugins.jib)
 }
 
 group = "stockcomp.client.backend"
