@@ -2,7 +2,7 @@
 kotlin = "2.2.20"
 ktor = "3.3.0"
 kotlinxDatetime = "0.4.1"
-logback = "1.4.14"
+logback = "1.5.18"
 kodein = "7.26.1"
 ehcache = "3.11.1"
 jedis = "5.1.2"
