@@ -5,7 +5,7 @@ kotlinxDatetime = "0.7.1-0.6.x-compat"
 logback = "1.5.18"
 kodein = "7.26.1"
 ehcache = "3.11.1"
-jedis = "5.1.2"
+jedis = "6.2.0"
 mockk = "1.13.13"
 jib="3.4.5"
 
