@@ -1,7 +1,7 @@
 # ======================
 # Stage 1: Cache Gradle dependencies
 # ======================
-FROM gradle:9.1.0-jdk21-alpine AS cache
+FROM gradle:9.1.0-jdk21 AS cache
 WORKDIR /home/gradle/app
 ENV GRADLE_USER_HOME=/home/gradle/.gradle
 
@@ -14,7 +14,7 @@ RUN gradle build --no-daemon -x test || return 0
 # ======================
 # Stage 2: Build Application
 # ======================
-FROM gradle:9.1.0-jdk21-alpine AS build
+FROM gradle:9.1.0-jdk21 AS build
 WORKDIR /home/gradle/app
 ENV GRADLE_USER_HOME=/home/gradle/.gradle
 
