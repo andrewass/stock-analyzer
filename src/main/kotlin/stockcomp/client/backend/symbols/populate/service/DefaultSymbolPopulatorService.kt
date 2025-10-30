@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory
 import redis.clients.jedis.JedisPooled
 import stockcomp.client.backend.symbols.domain.Stock
 import stockcomp.client.backend.symbols.populate.consumer.SymbolPopulatorConsumer
-import java.util.*
+import java.util.Locale
 
 class DefaultSymbolPopulatorService(
     private val jedis: JedisPooled,

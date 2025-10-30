@@ -1,6 +1,8 @@
 package stockcomp.client.backend.user
 
-import io.ktor.server.routing.*
+import io.ktor.server.routing.Route
+import io.ktor.server.routing.get
+import io.ktor.server.routing.route
 import stockcomp.client.backend.consumer.callResourceServerGet
 
 fun Route.userRoutes() {

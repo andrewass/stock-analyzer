@@ -1,7 +1,8 @@
 package stockcomp.client.backend.plugins
 
-import io.ktor.server.application.*
-import io.ktor.server.routing.*
+import io.ktor.server.application.Application
+import io.ktor.server.routing.route
+import io.ktor.server.routing.routing
 import stockcomp.client.backend.authentication.customAuthRoutes
 import stockcomp.client.backend.contest.contestRoutes
 import stockcomp.client.backend.investment.investmentRoutes

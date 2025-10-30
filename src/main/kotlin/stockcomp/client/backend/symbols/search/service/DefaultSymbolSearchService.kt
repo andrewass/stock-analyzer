@@ -1,12 +1,15 @@
 package stockcomp.client.backend.symbols.search.service
 
 import redis.clients.jedis.JedisPooled
-import stockcomp.client.backend.symbols.domain.*
+import stockcomp.client.backend.symbols.domain.CurrentPrice
+import stockcomp.client.backend.symbols.domain.HistoricalPriceResponse
+import stockcomp.client.backend.symbols.domain.Stock
+import stockcomp.client.backend.symbols.domain.SymbolFinancials
 import stockcomp.client.backend.symbols.search.consumer.SymbolSearchConsumer
 import stockcomp.client.backend.symbols.search.domain.CurrentPriceResponse
 import stockcomp.client.backend.symbols.search.domain.Period
 import stockcomp.client.backend.symbols.trending.service.TrendingSymbolsService
-import java.util.*
+import java.util.Locale
 
 interface SymbolSearchService {
     fun getSymbolSuggestions(query: String): List<Stock>

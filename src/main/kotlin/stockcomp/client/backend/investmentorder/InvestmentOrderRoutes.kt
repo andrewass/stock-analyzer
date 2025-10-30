@@ -1,6 +1,10 @@
 package stockcomp.client.backend.investmentorder
 
-import io.ktor.server.routing.*
+import io.ktor.server.routing.Route
+import io.ktor.server.routing.delete
+import io.ktor.server.routing.get
+import io.ktor.server.routing.post
+import io.ktor.server.routing.route
 import stockcomp.client.backend.consumer.callResourceServerDelete
 import stockcomp.client.backend.consumer.callResourceServerGet
 import stockcomp.client.backend.consumer.callResourceServerPost
