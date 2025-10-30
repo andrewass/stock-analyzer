@@ -8,5 +8,5 @@ import kotlinx.serialization.Serializable
 data class HistoricalPrice(
     val price: Double,
     @SerialName("price_date")
-    val date: LocalDate
+    val date: LocalDate,
 )

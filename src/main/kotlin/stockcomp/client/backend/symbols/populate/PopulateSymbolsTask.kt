@@ -7,7 +7,6 @@ import org.kodein.di.instance
 import stockcomp.client.backend.config.kodein
 import stockcomp.client.backend.symbols.populate.service.SymbolPopulatorService
 
-
 fun initStockTasks() {
     val entityPopulatorService by kodein.instance<SymbolPopulatorService>()
     CoroutineScope(Default).launch {

@@ -10,12 +10,11 @@ fun Route.contestRoutes() {
     val baseUrl = environment.config.propertyOrNull("contest-server.service")?.getString() + "/contests"
 
     route("/contests") {
-
         get("/{contestId}") {
             callResourceServerGet(call, "$baseUrl/${call.parameters["contestId"]}")
         }
 
-        delete("/{contestId}"){
+        delete("/{contestId}") {
             callResourceServerDelete(call, "$baseUrl/${call.parameters["contestId"]}")
         }
 
@@ -51,7 +50,7 @@ fun Route.contestRoutes() {
             callResourceServerPatch(call, "$baseUrl/update")
         }
 
-        post("/sign-up/{contestId}"){
+        post("/sign-up/{contestId}") {
             callResourceServerPost(call, "$baseUrl/sign-up/${call.parameters["contestId"]}")
         }
     }

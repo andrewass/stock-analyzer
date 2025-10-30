@@ -17,18 +17,19 @@ import stockcomp.client.backend.symbols.trending.service.TrendingSymbolsService
 /**
  * Make components available with dependency injection using Kodein
  */
-val kodein = DI {
-    bindSingleton { getCacheManager() }
+val kodein =
+    DI {
+        bindSingleton { getCacheManager() }
 
-    bindSingleton { getRedisClient() }
+        bindSingleton { getRedisClient() }
 
-    bindSingleton<SymbolPopulatorConsumer> { FinnHubConsumer(HttpClient.client) }
+        bindSingleton<SymbolPopulatorConsumer> { FinnHubConsumer(HttpClient.client) }
 
-    bindSingleton<SymbolPopulatorService> { DefaultSymbolPopulatorService(instance(), instance()) }
+        bindSingleton<SymbolPopulatorService> { DefaultSymbolPopulatorService(instance(), instance()) }
 
-    bindSingleton<TrendingSymbolsService> { DefaultTrendingSymbolsService(instance()) }
+        bindSingleton<TrendingSymbolsService> { DefaultTrendingSymbolsService(instance()) }
 
-    bindSingleton<SymbolSearchConsumer> { FastFinanceConsumer(HttpClient.client, "http://fastfinance-service:8000") }
+        bindSingleton<SymbolSearchConsumer> { FastFinanceConsumer(HttpClient.client, "http://fastfinance-service:8000") }
 
-    bindSingleton<SymbolSearchService> { DefaultSymbolSearchService(instance(), instance(), instance()) }
-}
+        bindSingleton<SymbolSearchService> { DefaultSymbolSearchService(instance(), instance(), instance()) }
+    }

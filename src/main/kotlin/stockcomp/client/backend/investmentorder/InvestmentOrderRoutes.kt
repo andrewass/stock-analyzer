@@ -9,7 +9,7 @@ fun Route.investmentOrderRoutes() {
     val baseUrl = environment.config.propertyOrNull("contest-server.service")?.getString() + "/investmentorders"
 
     route("/investmentorders") {
-        post("/order"){
+        post("/order") {
             callResourceServerPost(call, "$baseUrl/order")
         }
 

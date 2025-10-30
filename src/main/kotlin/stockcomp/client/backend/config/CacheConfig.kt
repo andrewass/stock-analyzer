@@ -10,16 +10,17 @@ import stockcomp.client.backend.symbols.search.service.CacheKey
 import java.time.Duration
 
 fun getCacheManager(): CacheManager =
-    CacheManagerBuilder.newCacheManagerBuilder()
+    CacheManagerBuilder
+        .newCacheManagerBuilder()
         .withCache(
-            "historicQuotes", CacheConfigurationBuilder
+            "historicQuotes",
+            CacheConfigurationBuilder
                 .newCacheConfigurationBuilder(CacheKey::class.java, HistoricalPriceResponse::class.java, ResourcePoolsBuilder.heap(1000))
-                .withExpiry(ExpiryPolicyBuilder.timeToLiveExpiration(Duration.ofDays(1)))
-        )
-        .withCache(
-            "stockInformation", CacheConfigurationBuilder
+                .withExpiry(ExpiryPolicyBuilder.timeToLiveExpiration(Duration.ofDays(1))),
+        ).withCache(
+            "stockInformation",
+            CacheConfigurationBuilder
                 .newCacheConfigurationBuilder(String::class.java, HistoricalPriceResponse::class.java, ResourcePoolsBuilder.heap(1000))
-                .withExpiry(ExpiryPolicyBuilder.timeToLiveExpiration(Duration.ofDays(1)))
-        )
-        .build()
+                .withExpiry(ExpiryPolicyBuilder.timeToLiveExpiration(Duration.ofDays(1))),
+        ).build()
         .apply { init() }

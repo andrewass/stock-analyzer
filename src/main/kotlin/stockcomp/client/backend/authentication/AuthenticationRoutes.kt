@@ -8,7 +8,6 @@ import io.ktor.server.sessions.*
 import kotlinx.serialization.Serializable
 import stockcomp.client.backend.plugins.UserSession
 
-
 fun Route.customAuthRoutes() {
     route("/auth") {
         authenticate("auth-oauth-google") {
@@ -21,8 +20,8 @@ fun Route.customAuthRoutes() {
                         UserSession(
                             accessToken = principal.extraParameters["id_token"]!!,
                             refreshToken = principal.extraParameters["refresh_token"],
-                            expiresAt = System.currentTimeMillis() + (principal.expiresIn * 1000)
-                        )
+                            expiresAt = System.currentTimeMillis() + (principal.expiresIn * 1000),
+                        ),
                     )
                 }
                 call.respondRedirect("/symbols")
@@ -43,5 +42,5 @@ fun Route.customAuthRoutes() {
 
 @Serializable
 data class ValidSession(
-    val validSession: Boolean
+    val validSession: Boolean,
 )

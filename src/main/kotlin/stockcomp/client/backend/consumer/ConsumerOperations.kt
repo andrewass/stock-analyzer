@@ -10,60 +10,78 @@ import io.ktor.server.sessions.*
 import stockcomp.client.backend.config.HttpClient
 import stockcomp.client.backend.plugins.UserSession
 
-
-suspend fun callResourceServerGet(call: ApplicationCall, serverUrl: String) {
+suspend fun callResourceServerGet(
+    call: ApplicationCall,
+    serverUrl: String,
+) {
     val userSession: UserSession? = call.sessions.get()
-    val response = HttpClient.client.get(serverUrl) {
-        url {
-            getParams(call.parameters).forEach { parameters.append(it.key, it.value) }
+    val response =
+        HttpClient.client.get(serverUrl) {
+            url {
+                getParams(call.parameters).forEach { parameters.append(it.key, it.value) }
+            }
+            contentType(ContentType.Application.Json)
+            header(HttpHeaders.Authorization, "Bearer ${userSession!!.accessToken}")
+            setBody(call.receiveText())
         }
-        contentType(ContentType.Application.Json)
-        header(HttpHeaders.Authorization, "Bearer ${userSession!!.accessToken}")
-        setBody(call.receiveText())
-    }
     handleResponse(response, call)
 }
 
-suspend fun callResourceServerPost(call: ApplicationCall, serverUrl: String) {
+suspend fun callResourceServerPost(
+    call: ApplicationCall,
+    serverUrl: String,
+) {
     val userSession: UserSession? = call.sessions.get()
-    val response = HttpClient.client.post(serverUrl) {
-        url {
-            getParams(call.parameters).forEach { parameters.append(it.key, it.value) }
+    val response =
+        HttpClient.client.post(serverUrl) {
+            url {
+                getParams(call.parameters).forEach { parameters.append(it.key, it.value) }
+            }
+            contentType(ContentType.Application.Json)
+            header(HttpHeaders.Authorization, "Bearer ${userSession!!.accessToken}")
+            setBody(call.receiveText())
         }
-        contentType(ContentType.Application.Json)
-        header(HttpHeaders.Authorization, "Bearer ${userSession!!.accessToken}")
-        setBody(call.receiveText())
-    }
     handleResponse(response, call)
 }
 
-suspend fun callResourceServerPatch(call: ApplicationCall, serverUrl: String) {
+suspend fun callResourceServerPatch(
+    call: ApplicationCall,
+    serverUrl: String,
+) {
     val userSession: UserSession? = call.sessions.get()
-    val response = HttpClient.client.patch(serverUrl) {
-        url {
-            getParams(call.parameters).forEach { parameters.append(it.key, it.value) }
+    val response =
+        HttpClient.client.patch(serverUrl) {
+            url {
+                getParams(call.parameters).forEach { parameters.append(it.key, it.value) }
+            }
+            contentType(ContentType.Application.Json)
+            header(HttpHeaders.Authorization, "Bearer ${userSession!!.accessToken}")
+            setBody(call.receiveText())
         }
-        contentType(ContentType.Application.Json)
-        header(HttpHeaders.Authorization, "Bearer ${userSession!!.accessToken}")
-        setBody(call.receiveText())
-    }
     handleResponse(response, call)
 }
 
-suspend fun callResourceServerDelete(call: ApplicationCall, serverUrl: String) {
+suspend fun callResourceServerDelete(
+    call: ApplicationCall,
+    serverUrl: String,
+) {
     val userSession: UserSession? = call.sessions.get()
-    val response = HttpClient.client.delete(serverUrl) {
-        url {
-            getParams(call.parameters).forEach { parameters.append(it.key, it.value) }
+    val response =
+        HttpClient.client.delete(serverUrl) {
+            url {
+                getParams(call.parameters).forEach { parameters.append(it.key, it.value) }
+            }
+            contentType(ContentType.Application.Json)
+            header(HttpHeaders.Authorization, "Bearer ${userSession!!.accessToken}")
+            setBody(call.receiveText())
         }
-        contentType(ContentType.Application.Json)
-        header(HttpHeaders.Authorization, "Bearer ${userSession!!.accessToken}")
-        setBody(call.receiveText())
-    }
     handleResponse(response, call)
 }
 
-private suspend fun handleResponse(response: HttpResponse, call: ApplicationCall) {
+private suspend fun handleResponse(
+    response: HttpResponse,
+    call: ApplicationCall,
+) {
     when (response.status) {
         HttpStatusCode.NoContent -> call.response.status(HttpStatusCode.NoContent)
         HttpStatusCode.OK -> {
@@ -82,5 +100,5 @@ private fun getParams(parameters: Parameters): List<Parameter> =
 
 private class Parameter(
     val key: String,
-    val value: String
+    val value: String,
 )

@@ -9,9 +9,8 @@ import java.util.*
 
 class DefaultSymbolPopulatorService(
     private val jedis: JedisPooled,
-    private val symbolPopulatorConsumer: SymbolPopulatorConsumer
+    private val symbolPopulatorConsumer: SymbolPopulatorConsumer,
 ) : SymbolPopulatorService {
-
     private val logger = LoggerFactory.getLogger(DefaultSymbolPopulatorService::class.simpleName)
 
     override suspend fun populateStocksByTickerSymbol() {
@@ -22,13 +21,14 @@ class DefaultSymbolPopulatorService(
         exchanges
             .filter { it == "US" }
             .forEach { exchange ->
-            symbolPopulatorConsumer.getAllSymbolsFromExchange(exchange)
-                .also { stocks ->
-                    logger.info("Fetched ${stocks.size} stocks from exchange $exchange")
-                    stocks.forEach { insertSymbol(it) }
-                }
-            delay(60000L)
-        }
+                symbolPopulatorConsumer
+                    .getAllSymbolsFromExchange(exchange)
+                    .also { stocks ->
+                        logger.info("Fetched ${stocks.size} stocks from exchange $exchange")
+                        stocks.forEach { insertSymbol(it) }
+                    }
+                delay(60000L)
+            }
         logger.info("Populating stocks by ticker symbol : Completed")
         delay(60000L)
     }
@@ -42,13 +42,13 @@ class DefaultSymbolPopulatorService(
         jedis.hset("description", symbol, stock.description)
     }
 
-    private fun getStockExchanges(): List<String> {
-        return this::class.java.getResourceAsStream("/domain/stockexchanges.csv")
+    private fun getStockExchanges(): List<String> =
+        this::class.java
+            .getResourceAsStream("/domain/stockexchanges.csv")
             .bufferedReader()
             .readLines()
             .map { it.split(",") }
             .map { it[0] }
-    }
 
     private fun String.allPrefixes(): List<String> {
         val prefixes = mutableListOf<String>()

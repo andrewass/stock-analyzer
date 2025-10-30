@@ -12,5 +12,4 @@ data class CurrentPrice(
     val usdPrice: Double,
     val priceChange: Double,
     val percentageChange: Double,
-
 )

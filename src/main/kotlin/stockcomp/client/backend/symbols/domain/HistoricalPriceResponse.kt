@@ -4,5 +4,5 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class HistoricalPriceResponse(
-    val prices: List<HistoricalPrice>
+    val prices: List<HistoricalPrice>,
 )

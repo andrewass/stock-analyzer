@@ -7,22 +7,21 @@ import io.ktor.client.plugins.logging.*
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.serialization.json.Json
 
-
 class HttpClient private constructor() {
-
     companion object {
-        val client = HttpClient(CIO) {
-            install(ContentNegotiation) {
-                json(
-                    Json {
-                        ignoreUnknownKeys = true
-                        explicitNulls = false
-                    }
-                )
+        val client =
+            HttpClient(CIO) {
+                install(ContentNegotiation) {
+                    json(
+                        Json {
+                            ignoreUnknownKeys = true
+                            explicitNulls = false
+                        },
+                    )
+                }
+                install(Logging) {
+                    logger = Logger.DEFAULT
+                }
             }
-            install(Logging) {
-                logger = Logger.DEFAULT
-            }
-        }
     }
 }
