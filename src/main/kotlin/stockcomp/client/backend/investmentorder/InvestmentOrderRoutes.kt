@@ -1,40 +1,20 @@
 package stockcomp.client.backend.investmentorder
 
+import io.ktor.server.request.httpMethod
+import io.ktor.server.request.uri
 import io.ktor.server.routing.Route
-import io.ktor.server.routing.delete
-import io.ktor.server.routing.get
-import io.ktor.server.routing.post
 import io.ktor.server.routing.route
-import stockcomp.client.backend.consumer.callResourceServerDelete
-import stockcomp.client.backend.consumer.callResourceServerGet
-import stockcomp.client.backend.consumer.callResourceServerPost
+import stockcomp.client.backend.consumer.forwardToResourceServer
 
 fun Route.investmentOrderRoutes() {
     val baseUrl = environment.config.propertyOrNull("contest-server.service")?.getString() + "/investmentorders"
 
-    route("/investmentorders") {
-        post("/order") {
-            callResourceServerPost(call, "$baseUrl/order")
-        }
-
-        delete("/delete") {
-            callResourceServerDelete(call, "$baseUrl/delete")
-        }
-
-        get("/all-active") {
-            callResourceServerGet(call, "$baseUrl/all-active")
-        }
-
-        get("/all-completed") {
-            callResourceServerGet(call, "$baseUrl/all-completed")
-        }
-
-        get("/symbol-active") {
-            callResourceServerGet(call, "$baseUrl/symbol-active")
-        }
-
-        get("/symbol-completed") {
-            callResourceServerGet(call, "$baseUrl/symbol-completed")
+    route("/investmentorders/{...}") {
+        handle {
+            val relativePath = call.request.uri.removePrefix("/api/investmentorders")
+            val targetUrl = "$baseUrl$relativePath"
+            val method = call.request.httpMethod
+            call.forwardToResourceServer(method, targetUrl)
         }
     }
 }
