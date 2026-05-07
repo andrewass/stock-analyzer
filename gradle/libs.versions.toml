@@ -1,7 +1,7 @@
 [versions]
 kotlin = "2.3.21"
 ktor = "3.4.3"
-kotlinxDatetime = "0.7.1-0.6.x-compat"
+kotlinxDatetime = "0.8.0-0.6.x-compat"
 logback = "1.5.32"
 kodein = "7.32.0"
 ehcache = "3.12.0"
