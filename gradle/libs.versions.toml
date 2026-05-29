@@ -6,7 +6,7 @@ logback = "1.5.33"
 kodein = "7.32.0"
 ehcache = "3.12.0"
 jedis = "7.5.0"
-mockk = "1.14.9"
+mockk = "1.14.11"
 jib="3.5.3"
 ktlint="13.1.0"
 
