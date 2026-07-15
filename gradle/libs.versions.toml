@@ -7,7 +7,7 @@ kodein = "7.32.0"
 ehcache = "3.12.0"
 jedis = "7.5.3"
 mockk = "1.14.11"
-jib="3.5.3"
+jib="3.5.4"
 ktlint="13.1.0"
 
 
