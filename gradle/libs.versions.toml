@@ -1,6 +1,6 @@
 [versions]
 kotlin = "2.4.10"
-ktor = "3.5.1"
+ktor = "3.5.2"
 kotlinxDatetime = "0.8.0-0.6.x-compat"
 logback = "1.6.1"
 kodein = "7.33.0"
