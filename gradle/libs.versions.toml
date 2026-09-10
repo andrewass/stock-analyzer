@@ -1,5 +1,5 @@
 [versions]
-kotlin = "2.4.10"
+kotlin = "2.4.20"
 ktor = "3.5.2"
 kotlinxDatetime = "0.8.0-0.6.x-compat"
 logback = "1.6.3"
